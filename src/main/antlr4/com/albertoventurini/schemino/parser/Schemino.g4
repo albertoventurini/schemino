@@ -1,10 +1,6 @@
 grammar Schemino;
 
-//@header {
-//package com.albertoventurini.schemino.parser;
-//}
-
-file: form* EOF;
+program: form* EOF;
 
 form
     : literal
@@ -38,3 +34,9 @@ LONG: '-'? [0-9]+[lL]?;
 SYMBOL : ~('#'|'"'|'\''|[()]|[ \t\r\n]) ~('"'|'\''|[()]|[ \t\r\n])* ;
 
 BOOLEAN : 'true' | 'false' ;
+
+// Discard
+//--------------------------------------------------------------------
+
+COMMENT : ';' .*? '\n' -> skip ;
+WS : [ \t\r\n] -> skip ;

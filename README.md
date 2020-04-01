@@ -1,7 +1,7 @@
 # Schemino
 
 *Schemino* (pr. skĕ′mə-nō′, skeh-me-no) is a
-small programming language that is inspired by *Scheme*.
+small programming language inspired by *Scheme*.
 
 It is being developed with the sole purpose of learning
 Truffle and GraalVM.
