@@ -17,12 +17,21 @@ public class EvalRootNode extends RootNode {
             new LongNode(41)
     );
 
+    private ExpressionNode ifChild = new IfNode(
+            new BooleanNode(true),
+            AddNodeGen.create(
+                    new LongNode(1),
+                    new LongNode(41)
+            ),
+            new LongNode(-1)
+    );
+
     protected EvalRootNode(final ScheminoLanguage language, final FrameDescriptor frameDescriptor) {
         super(language, frameDescriptor);
     }
 
     @Override
     public Object execute(final VirtualFrame frame) {
-        return child.executeGeneric(frame);
+        return ifChild.executeGeneric(frame);
     }
 }
