@@ -6,7 +6,7 @@ import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.nodes.NodeInfo;
 
 @NodeInfo(language = ScheminoLanguage.ID, description = "A long node")
-public class LongNode extends Node {
+public class LongNode extends ExpressionNode {
 
     private final long value;
 
@@ -14,10 +14,15 @@ public class LongNode extends Node {
         this.value = value;
     }
 
-//    @Override
-//    public long executeLong(VirtualFrame virtualFrame) {
-//        return value;
-//    }
+    @Override
+    public Object executeGeneric(final VirtualFrame frame) {
+        return value;
+    }
+
+    @Override
+    public long executeLong(final VirtualFrame virtualFrame) {
+        return value;
+    }
 //
 //    @Override
 //    public Object execute(VirtualFrame virtualFrame) {
@@ -30,4 +35,5 @@ public class LongNode extends Node {
                 "value=" + value +
                 '}';
     }
+
 }
