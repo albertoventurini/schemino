@@ -14,14 +14,25 @@ public class EvalRootNode extends RootNode {
         super(language);
     }
 
-    private ExpressionNode ifChild = new IfNode(
-            new BooleanNode(false),
-            AddNodeGen.create(
-                    new LongNode(1),
-                    new LongNode(41)
-            ),
-            ReadVariableNodeGen.create("the-answer")
+    private ExpressionNode program = new BlockNode(
+            new ExpressionNode[]{
+                    new WriteVariableNode("the-answer", 42),
+                    new IfNode(
+                            new BooleanNode(true),
+                            new ReadVariableNode("the-answer"),
+                            new ReadVariableNode("the-wrong-answer")
+                    )
+            }
     );
+
+//    private ExpressionNode ifChild = new IfNode(
+//            new BooleanNode(false),
+//            AddNodeGen.create(
+//                    new LongNode(1),
+//                    new LongNode(41)
+//            ),
+//            ReadVariableNodeGen.create("the-answer")
+//    );
 
     protected EvalRootNode(final ScheminoLanguage language, final FrameDescriptor frameDescriptor) {
         super(language, frameDescriptor);
@@ -31,9 +42,11 @@ public class EvalRootNode extends RootNode {
     public Object execute(final VirtualFrame frame) {
 
         // Just testing. Inject a variable in the current frame, which is then passed down to all the children.
-        FrameSlot slot = frame.getFrameDescriptor().addFrameSlot("the-answer", FrameSlotKind.Long);
-        frame.setLong(slot, 42);
+//        FrameSlot slot = frame.getFrameDescriptor().addFrameSlot("the-answer", FrameSlotKind.Long);
+//        frame.setLong(slot, 42);
+//
+//        return ifChild.executeGeneric(frame);
 
-        return ifChild.executeGeneric(frame);
+        return program.executeGeneric(frame);
     }
 }
