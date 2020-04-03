@@ -2,6 +2,8 @@ package com.albertoventurini.schemino.nodes;
 
 import com.albertoventurini.schemino.ScheminoLanguage;
 import com.oracle.truffle.api.frame.FrameDescriptor;
+import com.oracle.truffle.api.frame.FrameSlot;
+import com.oracle.truffle.api.frame.FrameSlotKind;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.RootNode;
 
@@ -12,18 +14,13 @@ public class EvalRootNode extends RootNode {
         super(language);
     }
 
-    @Child private ExpressionNode child = AddNodeGen.create(
-            new LongNode(1),
-            new LongNode(41)
-    );
-
     private ExpressionNode ifChild = new IfNode(
-            new BooleanNode(true),
+            new BooleanNode(false),
             AddNodeGen.create(
                     new LongNode(1),
                     new LongNode(41)
             ),
-            new LongNode(-1)
+            ReadVariableNodeGen.create("the-answer")
     );
 
     protected EvalRootNode(final ScheminoLanguage language, final FrameDescriptor frameDescriptor) {
@@ -32,6 +29,11 @@ public class EvalRootNode extends RootNode {
 
     @Override
     public Object execute(final VirtualFrame frame) {
+
+        // Just testing. Inject a variable in the current frame, which is then passed down to all the children.
+        FrameSlot slot = frame.getFrameDescriptor().addFrameSlot("the-answer", FrameSlotKind.Long);
+        frame.setLong(slot, 42);
+
         return ifChild.executeGeneric(frame);
     }
 }

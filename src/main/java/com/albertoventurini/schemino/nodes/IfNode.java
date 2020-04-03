@@ -1,6 +1,7 @@
 package com.albertoventurini.schemino.nodes;
 
 import com.albertoventurini.schemino.ScheminoException;
+import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.nodes.UnexpectedResultException;
@@ -27,6 +28,20 @@ public class IfNode extends ExpressionNode {
             return thenExpr.executeGeneric(frame);
         } else {
             return elseExpr.executeGeneric(frame);
+        }
+    }
+
+    @Specialization
+    @Override
+    public long executeLong(VirtualFrame frame) {
+        try {
+            if (evaluateCondition(frame)) {
+                return thenExpr.executeLong(frame);
+            } else {
+                return elseExpr.executeLong(frame);
+            }
+        } catch (UnexpectedResultException e) {
+            throw ScheminoException.typeError(this);
         }
     }
 
