@@ -103,10 +103,10 @@ public class NodeFactory {
                 parameters.add(parameterList.get(i).getText());
             }
 
-            return new LambdaNode(parameters, visitExpression(ctx.expression(2))
-            );
+            return new LambdaNode(parameters, visitExpression(ctx.expression(2)));
         }
 
+        // Treat the list as a function call
         return new FunctionCallNode(
                 visitExpression(ctx.expression(0)),
                 ctx.expression().stream().skip(1).map(e -> visitExpression(e)).collect(Collectors.toList()));

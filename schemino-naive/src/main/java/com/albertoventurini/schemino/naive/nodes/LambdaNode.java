@@ -1,13 +1,12 @@
 package com.albertoventurini.schemino.naive.nodes;
 
 import com.albertoventurini.schemino.naive.Frame;
-import com.albertoventurini.schemino.naive.types.ScheminoFunction;
-import com.albertoventurini.schemino.naive.types.ScheminoList;
+import com.albertoventurini.schemino.naive.functions.UserFunction;
 
 import java.util.List;
 
 public class LambdaNode extends ExpressionNode {
-    private ScheminoFunction function;
+    private UserFunction function;
 
     // A lambda has a list of parameters and a body (expression)
 
@@ -29,7 +28,7 @@ public class LambdaNode extends ExpressionNode {
     // A lambda node evaluates to a function
 
     public LambdaNode(List<String> parameters, ExpressionNode expressionNode) {
-        this.function = new ScheminoFunction(parameters, expressionNode);
+        this.function = new UserFunction(parameters, expressionNode);
     }
 
     @Override

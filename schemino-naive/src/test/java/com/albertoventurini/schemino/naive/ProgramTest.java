@@ -1,5 +1,6 @@
 package com.albertoventurini.schemino.naive;
 
+import com.albertoventurini.schemino.naive.exceptions.InvalidFunction;
 import com.albertoventurini.schemino.parser.ScheminoLexer;
 import com.albertoventurini.schemino.parser.ScheminoParser;
 import org.antlr.v4.runtime.CharStreams;
@@ -7,6 +8,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ProgramTest {
 
@@ -62,6 +64,18 @@ public class ProgramTest {
         final var value = evaluateProgram("(define add +)\n(add 1 2)");
 
         assertEquals(3L, value);
+    }
+
+    @Test
+    public void unknownFunction() {
+        assertThrows(InvalidFunction.class, () -> evaluateProgram("(unknown 0 1)"));
+    }
+
+    @Test
+    public void ifFunction() {
+        final var value = evaluateProgram("(if true -1 1)");
+
+        assertEquals(-1L, value);
     }
 
     private Object evaluateProgram(final String source) {

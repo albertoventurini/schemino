@@ -1,7 +1,7 @@
 package com.albertoventurini.schemino.naive.nodes;
 
 import com.albertoventurini.schemino.naive.Frame;
-import com.albertoventurini.schemino.naive.types.ScheminoFunction;
+import com.albertoventurini.schemino.naive.functions.UserFunction;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class ListNode extends ExpressionNode {
         return null;
     }
 
-    private Object callFunction(final ScheminoFunction function, final List<ExpressionNode> arguments) {
+    private Object callFunction(final UserFunction function, final List<ExpressionNode> arguments) {
         // todo:
         // - inject arguments into function's frame (perhaps by re-using WriteVariableNode's)
         // -

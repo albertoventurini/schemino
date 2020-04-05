@@ -2,7 +2,7 @@ package com.albertoventurini.schemino.naive.nodes;
 
 import com.albertoventurini.schemino.naive.Frame;
 import com.albertoventurini.schemino.naive.types.ScheminoDictionary;
-import com.albertoventurini.schemino.naive.types.ScheminoFunction;
+import com.albertoventurini.schemino.naive.functions.UserFunction;
 
 public abstract class ExpressionNode extends ScheminoNode {
 
@@ -22,7 +22,7 @@ public abstract class ExpressionNode extends ScheminoNode {
         throw new RuntimeException("Not implemented");
     }
 
-    public ScheminoFunction evalFunction(final Frame frame) {
+    public UserFunction evalFunction(final Frame frame) {
         throw new RuntimeException("Not implemented");
     }
 
