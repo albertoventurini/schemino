@@ -1,6 +1,5 @@
 package com.albertoventurini.schemino.naive;
 
-import com.albertoventurini.schemino.naive.nodes.AddNode;
 import com.albertoventurini.schemino.naive.nodes.BooleanNode;
 import com.albertoventurini.schemino.naive.nodes.ExpressionNode;
 import com.albertoventurini.schemino.naive.nodes.FunctionCallNode;
