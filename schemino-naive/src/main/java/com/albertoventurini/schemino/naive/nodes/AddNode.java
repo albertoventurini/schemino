@@ -2,21 +2,19 @@ package com.albertoventurini.schemino.naive.nodes;
 
 import com.albertoventurini.schemino.naive.Frame;
 
+import java.util.List;
+
 public class AddNode extends ExpressionNode {
 
-    private long[] values;
+    private List<Long> values;
 
-    public AddNode(long[] values) {
-
+    public AddNode(List<Long> values) {
         this.values = values;
+
     }
 
     @Override
-    public long evalLong(Frame frame) {
-        long sum = 0;
-        for (long value : values) {
-            sum += value;
-        }
-        return sum;
+    public Object eval(Frame frame) {
+        return values.stream().reduce(Long::sum).get();
     }
 }

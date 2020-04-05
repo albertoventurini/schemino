@@ -1,7 +1,10 @@
 package com.albertoventurini.schemino.naive;
 
+import com.albertoventurini.schemino.naive.nodes.AddNode;
 import com.albertoventurini.schemino.naive.nodes.BooleanNode;
 import com.albertoventurini.schemino.naive.nodes.ExpressionNode;
+import com.albertoventurini.schemino.naive.nodes.FunctionCallNode;
+import com.albertoventurini.schemino.naive.nodes.LambdaNode;
 import com.albertoventurini.schemino.naive.nodes.ListNode;
 import com.albertoventurini.schemino.naive.nodes.LongNode;
 import com.albertoventurini.schemino.naive.nodes.ProgramNode;
@@ -9,7 +12,11 @@ import com.albertoventurini.schemino.naive.nodes.ReadVariableNode;
 import com.albertoventurini.schemino.naive.nodes.SymbolNode;
 import com.albertoventurini.schemino.naive.nodes.WriteVariableNode;
 import com.albertoventurini.schemino.parser.ScheminoParser;
+import org.antlr.v4.runtime.tree.ParseTree;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class NodeFactory {
@@ -45,8 +52,6 @@ public class NodeFactory {
             return visitSymbol(ctx.symbol());
         } else if (ctx.bool() != null) {
             return visitBoolean(ctx.bool());
-        } else {
-            throw new RuntimeException();
         }
 
         throw new RuntimeException("Unable to create an atom for context: " + ctx.getText());
@@ -75,18 +80,37 @@ public class NodeFactory {
     }
 
     private ExpressionNode visitList(final ScheminoParser.ListContext ctx) {
-        if (!(ctx.expression().isEmpty()) && ctx.expression(0).getText().equals("define")) {
+        if (ctx.expression().isEmpty()) {
+            return new ListNode(Collections.emptyList());
+        }
+
+        if (ctx.expression(0).getText().equals("define")) {
             return new WriteVariableNode(
                     new SymbolNode(ctx.expression(1).getText()),
                     visitExpression(ctx.expression(2))
             );
         }
 
-        var expressions = ctx.expression()
-                .stream()
-                .map(this::visitExpression).collect(Collectors.toUnmodifiableList());
+        if (ctx.expression(0).getText().equals("lambda")) {
 
-        return new ListNode(expressions);
+            List<String> parameters = new ArrayList<>();
+
+            // A brutal way to exclude the first and last tokens, which are parentheses
+            // TODO: refactor massively (probably using Antlr visitors / listeners)
+
+            List<ParseTree> parameterList = ctx.expression(1).list().children;
+
+            for (int i = 1; i < parameterList.size() - 1; i++) {
+                parameters.add(parameterList.get(i).getText());
+            }
+
+            return new LambdaNode(parameters, visitExpression(ctx.expression(2))
+            );
+        }
+
+        return new FunctionCallNode(
+                visitExpression(ctx.expression(0)),
+                ctx.expression().stream().skip(1).map(e -> visitExpression(e)).collect(Collectors.toList()));
     }
 
 }

@@ -23,6 +23,12 @@ public interface ScheminoVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpression(ScheminoParser.ExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ScheminoParser#quote}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuote(ScheminoParser.QuoteContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ScheminoParser#list}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -58,12 +64,6 @@ public interface ScheminoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitDefine(ScheminoParser.DefineContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ScheminoParser#operator}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitOperator(ScheminoParser.OperatorContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ScheminoParser#symbol}.
 	 * @param ctx the parse tree

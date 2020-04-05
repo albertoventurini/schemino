@@ -1,6 +1,7 @@
 package com.albertoventurini.schemino.naive.nodes;
 
 import com.albertoventurini.schemino.naive.Frame;
+import com.albertoventurini.schemino.naive.types.AddFunction;
 
 import java.util.List;
 
@@ -14,6 +15,9 @@ public class ProgramNode extends ExpressionNode {
 
     public Object run() {
         final Frame frame = new Frame();
+
+        frame.put("+", new AddFunction());
+
         return eval(frame);
     }
 

@@ -31,6 +31,13 @@ public class ScheminoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implemen
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitQuote(ScheminoParser.QuoteContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitList(ScheminoParser.ListContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -67,13 +74,6 @@ public class ScheminoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implemen
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitDefine(ScheminoParser.DefineContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitOperator(ScheminoParser.OperatorContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

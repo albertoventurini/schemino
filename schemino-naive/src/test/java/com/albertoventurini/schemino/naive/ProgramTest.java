@@ -12,25 +12,64 @@ public class ProgramTest {
 
     @Test
     public void oneNumber_returnsTheNumber() {
-        final var lexer = new ScheminoLexer(CharStreams.fromString("1"));
-        final var tokenStream = new CommonTokenStream(lexer);
-        final var parser = new ScheminoParser(tokenStream);
-
-        final var node = new NodeFactory().createProgramNode(parser);
-        final var value = node.run();
+        final var value = evaluateProgram("1");
 
         assertEquals(1L, value);
     }
 
     @Test
     public void variableAssignment() {
-        final var lexer = new ScheminoLexer(CharStreams.fromString("(define x 1)\nx"));
+        final var value = evaluateProgram("(define x 1)\nx");
+
+        assertEquals(1L, value);
+    }
+
+    @Test
+    public void addingTwoNumbers() {
+        final var value = evaluateProgram("(+ 1 2)");
+
+        assertEquals(3L, value);
+    }
+
+    @Test
+    public void lambdaDefinition() {
+        final var value = evaluateProgram("(lambda (x y) (+ x y))");
+    }
+
+    @Test
+    public void lambdaApplication() {
+        final var value = evaluateProgram("((lambda (x y) (+ x y)) 1 2)");
+
+        assertEquals(3L, value);
+    }
+
+    @Test
+    public void defineFunctionThatReturnsConstant() {
+        final var value = evaluateProgram("(define constant (lambda () 42))\n(constant)");
+
+        assertEquals(42L, value);
+    }
+
+    @Test
+    public void definingFunction() {
+        final var value = evaluateProgram("(define add (lambda (x y) (+ x y)))\n(add 1 2)");
+
+        assertEquals(3L, value);
+    }
+
+    @Test
+    public void passingFunctionsAsValues() {
+        final var value = evaluateProgram("(define add +)\n(add 1 2)");
+
+        assertEquals(3L, value);
+    }
+
+    private Object evaluateProgram(final String source) {
+        final var lexer = new ScheminoLexer(CharStreams.fromString(source));
         final var tokenStream = new CommonTokenStream(lexer);
         final var parser = new ScheminoParser(tokenStream);
 
         final var node = new NodeFactory().createProgramNode(parser);
-        final var value = node.run();
-
-        assertEquals(1L, value);
+        return node.run();
     }
 }
