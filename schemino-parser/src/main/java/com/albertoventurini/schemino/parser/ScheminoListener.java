@@ -18,15 +18,15 @@ public interface ScheminoListener extends ParseTreeListener {
 	 */
 	void exitProgram(ScheminoParser.ProgramContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ScheminoParser#form}.
+	 * Enter a parse tree produced by {@link ScheminoParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterForm(ScheminoParser.FormContext ctx);
+	void enterExpression(ScheminoParser.ExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ScheminoParser#form}.
+	 * Exit a parse tree produced by {@link ScheminoParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitForm(ScheminoParser.FormContext ctx);
+	void exitExpression(ScheminoParser.ExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ScheminoParser#list}.
 	 * @param ctx the parse tree
@@ -38,15 +38,25 @@ public interface ScheminoListener extends ParseTreeListener {
 	 */
 	void exitList(ScheminoParser.ListContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ScheminoParser#literal}.
+	 * Enter a parse tree produced by {@link ScheminoParser#atom}.
 	 * @param ctx the parse tree
 	 */
-	void enterLiteral(ScheminoParser.LiteralContext ctx);
+	void enterAtom(ScheminoParser.AtomContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ScheminoParser#literal}.
+	 * Exit a parse tree produced by {@link ScheminoParser#atom}.
 	 * @param ctx the parse tree
 	 */
-	void exitLiteral(ScheminoParser.LiteralContext ctx);
+	void exitAtom(ScheminoParser.AtomContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ScheminoParser#bool}.
+	 * @param ctx the parse tree
+	 */
+	void enterBool(ScheminoParser.BoolContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ScheminoParser#bool}.
+	 * @param ctx the parse tree
+	 */
+	void exitBool(ScheminoParser.BoolContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ScheminoParser#number}.
 	 * @param ctx the parse tree
@@ -67,6 +77,26 @@ public interface ScheminoListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitKeyword(ScheminoParser.KeywordContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ScheminoParser#define}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefine(ScheminoParser.DefineContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ScheminoParser#define}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefine(ScheminoParser.DefineContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ScheminoParser#operator}.
+	 * @param ctx the parse tree
+	 */
+	void enterOperator(ScheminoParser.OperatorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ScheminoParser#operator}.
+	 * @param ctx the parse tree
+	 */
+	void exitOperator(ScheminoParser.OperatorContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ScheminoParser#symbol}.
 	 * @param ctx the parse tree

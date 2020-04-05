@@ -28,13 +28,13 @@ public class ScheminoBaseListener implements ScheminoListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterForm(ScheminoParser.FormContext ctx) { }
+	@Override public void enterExpression(ScheminoParser.ExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitForm(ScheminoParser.FormContext ctx) { }
+	@Override public void exitExpression(ScheminoParser.ExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -52,13 +52,25 @@ public class ScheminoBaseListener implements ScheminoListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLiteral(ScheminoParser.LiteralContext ctx) { }
+	@Override public void enterAtom(ScheminoParser.AtomContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLiteral(ScheminoParser.LiteralContext ctx) { }
+	@Override public void exitAtom(ScheminoParser.AtomContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBool(ScheminoParser.BoolContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBool(ScheminoParser.BoolContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -83,6 +95,30 @@ public class ScheminoBaseListener implements ScheminoListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitKeyword(ScheminoParser.KeywordContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDefine(ScheminoParser.DefineContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDefine(ScheminoParser.DefineContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOperator(ScheminoParser.OperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOperator(ScheminoParser.OperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

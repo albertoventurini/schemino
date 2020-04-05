@@ -1,26 +1,33 @@
 grammar Schemino;
 
-program: form* EOF;
+program: expression* EOF;
 
-form
-    : literal
+expression
+    : atom
+    | quote
     | list
     ;
 
-list: '(' form* ')' ;
+quote: '\'' expression;
 
-literal
+list: '(' expression* ')' ;
+
+atom
     : number
-    | BOOLEAN
+    | bool
     | keyword
     | symbol
     ;
 
-number
-    : LONG
-    ;
+bool: BOOLEAN;
 
-keyword: ':' symbol;
+number: LONG;
+
+//keyword: ':' symbol;
+
+keyword: define;
+
+define: DEFINE;
 
 symbol: SYMBOL;
 
@@ -28,12 +35,16 @@ symbol: SYMBOL;
 // Lexers
 //----------------------------------------------------------------
 
+// The 'define' keyword
+DEFINE: 'define';
+
+// Boolean atoms
+BOOLEAN : 'true' | 'false' ;
 
 LONG: '-'? [0-9]+[lL]?;
 
 SYMBOL : ~('#'|'"'|'\''|[()]|[ \t\r\n]) ~('"'|'\''|[()]|[ \t\r\n])* ;
 
-BOOLEAN : 'true' | 'false' ;
 
 // Discard
 //--------------------------------------------------------------------

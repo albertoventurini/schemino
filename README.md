@@ -21,5 +21,5 @@ mvn install
 ```
 mvn exec:java \
   -Dtruffle.class.path.append=target/schemino-0.1.0-SNAPSHOT.jar \
-  -Dexec.mainClass="com.albertoventurini.schemino.Main"
+  -Dexec.mainClass="com.albertoventurini.schemino.naive.Main"
 ```
