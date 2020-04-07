@@ -1,6 +1,8 @@
 package com.albertoventurini.schemino.naive.nodes;
 
 import com.albertoventurini.schemino.naive.Frame;
+import com.albertoventurini.schemino.naive.types.ScheminoType;
+import com.albertoventurini.schemino.naive.types.TypedObject;
 
 public class SymbolNode extends ExpressionNode {
 
@@ -12,8 +14,8 @@ public class SymbolNode extends ExpressionNode {
     }
 
     @Override
-    public Object eval(Frame frame) {
-        return symbolName;
+    public TypedObject eval(Frame frame) {
+        return new TypedObject(ScheminoType.STRING, symbolName);
     }
 
     @Override

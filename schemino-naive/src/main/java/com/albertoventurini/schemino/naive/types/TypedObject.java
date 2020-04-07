@@ -1,15 +1,16 @@
-package com.albertoventurini.schemino.naive;
-
-import com.albertoventurini.schemino.naive.types.ScheminoType;
+package com.albertoventurini.schemino.naive.types;
 
 import java.util.Objects;
 
-public class FrameSlot {
+/**
+ * This class represents an object with a specific type.
+ */
+public class TypedObject {
 
     private ScheminoType type;
     private Object value;
 
-    public FrameSlot(final ScheminoType type, final Object value) {
+    public TypedObject(final ScheminoType type, final Object value) {
         this.type = type;
 
         this.value = value;
@@ -27,21 +28,21 @@ public class FrameSlot {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FrameSlot frameSlot = (FrameSlot) o;
-        return Objects.equals(value, frameSlot.value) &&
-                Objects.equals(type, frameSlot.type);
+        TypedObject that = (TypedObject) o;
+        return type == that.type &&
+                Objects.equals(value, that.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value, type);
+        return Objects.hash(type, value);
     }
 
     @Override
     public String toString() {
-        return "FrameSlot{" +
-                "name='" + value + '\'' +
-                ", type=" + type +
+        return "TypedObject{" +
+                "type=" + type +
+                ", value=" + value +
                 '}';
     }
 }

@@ -3,14 +3,14 @@ package com.albertoventurini.schemino.naive.functions;
 import com.albertoventurini.schemino.naive.Frame;
 import com.albertoventurini.schemino.naive.nodes.ExpressionNode;
 import com.albertoventurini.schemino.naive.types.ScheminoFunction;
+import com.albertoventurini.schemino.naive.types.TypedObject;
 
 import java.util.List;
 
 /**
- * The function type.
+ * Represents a user-defined (i.e., not built-in) function.
  */
 public class UserFunction implements ScheminoFunction {
-
 
     protected final List<String> parameters;
     protected final ExpressionNode expression;
@@ -23,11 +23,11 @@ public class UserFunction implements ScheminoFunction {
     }
 
     @Override
-    public Object apply(final Frame frame, final List<ExpressionNode> arguments) {
+    public TypedObject apply(final Frame frame, final List<ExpressionNode> arguments) {
         assert(arguments.size() == parameters.size());
 
         for (int i = 0; i < arguments.size(); i++) {
-            frame.put(parameters.get(i), arguments.get(i).eval(frame));
+            frame.putObject(parameters.get(i), arguments.get(i).eval(frame));
         }
 
         return expression.eval(frame);

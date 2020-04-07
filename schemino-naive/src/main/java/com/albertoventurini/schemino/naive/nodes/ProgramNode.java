@@ -2,7 +2,9 @@ package com.albertoventurini.schemino.naive.nodes;
 
 import com.albertoventurini.schemino.naive.Frame;
 import com.albertoventurini.schemino.naive.functions.AddFunction;
+import com.albertoventurini.schemino.naive.functions.GreaterThanFunction;
 import com.albertoventurini.schemino.naive.functions.IfFunction;
+import com.albertoventurini.schemino.naive.types.TypedObject;
 
 import java.util.List;
 
@@ -14,17 +16,18 @@ public class ProgramNode extends ExpressionNode {
         this.expressions = expressions;
     }
 
-    public Object run() {
+    public TypedObject run() {
         final Frame frame = new Frame();
 
-        frame.put("+", new AddFunction());
-        frame.put("if", new IfFunction());
+        frame.putFunction("+", new AddFunction());
+        frame.putFunction("if", new IfFunction());
+        frame.putFunction(">", new GreaterThanFunction());
 
         return eval(frame);
     }
 
     @Override
-    public Object eval(final Frame frame) {
+    public TypedObject eval(final Frame frame) {
         for (int i = 0; i < expressions.size() - 1; i++) {
             expressions.get(i).eval(frame);
         }

@@ -1,9 +1,11 @@
 package com.albertoventurini.schemino.naive.nodes;
 
 import com.albertoventurini.schemino.naive.Frame;
+import com.albertoventurini.schemino.naive.FrameSlot;
 import com.albertoventurini.schemino.naive.exceptions.InvalidFunction;
 import com.albertoventurini.schemino.naive.exceptions.UnknownSymbol;
 import com.albertoventurini.schemino.naive.types.ScheminoFunction;
+import com.albertoventurini.schemino.naive.types.TypedObject;
 
 import java.util.List;
 
@@ -15,18 +17,20 @@ public class FunctionCallNode extends ExpressionNode {
     private ExpressionNode functionNode;
     private final List<ExpressionNode> arguments;
 
-    // 'functionNode' is a node that should evaluate to a ScheminoFunction
-    public FunctionCallNode(final ExpressionNode functionNode, final List<ExpressionNode> arguments) {
+    // 'functionNode' is a ReadVariableNode that should evaluate to a ScheminoFunction
+    public FunctionCallNode(
+            final ExpressionNode functionNode,
+            final List<ExpressionNode> arguments) {
         this.functionNode = functionNode;
         this.arguments = arguments;
     }
 
     @Override
-    public Object eval(final Frame frame) {
+    public TypedObject eval(final Frame frame) {
         // evaluate the arguments
         // bind the arguments to the lambda's parameters on the frame
 
-        final ScheminoFunction function = (ScheminoFunction) functionNode.eval(frame);
+        final ScheminoFunction function = functionNode.evalFunction(frame);
 
         if (function == null) {
             throw new InvalidFunction();
@@ -34,4 +38,6 @@ public class FunctionCallNode extends ExpressionNode {
 
         return function.apply(frame, arguments);
     }
+
+
 }

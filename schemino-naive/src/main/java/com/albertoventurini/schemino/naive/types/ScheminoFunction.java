@@ -6,5 +6,5 @@ import com.albertoventurini.schemino.naive.nodes.ExpressionNode;
 import java.util.List;
 
 public interface ScheminoFunction {
-    Object apply(Frame frame, List<ExpressionNode> arguments);
+    TypedObject apply(Frame frame, List<ExpressionNode> arguments);
 }

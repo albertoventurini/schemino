@@ -1,36 +1,37 @@
 package com.albertoventurini.schemino.naive;
 
 import com.albertoventurini.schemino.naive.exceptions.InvalidFunction;
+import com.albertoventurini.schemino.naive.types.ScheminoType;
+import com.albertoventurini.schemino.naive.types.TypedObject;
 import com.albertoventurini.schemino.parser.ScheminoLexer;
 import com.albertoventurini.schemino.parser.ScheminoParser;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ProgramTest {
 
     @Test
     public void oneNumber_returnsTheNumber() {
-        final var value = evaluateProgram("1");
+        final var result = evaluateProgram("1");
 
-        assertEquals(1L, value);
+        assertEquals(1L, result.getValue());
     }
 
     @Test
     public void variableAssignment() {
-        final var value = evaluateProgram("(define x 1)\nx");
+        final var result = evaluateProgram("(define x 1)\nx");
 
-        assertEquals(1L, value);
+        assertEquals(1L, result.getValue());
     }
 
     @Test
     public void addingTwoNumbers() {
-        final var value = evaluateProgram("(+ 1 2)");
+        final var result = evaluateProgram("(+ 1 2)");
 
-        assertEquals(3L, value);
+        assertEquals(3L, result.getValue());
     }
 
     @Test
@@ -40,30 +41,30 @@ public class ProgramTest {
 
     @Test
     public void lambdaApplication() {
-        final var value = evaluateProgram("((lambda (x y) (+ x y)) 1 2)");
+        final var result = evaluateProgram("((lambda (x y) (+ x y)) 1 2)");
 
-        assertEquals(3L, value);
+        assertEquals(3L, result.getValue());
     }
 
     @Test
     public void defineFunctionThatReturnsConstant() {
-        final var value = evaluateProgram("(define constant (lambda () 42))\n(constant)");
+        final var result = evaluateProgram("(define constant (lambda () 42))\n(constant)");
 
-        assertEquals(42L, value);
+        assertEquals(42L, result.getValue());
     }
 
     @Test
     public void definingFunction() {
-        final var value = evaluateProgram("(define add (lambda (x y) (+ x y)))\n(add 1 2)");
+        final var result = evaluateProgram("(define add (lambda (x y) (+ x y)))\n(add 1 2)");
 
-        assertEquals(3L, value);
+        assertEquals(3L, result.getValue());
     }
 
     @Test
     public void passingFunctionsAsValues() {
-        final var value = evaluateProgram("(define add +)\n(add 1 2)");
+        final var result = evaluateProgram("(define add +)\n(add 1 2)");
 
-        assertEquals(3L, value);
+        assertEquals(3L, result.getValue());
     }
 
     @Test
@@ -73,12 +74,21 @@ public class ProgramTest {
 
     @Test
     public void ifFunction() {
-        final var value = evaluateProgram("(if true -1 1)");
+        final var result = evaluateProgram("(if true -1 1)");
 
-        assertEquals(-1L, value);
+        assertEquals(-1L, result.getValue());
     }
 
-    private Object evaluateProgram(final String source) {
+    @Test
+    public void greaterThanFunction() {
+        final var result = evaluateProgram("(> 2 1)");
+        assertEquals(ScheminoType.BOOLEAN, result.getType());
+        assertTrue((boolean) result.getValue());
+    }
+
+    // TODO: support lexical scoping
+
+    private TypedObject evaluateProgram(final String source) {
         final var lexer = new ScheminoLexer(CharStreams.fromString(source));
         final var tokenStream = new CommonTokenStream(lexer);
         final var parser = new ScheminoParser(tokenStream);

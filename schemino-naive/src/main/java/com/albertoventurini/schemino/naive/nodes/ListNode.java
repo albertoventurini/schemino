@@ -2,6 +2,8 @@ package com.albertoventurini.schemino.naive.nodes;
 
 import com.albertoventurini.schemino.naive.Frame;
 import com.albertoventurini.schemino.naive.functions.UserFunction;
+import com.albertoventurini.schemino.naive.types.ScheminoType;
+import com.albertoventurini.schemino.naive.types.TypedObject;
 
 import java.util.List;
 
@@ -16,9 +18,9 @@ public class ListNode extends ExpressionNode {
     }
 
     @Override
-    public Object eval(final Frame frame) {
+    public TypedObject eval(final Frame frame) {
         if (items.isEmpty()) {
-            return items;
+            return new TypedObject(ScheminoType.LIST, items);
         }
 
         final Object firstItemEval = items.get(0).eval(frame);
@@ -26,7 +28,7 @@ public class ListNode extends ExpressionNode {
         if (firstItemEval instanceof String) {
             final String firstItemLabel = (String) firstItemEval;
             if (frame.hasSlot(firstItemLabel)) {
-                frame.get(firstItemLabel);
+                frame.getObject(firstItemLabel);
             }
         }
 
@@ -39,4 +41,5 @@ public class ListNode extends ExpressionNode {
         // -
         return null;
     }
+
 }
