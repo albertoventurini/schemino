@@ -17,7 +17,7 @@ public class ProgramNode extends ExpressionNode {
     }
 
     public TypedObject run() {
-        final Frame frame = new Frame();
+        final Frame frame = Frame.root();
 
         frame.putFunction("+", new AddFunction());
         frame.putFunction("if", new IfFunction());

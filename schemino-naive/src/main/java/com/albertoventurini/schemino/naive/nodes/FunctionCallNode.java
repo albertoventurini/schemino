@@ -1,17 +1,19 @@
 package com.albertoventurini.schemino.naive.nodes;
 
 import com.albertoventurini.schemino.naive.Frame;
-import com.albertoventurini.schemino.naive.FrameSlot;
 import com.albertoventurini.schemino.naive.exceptions.InvalidFunction;
-import com.albertoventurini.schemino.naive.exceptions.UnknownSymbol;
 import com.albertoventurini.schemino.naive.types.ScheminoFunction;
 import com.albertoventurini.schemino.naive.types.TypedObject;
 
 import java.util.List;
 
-// A function call node applies arguments to the lambda's parameters,
-// then evaluates the lambda's expression
-
+/**
+ * A node that calls a function.
+ *
+ * The node wraps a lambda and a list of arguments.
+ * First, it applies the arguments to the lambda's parameters.
+ * Then, it evaluates the lambda expression.
+ */
 public class FunctionCallNode extends ExpressionNode {
 
     private ExpressionNode functionNode;
@@ -27,17 +29,16 @@ public class FunctionCallNode extends ExpressionNode {
 
     @Override
     public TypedObject eval(final Frame frame) {
-        // evaluate the arguments
-        // bind the arguments to the lambda's parameters on the frame
-
+        // `functionNode` should evaluate to a ScheminoFunction object
         final ScheminoFunction function = functionNode.evalFunction(frame);
 
         if (function == null) {
             throw new InvalidFunction();
         }
 
-        return function.apply(frame, arguments);
-    }
+        final Frame functionFrame = Frame.fromParent(frame);
 
+        return function.apply(functionFrame, arguments);
+    }
 
 }

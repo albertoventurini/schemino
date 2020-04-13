@@ -86,7 +86,15 @@ public class ProgramTest {
         assertTrue((boolean) result.getValue());
     }
 
-    // TODO: support lexical scoping
+    @Test
+    public void lexicalScoping() {
+        final var result = evaluateProgram("(define func (lambda (x) (+ x 1)))\n" +
+                "(define x 1)\n" +
+                "(func 2)\n" +
+                "x");
+
+        assertEquals(1L, result.getValue());
+    }
 
     private TypedObject evaluateProgram(final String source) {
         final var lexer = new ScheminoLexer(CharStreams.fromString(source));
