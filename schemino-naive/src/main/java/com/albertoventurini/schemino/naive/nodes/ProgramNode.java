@@ -6,28 +6,41 @@ import com.albertoventurini.schemino.naive.functions.CondFunction;
 import com.albertoventurini.schemino.naive.functions.EqualsFunction;
 import com.albertoventurini.schemino.naive.functions.GreaterThanFunction;
 import com.albertoventurini.schemino.naive.functions.IfFunction;
+import com.albertoventurini.schemino.naive.functions.LessThanFunction;
 import com.albertoventurini.schemino.naive.functions.SubtractFunction;
 import com.albertoventurini.schemino.naive.types.TypedObject;
 
 import java.util.List;
 
+/**
+ * The root node of a Schemino program.
+ */
 public class ProgramNode extends ExpressionNode {
 
-    private List<ExpressionNode> expressions;
+    /**
+     * The expressions that make up the program
+     */
+    private final List<ExpressionNode> expressions;
 
     public ProgramNode(final List<ExpressionNode> expressions) {
         this.expressions = expressions;
     }
 
+    /**
+     * Run the program and return the result of its last expression
+     * @return the result of the last expression in the program
+     */
     public TypedObject run() {
         final Frame frame = Frame.root();
 
+        // Set up built-in functions
         frame.putFunction("+", new AddFunction());
         frame.putFunction("-", new SubtractFunction());
         frame.putFunction("=", new EqualsFunction());
         frame.putFunction("if", new IfFunction());
         frame.putFunction("cond", new CondFunction());
         frame.putFunction(">", new GreaterThanFunction());
+        frame.putFunction("<", new LessThanFunction());
 
         return eval(frame);
     }
