@@ -96,6 +96,27 @@ public class ProgramTest {
         assertEquals(1L, result.getValue());
     }
 
+    @Test
+    public void subtractFunction_twoPositiveNumbers_returnsTheCorrectResult() {
+        final var result = evaluateProgram("(- 43 1)");
+
+        assertEquals(42L, result.getValue());
+    }
+
+    @Test
+    public void subtractFunction_noNumbers_returnsZero() {
+        final var result = evaluateProgram("(-)");
+
+        assertEquals(0L, result.getValue());
+    }
+
+    @Test
+    public void subtractFunction_oneNumber_returnsTheNumber() {
+        final var result = evaluateProgram("(- 1)");
+
+        assertEquals(1L, result.getValue());
+    }
+
     private TypedObject evaluateProgram(final String source) {
         final var lexer = new ScheminoLexer(CharStreams.fromString(source));
         final var tokenStream = new CommonTokenStream(lexer);

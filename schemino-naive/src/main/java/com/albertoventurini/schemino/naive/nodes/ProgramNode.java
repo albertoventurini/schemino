@@ -4,6 +4,7 @@ import com.albertoventurini.schemino.naive.Frame;
 import com.albertoventurini.schemino.naive.functions.AddFunction;
 import com.albertoventurini.schemino.naive.functions.GreaterThanFunction;
 import com.albertoventurini.schemino.naive.functions.IfFunction;
+import com.albertoventurini.schemino.naive.functions.SubtractFunction;
 import com.albertoventurini.schemino.naive.types.TypedObject;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class ProgramNode extends ExpressionNode {
         final Frame frame = Frame.root();
 
         frame.putFunction("+", new AddFunction());
+        frame.putFunction("-", new SubtractFunction());
         frame.putFunction("if", new IfFunction());
         frame.putFunction(">", new GreaterThanFunction());
 
