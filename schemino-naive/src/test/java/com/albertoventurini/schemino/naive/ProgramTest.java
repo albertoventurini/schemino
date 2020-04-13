@@ -117,6 +117,30 @@ public class ProgramTest {
         assertEquals(1L, result.getValue());
     }
 
+    @Test
+    public void equals_withEqualsValues_returnTrue() {
+        final var result = evaluateProgram("(define x 0)\n(= x 0 0)");
+
+        assertEquals(ScheminoType.BOOLEAN, result.getType());
+        assertTrue((boolean) result.getValue());
+    }
+
+    @Test
+    public void equals_withDifferentValues_returnFalse() {
+        final var result = evaluateProgram("(= 0 1)");
+
+        assertEquals(ScheminoType.BOOLEAN, result.getType());
+        assertFalse((boolean) result.getValue());
+    }
+
+    @Test
+    public void equals_withNoValues_returnTrue() {
+        final var result = evaluateProgram("(=)");
+
+        assertEquals(ScheminoType.BOOLEAN, result.getType());
+        assertTrue((boolean) result.getValue());
+    }
+    
     private TypedObject evaluateProgram(final String source) {
         final var lexer = new ScheminoLexer(CharStreams.fromString(source));
         final var tokenStream = new CommonTokenStream(lexer);

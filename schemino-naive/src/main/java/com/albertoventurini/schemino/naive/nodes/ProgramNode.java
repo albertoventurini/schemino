@@ -2,6 +2,7 @@ package com.albertoventurini.schemino.naive.nodes;
 
 import com.albertoventurini.schemino.naive.Frame;
 import com.albertoventurini.schemino.naive.functions.AddFunction;
+import com.albertoventurini.schemino.naive.functions.EqualsFunction;
 import com.albertoventurini.schemino.naive.functions.GreaterThanFunction;
 import com.albertoventurini.schemino.naive.functions.IfFunction;
 import com.albertoventurini.schemino.naive.functions.SubtractFunction;
@@ -22,6 +23,7 @@ public class ProgramNode extends ExpressionNode {
 
         frame.putFunction("+", new AddFunction());
         frame.putFunction("-", new SubtractFunction());
+        frame.putFunction("=", new EqualsFunction());
         frame.putFunction("if", new IfFunction());
         frame.putFunction(">", new GreaterThanFunction());
 
