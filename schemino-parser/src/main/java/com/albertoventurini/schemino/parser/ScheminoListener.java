@@ -18,6 +18,16 @@ public interface ScheminoListener extends ParseTreeListener {
 	 */
 	void exitProgram(ScheminoParser.ProgramContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ScheminoParser#expressions}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpressions(ScheminoParser.ExpressionsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ScheminoParser#expressions}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpressions(ScheminoParser.ExpressionsContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ScheminoParser#expression}.
 	 * @param ctx the parse tree
 	 */

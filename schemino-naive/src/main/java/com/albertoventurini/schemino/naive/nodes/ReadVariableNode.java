@@ -8,6 +8,7 @@ import com.albertoventurini.schemino.naive.types.TypedObject;
 
 public class ReadVariableNode extends ExpressionNode {
 
+    // The symbol associated with this variable
     private SymbolNode symbolNode;
 
     public ReadVariableNode(final SymbolNode symbolNode) {
@@ -37,5 +38,10 @@ public class ReadVariableNode extends ExpressionNode {
         }
 
         return frame.getFunction(name);
+    }
+
+    @Override
+    public String toString() {
+        return symbolNode.toString();
     }
 }

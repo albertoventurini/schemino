@@ -22,4 +22,9 @@ public class SymbolNode extends ExpressionNode {
     public String evalString(Frame frame) {
         return symbolName;
     }
+
+    @Override
+    public String toString() {
+        return symbolName;
+    }
 }

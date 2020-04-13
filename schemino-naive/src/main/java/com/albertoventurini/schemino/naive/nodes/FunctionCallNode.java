@@ -6,6 +6,7 @@ import com.albertoventurini.schemino.naive.types.ScheminoFunction;
 import com.albertoventurini.schemino.naive.types.TypedObject;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A node that calls a function.
@@ -41,4 +42,24 @@ public class FunctionCallNode extends ExpressionNode {
         return function.apply(functionFrame, arguments);
     }
 
+    @Override
+    public long evalLong(final Frame frame) {
+        final TypedObject object = eval(frame);
+        return object.getLongOrThrow();
+    }
+
+    @Override
+    public boolean evalBoolean(Frame frame) {
+        final TypedObject object = eval(frame);
+        return object.getBooleanOrThrow();
+    }
+
+    @Override
+    public String toString() {
+        return "("
+                + functionNode.toString()
+                + " "
+                + arguments.stream().map(Object::toString).collect(Collectors.joining(" "))
+                + ")";
+    }
 }

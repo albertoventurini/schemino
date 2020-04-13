@@ -22,4 +22,9 @@ public class BooleanNode extends ExpressionNode {
     public boolean evalBoolean(Frame frame) {
         return value;
     }
+
+    @Override
+    public String toString() {
+        return Boolean.toString(value);
+    }
 }

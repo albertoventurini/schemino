@@ -17,6 +17,12 @@ public interface ScheminoVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProgram(ScheminoParser.ProgramContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ScheminoParser#expressions}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpressions(ScheminoParser.ExpressionsContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ScheminoParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

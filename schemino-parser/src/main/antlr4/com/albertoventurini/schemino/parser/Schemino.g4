@@ -1,6 +1,8 @@
 grammar Schemino;
 
-program: expression* EOF;
+program: expressions EOF;
+
+expressions: expression*;
 
 expression
     : atom
@@ -10,7 +12,7 @@ expression
 
 quote: '\'' expression;
 
-list: '(' expression* ')' ;
+list: '(' expressions ')' ;
 
 atom
     : number

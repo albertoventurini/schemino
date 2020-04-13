@@ -140,7 +140,20 @@ public class ProgramTest {
         assertEquals(ScheminoType.BOOLEAN, result.getType());
         assertTrue((boolean) result.getValue());
     }
-    
+
+    @Test
+    public void equals_withNestedFunctionCalls_works() {
+        final var result = evaluateProgram("(= (+ 1 1) (+ 0 2))");
+
+        assertEquals(ScheminoType.BOOLEAN, result.getType());
+        assertTrue((boolean) result.getValue());
+    }
+
+//    @Test
+//    public void cond() {
+//        final var result = evaluateProgram("(cond ((= 0 1) 1) ((= 0 0) 2))");
+//    }
+
     private TypedObject evaluateProgram(final String source) {
         final var lexer = new ScheminoLexer(CharStreams.fromString(source));
         final var tokenStream = new CommonTokenStream(lexer);

@@ -1,5 +1,7 @@
 package com.albertoventurini.schemino.naive.types;
 
+import com.albertoventurini.schemino.naive.exceptions.TypeMismatch;
+
 import java.util.Objects;
 
 /**
@@ -7,7 +9,14 @@ import java.util.Objects;
  */
 public class TypedObject {
 
+    /**
+     * The type of the object
+     */
     private ScheminoType type;
+
+    /**
+     * The value of the object
+     */
     private Object value;
 
     public TypedObject(final ScheminoType type, final Object value) {
@@ -22,6 +31,20 @@ public class TypedObject {
 
     public Object getValue() {
         return value;
+    }
+
+    public long getLongOrThrow() {
+        if (type != ScheminoType.LONG) {
+            throw new TypeMismatch(ScheminoType.LONG, type);
+        }
+        return (long) value;
+    }
+
+    public boolean getBooleanOrThrow() {
+        if (type != ScheminoType.BOOLEAN) {
+            throw new TypeMismatch(ScheminoType.BOOLEAN, type);
+        }
+        return (boolean) value;
     }
 
     @Override
