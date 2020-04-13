@@ -6,7 +6,7 @@ import com.albertoventurini.schemino.naive.types.TypedObject;
 
 public class LongNode extends ExpressionNode {
 
-    private long value;
+    private final long value;
 
     public LongNode(final long value) {
 
@@ -14,7 +14,7 @@ public class LongNode extends ExpressionNode {
     }
 
     @Override
-    public TypedObject eval(Frame frame) {
+    public TypedObject eval(final Frame frame) {
         return new TypedObject(ScheminoType.LONG, value);
     }
 

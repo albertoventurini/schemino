@@ -1,6 +1,8 @@
 package com.albertoventurini.schemino.naive;
 
-import com.albertoventurini.schemino.naive.exceptions.InvalidFunction;
+import com.albertoventurini.schemino.naive.exceptions.UnknownSymbol;
+import com.albertoventurini.schemino.naive.types.ScheminoFunction;
+import com.albertoventurini.schemino.naive.types.ScheminoList;
 import com.albertoventurini.schemino.naive.types.ScheminoType;
 import com.albertoventurini.schemino.naive.types.TypedObject;
 import com.albertoventurini.schemino.parser.ScheminoLexer;
@@ -69,7 +71,7 @@ public class ProgramTest {
 
     @Test
     public void unknownFunction() {
-        assertThrows(InvalidFunction.class, () -> evaluateProgram("(unknown 0 1)"));
+        assertThrows(UnknownSymbol.class, () -> evaluateProgram("(unknown 0 1)"));
     }
 
     @Test
@@ -150,9 +152,24 @@ public class ProgramTest {
     }
 
 //    @Test
-//    public void cond() {
-//        final var result = evaluateProgram("(cond ((= 0 1) 1) ((= 0 0) 2))");
+//    public void list_isEvaluatedAsAList() {
+//        final var result = evaluateProgram("(1 2 3)");
+//        assertEquals(ScheminoType.LIST, result.getType());
+//        assertTrue(result.getValue() instanceof ScheminoList);
+//        final ScheminoList list = (ScheminoList) result.getValue();
+//        assertEquals(3, list.getItems().size());
+//        assertEquals(1L, list.getItems().get(0).getValue());
 //    }
+
+    @Test
+    public void quote_shouldReturnQuotedList() {
+        final var result = evaluateProgram("(quote (+ 1 2 3))");
+        assertEquals(ScheminoType.LIST, result.getType());
+        assertTrue(result.getValue() instanceof ScheminoList);
+        final ScheminoList list = (ScheminoList) result.getValue();
+        assertEquals(4, list.getItems().size());
+        assertTrue(list.getItems().get(0).getValue() instanceof ScheminoFunction);
+    }
 
     private TypedObject evaluateProgram(final String source) {
         final var lexer = new ScheminoLexer(CharStreams.fromString(source));

@@ -113,15 +113,22 @@ public class NodeFactory {
 
     private ExpressionNode handleFunctionCallList(final ScheminoParser.ExpressionsContext ctx) {
         // Assume that the first element of the list is an expression that will evaluate to the function to call
-        final ExpressionNode function = visitExpression(ctx.expression(0));
+//        final ExpressionNode function = visitExpression(ctx.expression(0));
+//
+//        final List<ExpressionNode> arguments = ctx.expression()
+//                .stream()
+//                .skip(1)
+//                .map(this::visitExpression)
+//                .collect(Collectors.toUnmodifiableList());
+//
+//        return new FunctionCallNode(function, arguments);
 
-        final List<ExpressionNode> arguments = ctx.expression()
+        final List<ExpressionNode> items = ctx.expression()
                 .stream()
-                .skip(1)
                 .map(this::visitExpression)
                 .collect(Collectors.toUnmodifiableList());
 
-        return new FunctionCallNode(function, arguments);
+        return new ListNode(items);
     }
 
 }

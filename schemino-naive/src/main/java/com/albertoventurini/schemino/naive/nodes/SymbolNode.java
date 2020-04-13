@@ -6,20 +6,19 @@ import com.albertoventurini.schemino.naive.types.TypedObject;
 
 public class SymbolNode extends ExpressionNode {
 
-    private String symbolName;
+    private final String symbolName;
 
     public SymbolNode(final String symbolName) {
-
         this.symbolName = symbolName;
     }
 
     @Override
-    public TypedObject eval(Frame frame) {
+    public TypedObject eval(final Frame frame) {
         return new TypedObject(ScheminoType.STRING, symbolName);
     }
 
     @Override
-    public String evalString(Frame frame) {
+    public String evalString(final Frame frame) {
         return symbolName;
     }
 

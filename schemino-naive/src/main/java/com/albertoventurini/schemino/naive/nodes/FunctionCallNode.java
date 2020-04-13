@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  */
 public class FunctionCallNode extends ExpressionNode {
 
-    private ExpressionNode functionNode;
+    private final ExpressionNode functionNode;
     private final List<ExpressionNode> arguments;
 
     // 'functionNode' is a ReadVariableNode that should evaluate to a ScheminoFunction

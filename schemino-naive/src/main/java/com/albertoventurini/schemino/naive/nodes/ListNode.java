@@ -1,19 +1,33 @@
 package com.albertoventurini.schemino.naive.nodes;
 
 import com.albertoventurini.schemino.naive.Frame;
-import com.albertoventurini.schemino.naive.functions.UserFunction;
+import com.albertoventurini.schemino.naive.exceptions.InvalidFunction;
+import com.albertoventurini.schemino.naive.types.ScheminoFunction;
+import com.albertoventurini.schemino.naive.types.ScheminoList;
 import com.albertoventurini.schemino.naive.types.ScheminoType;
 import com.albertoventurini.schemino.naive.types.TypedObject;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+/**
+ * A node that represents a list.
+ *
+ * The semantics of a list depends on the context in which it is used:
+ * - a list can be a sequence of objects, or
+ * - a list can be a function call
+ *
+ * A list is considered a function call if:
+ * - a type such as long or boolean is requested (evalLong, evalBoolean)
+ * - the first item evaluates to a ScheminoFunction
+ *
+ * Otherwise, the list is considered a sequence of objects.
+ */
 public class ListNode extends ExpressionNode {
 
-
-    private List<ExpressionNode> items;
+    private final List<ExpressionNode> items;
 
     public ListNode(final List<ExpressionNode> items) {
-
         this.items = items;
     }
 
@@ -23,23 +37,46 @@ public class ListNode extends ExpressionNode {
             return new TypedObject(ScheminoType.LIST, items);
         }
 
-        final Object firstItemEval = items.get(0).eval(frame);
+        final TypedObject firstItemEval = items.get(0).eval(frame);
 
-        if (firstItemEval instanceof String) {
-            final String firstItemLabel = (String) firstItemEval;
-            if (frame.hasSlot(firstItemLabel)) {
-                frame.getObject(firstItemLabel);
-            }
+        if (firstItemEval.getType().equals(ScheminoType.FUNCTION)) {
+            return callFunction(frame, firstItemEval.getFunctionOrThrow());
+        } else {
+            return new TypedObject(ScheminoType.LIST, evalItems(frame));
         }
-
-        return null;
     }
 
-    private Object callFunction(final UserFunction function, final List<ExpressionNode> arguments) {
-        // todo:
-        // - inject arguments into function's frame (perhaps by re-using WriteVariableNode's)
-        // -
-        return null;
+    @Override
+    public long evalLong(final Frame frame) {
+        // When a list is evaluated as a long, we assume it's a function call
+        final ScheminoFunction firstItemEval = items.get(0).evalFunction(frame);
+        return callFunction(frame, firstItemEval).getLongOrThrow();
+    }
+
+    @Override
+    public boolean evalBoolean(final Frame frame) {
+        // When a list is evaluated as a boolean, we assume it's a function call
+        final ScheminoFunction firstItemEval = items.get(0).evalFunction(frame);
+        return callFunction(frame, firstItemEval).getBooleanOrThrow();
+    }
+
+    @Override
+    public ScheminoList evalList(final Frame frame) {
+        return new ScheminoList(evalItems(frame));
+    }
+
+    private List<TypedObject> evalItems(final Frame frame) {
+        return items.stream().map(i -> i.eval(frame)).collect(Collectors.toUnmodifiableList());
+    }
+
+    private TypedObject callFunction(final Frame frame, final ScheminoFunction function) {
+        if (function == null) {
+            throw new InvalidFunction();
+        }
+
+        final Frame functionFrame = Frame.fromParent(frame);
+        final List<ExpressionNode> arguments = items.stream().skip(1).collect(Collectors.toList());
+        return function.apply(functionFrame, arguments);
     }
 
 }

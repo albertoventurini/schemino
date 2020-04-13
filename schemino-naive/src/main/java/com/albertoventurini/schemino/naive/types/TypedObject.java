@@ -12,16 +12,15 @@ public class TypedObject {
     /**
      * The type of the object
      */
-    private ScheminoType type;
+    private final ScheminoType type;
 
     /**
      * The value of the object
      */
-    private Object value;
+    private final Object value;
 
     public TypedObject(final ScheminoType type, final Object value) {
         this.type = type;
-
         this.value = value;
     }
 
@@ -45,6 +44,13 @@ public class TypedObject {
             throw new TypeMismatch(ScheminoType.BOOLEAN, type);
         }
         return (boolean) value;
+    }
+
+    public ScheminoFunction getFunctionOrThrow() {
+        if (type != ScheminoType.FUNCTION) {
+            throw new TypeMismatch(ScheminoType.FUNCTION, type);
+        }
+        return (ScheminoFunction) value;
     }
 
     @Override
