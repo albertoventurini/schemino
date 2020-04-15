@@ -9,6 +9,13 @@ import com.albertoventurini.schemino.naive.types.TypedObject;
 
 import java.util.List;
 
+/**
+ * A built-in function that takes one parameter of type list,
+ * and returns the parameter evaluated as a list.
+ *
+ * (quote (1 2 3 4 5)) => (1 2 3 4 5)
+ * (quote (+ - * /)) => (+ - * /) [list of functions]
+ */
 public class QuoteFunction implements ScheminoFunction {
 
     @Override
