@@ -23,7 +23,7 @@ public class Frame {
     /**
      * The parent frame (null for the root frame)
      */
-    public final Frame parentFrame;
+    private final Frame parentFrame;
 
     private Frame(final Frame parentFrame) {
         this.parentFrame = parentFrame;
