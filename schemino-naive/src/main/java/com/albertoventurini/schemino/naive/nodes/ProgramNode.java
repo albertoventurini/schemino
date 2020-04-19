@@ -7,6 +7,7 @@ import com.albertoventurini.schemino.naive.functions.EqualsFunction;
 import com.albertoventurini.schemino.naive.functions.GreaterThanFunction;
 import com.albertoventurini.schemino.naive.functions.IfFunction;
 import com.albertoventurini.schemino.naive.functions.LessThanFunction;
+import com.albertoventurini.schemino.naive.functions.PrintFunction;
 import com.albertoventurini.schemino.naive.functions.QuoteFunction;
 import com.albertoventurini.schemino.naive.functions.SubtractFunction;
 import com.albertoventurini.schemino.naive.types.TypedObject;
@@ -43,6 +44,7 @@ public class ProgramNode extends ExpressionNode {
         frame.putFunction("cond", new CondFunction());
         frame.putFunction(">", new GreaterThanFunction());
         frame.putFunction("<", new LessThanFunction());
+        frame.putFunction("print", new PrintFunction());
 
         return eval(frame);
     }

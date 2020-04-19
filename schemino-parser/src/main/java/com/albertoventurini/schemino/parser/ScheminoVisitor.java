@@ -59,6 +59,12 @@ public interface ScheminoVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitNumber(ScheminoParser.NumberContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ScheminoParser#string}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitString(ScheminoParser.StringContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ScheminoParser#keyword}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

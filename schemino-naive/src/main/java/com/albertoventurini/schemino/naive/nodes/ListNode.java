@@ -7,6 +7,7 @@ import com.albertoventurini.schemino.naive.types.ScheminoList;
 import com.albertoventurini.schemino.naive.types.ScheminoType;
 import com.albertoventurini.schemino.naive.types.TypedObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,8 @@ import java.util.stream.Collectors;
  * - a list can be a function call
  *
  * A list is considered a function call if:
- * - a type such as long or boolean is requested (evalLong, evalBoolean)
+ * - the requester explicitly asks a scalar evaluation of the list
+ *   (e.g. `evalLong`, `evalBoolean`, etc.), or
  * - the first item evaluates to a ScheminoFunction
  *
  * Otherwise, the list is considered a sequence of objects.
@@ -41,9 +43,15 @@ public class ListNode extends ExpressionNode {
 
         if (firstItemEval.getType().equals(ScheminoType.FUNCTION)) {
             return callFunction(frame, firstItemEval.getFunctionOrThrow());
-        } else {
-            return new TypedObject(ScheminoType.LIST, evalItems(frame));
         }
+
+        final List<TypedObject> evaluatedItems = new ArrayList<>(List.of(firstItemEval));
+
+        if (items.size() > 1) {
+            items.stream().skip(1).forEach(item -> evaluatedItems.add(item.eval(frame)));
+        }
+
+        return new TypedObject(ScheminoType.LIST, evaluatedItems);
     }
 
     @Override
@@ -60,23 +68,44 @@ public class ListNode extends ExpressionNode {
         return callFunction(frame, firstItemEval).getBooleanOrThrow();
     }
 
+    /**
+     * Evaluate this node as a list.
+     * @param frame the evaluation frame
+     * @return a ScheminoList containing evaluated items
+     */
     @Override
     public ScheminoList evalList(final Frame frame) {
-        return new ScheminoList(evalItems(frame));
+        final List<TypedObject> evaluatedItems = items
+                .stream()
+                .map(i -> i.eval(frame))
+                .collect(Collectors.toUnmodifiableList());
+
+        return new ScheminoList(evaluatedItems);
     }
 
-    private List<TypedObject> evalItems(final Frame frame) {
-        return items.stream().map(i -> i.eval(frame)).collect(Collectors.toUnmodifiableList());
-    }
-
+    /**
+     * Consider this list as a function all. The first items contains the function to call,
+     * the other items are the arguments.
+     * @param frame the evaluation frame
+     * @param function the function to call, which has been already evaluated
+     * @return the result of the function call
+     */
     private TypedObject callFunction(final Frame frame, final ScheminoFunction function) {
         if (function == null) {
             throw new InvalidFunction();
         }
 
+        // Create a new frame that points to the current frame
         final Frame functionFrame = Frame.fromParent(frame);
+
+        // Evaluate the arguments. Skip 1 because the first item is the function
         final List<ExpressionNode> arguments = items.stream().skip(1).collect(Collectors.toList());
+
         return function.apply(functionFrame, arguments);
     }
 
+    @Override
+    public String toString() {
+        return "(" + items.stream().map(Object::toString).collect(Collectors.joining(" ")) + ")";
+    }
 }

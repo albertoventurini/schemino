@@ -35,7 +35,7 @@ public class UserFunction implements ScheminoFunction {
 
     @Override
     public String toString() {
-        return "ScheminoFunction{" +
+        return "UserFunction{" +
                 "parameters=" + parameters +
                 ", expression=" + expression +
                 '}';

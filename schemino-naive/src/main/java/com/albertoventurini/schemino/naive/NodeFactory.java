@@ -2,12 +2,12 @@ package com.albertoventurini.schemino.naive;
 
 import com.albertoventurini.schemino.naive.nodes.BooleanNode;
 import com.albertoventurini.schemino.naive.nodes.ExpressionNode;
-import com.albertoventurini.schemino.naive.nodes.FunctionCallNode;
 import com.albertoventurini.schemino.naive.nodes.LambdaNode;
 import com.albertoventurini.schemino.naive.nodes.ListNode;
 import com.albertoventurini.schemino.naive.nodes.LongNode;
 import com.albertoventurini.schemino.naive.nodes.ProgramNode;
 import com.albertoventurini.schemino.naive.nodes.ReadVariableNode;
+import com.albertoventurini.schemino.naive.nodes.StringNode;
 import com.albertoventurini.schemino.naive.nodes.SymbolNode;
 import com.albertoventurini.schemino.naive.nodes.WriteVariableNode;
 import com.albertoventurini.schemino.parser.ScheminoParser;
@@ -17,15 +17,25 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * This class is responsible for creating program nodes that contain the semantics of
+ * the program to execute.
+ *
+ * The entry point is the AST that was created by the ANTLR4 parser.
+ */
 public class NodeFactory {
 
+    /**
+     * Create a program node, i.e. the root node of the program.
+     * @param parser the ANTLR4 parser that contains the AST
+     * @return the root node of the program
+     */
     public ProgramNode createProgramNode(final ScheminoParser parser) {
         return visitProgram(parser.program());
     }
 
     private ProgramNode visitProgram(final ScheminoParser.ProgramContext ctx) {
         final var exprs = visitExpressions(ctx.expressions());
-
         return new ProgramNode(exprs);
     }
 
@@ -52,6 +62,8 @@ public class NodeFactory {
             return visitSymbol(ctx.symbol());
         } else if (ctx.bool() != null) {
             return visitBoolean(ctx.bool());
+        } else if (ctx.string() != null) {
+            return visitString(ctx.string());
         }
 
         throw new RuntimeException("Unable to create an atom for context: " + ctx.getText());
@@ -77,6 +89,20 @@ public class NodeFactory {
         }
 
         throw new RuntimeException("Invalid boolean: " + ctx);
+    }
+
+    private ExpressionNode visitString(final ScheminoParser.StringContext ctx) {
+        final String text = ctx.getText();
+
+        try {
+            if (text.charAt(0) == '"' && text.charAt(text.length() - 1) == '"') {
+                return new StringNode(text.substring(1, text.length() - 1));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("String processing failed for input " + ctx, e);
+        }
+
+        throw new RuntimeException("Invalid string: " + ctx);
     }
 
     private ExpressionNode visitList(final ScheminoParser.ListContext ctx) {
@@ -112,17 +138,6 @@ public class NodeFactory {
     }
 
     private ExpressionNode handleFunctionCallList(final ScheminoParser.ExpressionsContext ctx) {
-        // Assume that the first element of the list is an expression that will evaluate to the function to call
-//        final ExpressionNode function = visitExpression(ctx.expression(0));
-//
-//        final List<ExpressionNode> arguments = ctx.expression()
-//                .stream()
-//                .skip(1)
-//                .map(this::visitExpression)
-//                .collect(Collectors.toUnmodifiableList());
-//
-//        return new FunctionCallNode(function, arguments);
-
         final List<ExpressionNode> items = ctx.expression()
                 .stream()
                 .map(this::visitExpression)

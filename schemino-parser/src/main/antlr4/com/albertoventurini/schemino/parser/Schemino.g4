@@ -17,6 +17,7 @@ list: '(' expressions ')' ;
 atom
     : number
     | bool
+    | string
     | keyword
     | symbol
     ;
@@ -26,6 +27,8 @@ bool: BOOLEAN;
 number: LONG;
 
 //keyword: ':' symbol;
+
+string : STRING;
 
 keyword: define;
 
@@ -48,6 +51,8 @@ LONG: '-'? [0-9]+[lL]?;
 //SYMBOL : ~('#'|'"'|'\''|[()]|[ \t\r\n]) ~('"'|'\''|[()]|[ \t\r\n])* ;
 
 SYMBOL: [a-zA-Z+*/\-=><]+;
+
+STRING : '"' ( ~'"' | '\\' '"' )* '"';
 
 
 // Discard

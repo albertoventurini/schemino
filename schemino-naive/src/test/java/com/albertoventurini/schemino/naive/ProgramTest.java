@@ -11,6 +11,9 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ProgramTest {
@@ -169,6 +172,37 @@ public class ProgramTest {
         final ScheminoList list = (ScheminoList) result.getValue();
         assertEquals(4, list.getItems().size());
         assertTrue(list.getItems().get(0).getValue() instanceof ScheminoFunction);
+    }
+
+    @Test
+    public void emptyString_shouldReturnString() {
+        final var result = evaluateProgram("\"\"");
+        assertEquals(ScheminoType.STRING, result.getType());
+        assertEquals("", result.getValue());
+    }
+
+
+    @Test
+    public void string_shouldReturnString() {
+        final var result = evaluateProgram("\"hello\"");
+        assertEquals(ScheminoType.STRING, result.getType());
+        assertEquals("hello", result.getValue());
+    }
+
+    @Test
+    public void programWithMultipleExpressions_shouldReturnValueOfLastExpression() {
+        final var result = evaluateProgram("(print 1)\n(print 2)\n2");
+        assertEquals(2L, result.getValue());
+    }
+
+    @Test
+    public void firstItemOfListIsOnlyEvaluatedOnce() {
+        var outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        evaluateProgram("((print 1) (print 2))");
+
+        assertEquals("1\n2\n", outContent.toString());
     }
 
     private TypedObject evaluateProgram(final String source) {

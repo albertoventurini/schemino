@@ -112,6 +112,18 @@ public class ScheminoBaseListener implements ScheminoListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterString(ScheminoParser.StringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitString(ScheminoParser.StringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterKeyword(ScheminoParser.KeywordContext ctx) { }
 	/**
 	 * {@inheritDoc}
