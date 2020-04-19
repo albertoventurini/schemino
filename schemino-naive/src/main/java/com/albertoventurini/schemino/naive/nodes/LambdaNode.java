@@ -13,8 +13,8 @@ public class LambdaNode extends ExpressionNode {
 
     // A lambda node evaluates to a function
 
-    public LambdaNode(final List<String> parameters, final ExpressionNode expressionNode) {
-        this.function = new UserFunction(parameters, expressionNode);
+    public LambdaNode(final List<String> parameters, final ExpressionNode body) {
+        this.function = new UserFunction(parameters, body);
     }
 
     @Override
