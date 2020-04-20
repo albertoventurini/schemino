@@ -3,13 +3,14 @@
   (lambda (n)
     (fib-rec 1 0 n)))
 
+; Recursive helper function
 (define fib-rec
   (lambda (acc prev n)
-    (
-      (print "acc = " acc ", prev = " prev ", n = " n)
       (if (= 0 n)
         acc
-        (fib-rec (+ acc prev) acc (- n 1))))))
+        (fib-rec (+ acc prev) acc (- n 1)))))
 
-; Calculate the 10th Fibonacci number
-(fib 10)
+; Calculate the 100th Fibonacci number.
+; Because we use a O(n) algorithm, we can calculate, in a reasonable amount of time,
+; a bigger Fibonacci number than the O(n^2) algorithm.
+(fib 100)

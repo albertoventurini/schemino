@@ -110,15 +110,24 @@ public class NodeFactory {
             return new ListNode(Collections.emptyList());
         }
 
-        if (ctx.expressions().expression(0).getText().equals("define")) {
+        if (ctx.expressions().expression(0).atom() != null
+            && ctx.expressions().expression(0).atom().keyword() != null
+            && ctx.expressions().expression(0).atom().keyword().define() != null) {
+
+            // Handle list starting with the 'define' keyword
             return handleDefineList(ctx.expressions());
         }
 
-        if (ctx.expressions().expression(0).getText().equals("lambda")) {
+        if (ctx.expressions().expression(0).atom() != null
+                && ctx.expressions().expression(0).atom().keyword() != null
+                && ctx.expressions().expression(0).atom().keyword().lambda() != null) {
+
+            // Handle list starting with the 'lambda' keyword
             return handleLambdaList(ctx.expressions());
         }
 
-        return handleFunctionCallList(ctx.expressions());
+        // Handle plain list
+        return handlePlainList(ctx.expressions());
     }
 
     private ExpressionNode handleDefineList(final ScheminoParser.ExpressionsContext ctx) {
@@ -137,7 +146,7 @@ public class NodeFactory {
         return new LambdaNode(parameters, body);
     }
 
-    private ExpressionNode handleFunctionCallList(final ScheminoParser.ExpressionsContext ctx) {
+    private ExpressionNode handlePlainList(final ScheminoParser.ExpressionsContext ctx) {
         final List<ExpressionNode> items = ctx.expression()
                 .stream()
                 .map(this::visitExpression)
@@ -145,5 +154,4 @@ public class NodeFactory {
 
         return new ListNode(items);
     }
-
 }

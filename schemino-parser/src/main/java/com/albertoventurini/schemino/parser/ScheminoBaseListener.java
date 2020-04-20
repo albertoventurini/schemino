@@ -148,6 +148,18 @@ public class ScheminoBaseListener implements ScheminoListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterLambda(ScheminoParser.LambdaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLambda(ScheminoParser.LambdaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterSymbol(ScheminoParser.SymbolContext ctx) { }
 	/**
 	 * {@inheritDoc}

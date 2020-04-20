@@ -17,30 +17,30 @@ public class ScheminoParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, DEFINE=4, BOOLEAN=5, LONG=6, SYMBOL=7, STRING=8, 
-		COMMENT=9, WS=10;
+		T__0=1, T__1=2, T__2=3, DEFINE=4, LAMBDA=5, BOOLEAN=6, LONG=7, SYMBOL=8, 
+		STRING=9, COMMENT=10, WS=11;
 	public static final int
 		RULE_program = 0, RULE_expressions = 1, RULE_expression = 2, RULE_quote = 3, 
 		RULE_list = 4, RULE_atom = 5, RULE_bool = 6, RULE_number = 7, RULE_string = 8, 
-		RULE_keyword = 9, RULE_define = 10, RULE_symbol = 11;
+		RULE_keyword = 9, RULE_define = 10, RULE_lambda = 11, RULE_symbol = 12;
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"program", "expressions", "expression", "quote", "list", "atom", "bool", 
-			"number", "string", "keyword", "define", "symbol"
+			"number", "string", "keyword", "define", "lambda", "symbol"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'''", "'('", "')'", "'define'"
+			null, "'''", "'('", "')'", "'define'", "'lambda'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, null, "DEFINE", "BOOLEAN", "LONG", "SYMBOL", "STRING", 
-			"COMMENT", "WS"
+			null, null, null, null, "DEFINE", "LAMBDA", "BOOLEAN", "LONG", "SYMBOL", 
+			"STRING", "COMMENT", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -124,9 +124,9 @@ public class ScheminoParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(24);
+			setState(26);
 			expressions();
-			setState(25);
+			setState(27);
 			match(EOF);
 			}
 		}
@@ -174,17 +174,17 @@ public class ScheminoParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(30);
+			setState(32);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << DEFINE) | (1L << BOOLEAN) | (1L << LONG) | (1L << SYMBOL) | (1L << STRING))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << DEFINE) | (1L << LAMBDA) | (1L << BOOLEAN) | (1L << LONG) | (1L << SYMBOL) | (1L << STRING))) != 0)) {
 				{
 				{
-				setState(27);
+				setState(29);
 				expression();
 				}
 				}
-				setState(32);
+				setState(34);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -234,31 +234,32 @@ public class ScheminoParser extends Parser {
 		ExpressionContext _localctx = new ExpressionContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_expression);
 		try {
-			setState(36);
+			setState(38);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case DEFINE:
+			case LAMBDA:
 			case BOOLEAN:
 			case LONG:
 			case SYMBOL:
 			case STRING:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(33);
+				setState(35);
 				atom();
 				}
 				break;
 			case T__0:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(34);
+				setState(36);
 				quote();
 				}
 				break;
 			case T__1:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(35);
+				setState(37);
 				list();
 				}
 				break;
@@ -306,9 +307,9 @@ public class ScheminoParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(38);
+			setState(40);
 			match(T__0);
-			setState(39);
+			setState(41);
 			expression();
 			}
 		}
@@ -352,11 +353,11 @@ public class ScheminoParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(41);
-			match(T__1);
-			setState(42);
-			expressions();
 			setState(43);
+			match(T__1);
+			setState(44);
+			expressions();
+			setState(45);
 			match(T__2);
 			}
 		}
@@ -410,41 +411,42 @@ public class ScheminoParser extends Parser {
 		AtomContext _localctx = new AtomContext(_ctx, getState());
 		enterRule(_localctx, 10, RULE_atom);
 		try {
-			setState(50);
+			setState(52);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case LONG:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(45);
+				setState(47);
 				number();
 				}
 				break;
 			case BOOLEAN:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(46);
+				setState(48);
 				bool();
 				}
 				break;
 			case STRING:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(47);
+				setState(49);
 				string();
 				}
 				break;
 			case DEFINE:
+			case LAMBDA:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(48);
+				setState(50);
 				keyword();
 				}
 				break;
 			case SYMBOL:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(49);
+				setState(51);
 				symbol();
 				}
 				break;
@@ -490,7 +492,7 @@ public class ScheminoParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(52);
+			setState(54);
 			match(BOOLEAN);
 			}
 		}
@@ -532,7 +534,7 @@ public class ScheminoParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(54);
+			setState(56);
 			match(LONG);
 			}
 		}
@@ -574,7 +576,7 @@ public class ScheminoParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(56);
+			setState(58);
 			match(STRING);
 			}
 		}
@@ -592,6 +594,9 @@ public class ScheminoParser extends Parser {
 	public static class KeywordContext extends ParserRuleContext {
 		public DefineContext define() {
 			return getRuleContext(DefineContext.class,0);
+		}
+		public LambdaContext lambda() {
+			return getRuleContext(LambdaContext.class,0);
 		}
 		public KeywordContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -616,10 +621,25 @@ public class ScheminoParser extends Parser {
 		KeywordContext _localctx = new KeywordContext(_ctx, getState());
 		enterRule(_localctx, 18, RULE_keyword);
 		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(58);
-			define();
+			setState(62);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case DEFINE:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(60);
+				define();
+				}
+				break;
+			case LAMBDA:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(61);
+				lambda();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -660,8 +680,50 @@ public class ScheminoParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(60);
+			setState(64);
 			match(DEFINE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class LambdaContext extends ParserRuleContext {
+		public TerminalNode LAMBDA() { return getToken(ScheminoParser.LAMBDA, 0); }
+		public LambdaContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_lambda; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ScheminoListener ) ((ScheminoListener)listener).enterLambda(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ScheminoListener ) ((ScheminoListener)listener).exitLambda(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ScheminoVisitor ) return ((ScheminoVisitor<? extends T>)visitor).visitLambda(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final LambdaContext lambda() throws RecognitionException {
+		LambdaContext _localctx = new LambdaContext(_ctx, getState());
+		enterRule(_localctx, 22, RULE_lambda);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(66);
+			match(LAMBDA);
 			}
 		}
 		catch (RecognitionException re) {
@@ -698,11 +760,11 @@ public class ScheminoParser extends Parser {
 
 	public final SymbolContext symbol() throws RecognitionException {
 		SymbolContext _localctx = new SymbolContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_symbol);
+		enterRule(_localctx, 24, RULE_symbol);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(62);
+			setState(68);
 			match(SYMBOL);
 			}
 		}
@@ -718,22 +780,24 @@ public class ScheminoParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\fC\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\rI\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4"+
-		"\f\t\f\4\r\t\r\3\2\3\2\3\2\3\3\7\3\37\n\3\f\3\16\3\"\13\3\3\4\3\4\3\4"+
-		"\5\4\'\n\4\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\5\7\65\n\7"+
-		"\3\b\3\b\3\t\3\t\3\n\3\n\3\13\3\13\3\f\3\f\3\r\3\r\3\r\2\2\16\2\4\6\b"+
-		"\n\f\16\20\22\24\26\30\2\2\2=\2\32\3\2\2\2\4 \3\2\2\2\6&\3\2\2\2\b(\3"+
-		"\2\2\2\n+\3\2\2\2\f\64\3\2\2\2\16\66\3\2\2\2\208\3\2\2\2\22:\3\2\2\2\24"+
-		"<\3\2\2\2\26>\3\2\2\2\30@\3\2\2\2\32\33\5\4\3\2\33\34\7\2\2\3\34\3\3\2"+
-		"\2\2\35\37\5\6\4\2\36\35\3\2\2\2\37\"\3\2\2\2 \36\3\2\2\2 !\3\2\2\2!\5"+
-		"\3\2\2\2\" \3\2\2\2#\'\5\f\7\2$\'\5\b\5\2%\'\5\n\6\2&#\3\2\2\2&$\3\2\2"+
-		"\2&%\3\2\2\2\'\7\3\2\2\2()\7\3\2\2)*\5\6\4\2*\t\3\2\2\2+,\7\4\2\2,-\5"+
-		"\4\3\2-.\7\5\2\2.\13\3\2\2\2/\65\5\20\t\2\60\65\5\16\b\2\61\65\5\22\n"+
-		"\2\62\65\5\24\13\2\63\65\5\30\r\2\64/\3\2\2\2\64\60\3\2\2\2\64\61\3\2"+
-		"\2\2\64\62\3\2\2\2\64\63\3\2\2\2\65\r\3\2\2\2\66\67\7\7\2\2\67\17\3\2"+
-		"\2\289\7\b\2\29\21\3\2\2\2:;\7\n\2\2;\23\3\2\2\2<=\5\26\f\2=\25\3\2\2"+
-		"\2>?\7\6\2\2?\27\3\2\2\2@A\7\t\2\2A\31\3\2\2\2\5 &\64";
+		"\f\t\f\4\r\t\r\4\16\t\16\3\2\3\2\3\2\3\3\7\3!\n\3\f\3\16\3$\13\3\3\4\3"+
+		"\4\3\4\5\4)\n\4\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\5\7\67"+
+		"\n\7\3\b\3\b\3\t\3\t\3\n\3\n\3\13\3\13\5\13A\n\13\3\f\3\f\3\r\3\r\3\16"+
+		"\3\16\3\16\2\2\17\2\4\6\b\n\f\16\20\22\24\26\30\32\2\2\2C\2\34\3\2\2\2"+
+		"\4\"\3\2\2\2\6(\3\2\2\2\b*\3\2\2\2\n-\3\2\2\2\f\66\3\2\2\2\168\3\2\2\2"+
+		"\20:\3\2\2\2\22<\3\2\2\2\24@\3\2\2\2\26B\3\2\2\2\30D\3\2\2\2\32F\3\2\2"+
+		"\2\34\35\5\4\3\2\35\36\7\2\2\3\36\3\3\2\2\2\37!\5\6\4\2 \37\3\2\2\2!$"+
+		"\3\2\2\2\" \3\2\2\2\"#\3\2\2\2#\5\3\2\2\2$\"\3\2\2\2%)\5\f\7\2&)\5\b\5"+
+		"\2\')\5\n\6\2(%\3\2\2\2(&\3\2\2\2(\'\3\2\2\2)\7\3\2\2\2*+\7\3\2\2+,\5"+
+		"\6\4\2,\t\3\2\2\2-.\7\4\2\2./\5\4\3\2/\60\7\5\2\2\60\13\3\2\2\2\61\67"+
+		"\5\20\t\2\62\67\5\16\b\2\63\67\5\22\n\2\64\67\5\24\13\2\65\67\5\32\16"+
+		"\2\66\61\3\2\2\2\66\62\3\2\2\2\66\63\3\2\2\2\66\64\3\2\2\2\66\65\3\2\2"+
+		"\2\67\r\3\2\2\289\7\b\2\29\17\3\2\2\2:;\7\t\2\2;\21\3\2\2\2<=\7\13\2\2"+
+		"=\23\3\2\2\2>A\5\26\f\2?A\5\30\r\2@>\3\2\2\2@?\3\2\2\2A\25\3\2\2\2BC\7"+
+		"\6\2\2C\27\3\2\2\2DE\7\7\2\2E\31\3\2\2\2FG\7\n\2\2G\33\3\2\2\2\6\"(\66"+
+		"@";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

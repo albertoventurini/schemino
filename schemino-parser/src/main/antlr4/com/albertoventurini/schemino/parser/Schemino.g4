@@ -30,9 +30,11 @@ number: LONG;
 
 string : STRING;
 
-keyword: define;
+keyword: define | lambda;
 
 define: DEFINE;
+
+lambda: LAMBDA;
 
 symbol: SYMBOL;
 
@@ -42,6 +44,8 @@ symbol: SYMBOL;
 
 // The 'define' keyword
 DEFINE: 'define';
+
+LAMBDA: 'lambda';
 
 // Boolean atoms
 BOOLEAN : 'true' | 'false' ;

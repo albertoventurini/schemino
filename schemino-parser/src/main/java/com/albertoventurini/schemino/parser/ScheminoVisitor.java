@@ -77,6 +77,12 @@ public interface ScheminoVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDefine(ScheminoParser.DefineContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ScheminoParser#lambda}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLambda(ScheminoParser.LambdaContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ScheminoParser#symbol}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
