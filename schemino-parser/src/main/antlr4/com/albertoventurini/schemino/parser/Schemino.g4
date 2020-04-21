@@ -12,7 +12,7 @@ expression
 
 quote: '\'' expression;
 
-list: '(' expressions ')' ;
+list: '(' expressions ')';
 
 atom
     : number

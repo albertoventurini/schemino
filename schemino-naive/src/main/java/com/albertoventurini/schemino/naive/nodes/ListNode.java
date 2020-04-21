@@ -84,7 +84,7 @@ public class ListNode extends ExpressionNode {
     }
 
     /**
-     * Consider this list as a function all. The first items contains the function to call,
+     * Consider this list as a function call. The first items contains the function to call,
      * the other items are the arguments.
      * @param frame the evaluation frame
      * @param function the function to call, which has been already evaluated

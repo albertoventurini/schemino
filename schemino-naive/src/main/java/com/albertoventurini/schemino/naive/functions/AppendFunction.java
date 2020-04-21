@@ -3,32 +3,24 @@ package com.albertoventurini.schemino.naive.functions;
 import com.albertoventurini.schemino.naive.Frame;
 import com.albertoventurini.schemino.naive.nodes.ExpressionNode;
 import com.albertoventurini.schemino.naive.types.ScheminoFunction;
+import com.albertoventurini.schemino.naive.types.ScheminoList;
 import com.albertoventurini.schemino.naive.types.ScheminoType;
 import com.albertoventurini.schemino.naive.types.TypedObject;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class EqualsFunction implements ScheminoFunction {
+public class AppendFunction implements ScheminoFunction {
 
     @Override
     public TypedObject apply(final Frame frame, final List<ExpressionNode> arguments) {
 
-        // The 'zero' of equals is true
-        if (arguments.isEmpty()) {
-            return new TypedObject(ScheminoType.BOOLEAN, true);
-        }
-        
-        final boolean allEquals = arguments
+        final List<TypedObject> items = arguments
                 .stream()
-                .map(a -> a.evalLong(frame))
-                .distinct()
-                .count() == 1;
+                .map(a -> a.evalList(frame))
+                .flatMap(l -> l.getItems().stream())
+                .collect(Collectors.toList());
 
-        return new TypedObject(ScheminoType.BOOLEAN, allEquals);
-    }
-
-    @Override
-    public String toString() {
-        return "EqualsFunction";
+        return new TypedObject(ScheminoType.LIST, new ScheminoList(items));
     }
 }

@@ -2,6 +2,9 @@ package com.albertoventurini.schemino.naive.nodes;
 
 import com.albertoventurini.schemino.naive.Frame;
 import com.albertoventurini.schemino.naive.functions.AddFunction;
+import com.albertoventurini.schemino.naive.functions.AppendFunction;
+import com.albertoventurini.schemino.naive.functions.CarFunction;
+import com.albertoventurini.schemino.naive.functions.CdrFunction;
 import com.albertoventurini.schemino.naive.functions.CondFunction;
 import com.albertoventurini.schemino.naive.functions.EqualsFunction;
 import com.albertoventurini.schemino.naive.functions.GreaterThanFunction;
@@ -45,6 +48,9 @@ public class ProgramNode extends ExpressionNode {
         frame.putFunction(">", new GreaterThanFunction());
         frame.putFunction("<", new LessThanFunction());
         frame.putFunction("print", new PrintFunction());
+        frame.putFunction("car", new CarFunction());
+        frame.putFunction("cdr", new CdrFunction());
+        frame.putFunction("append", new AppendFunction());
 
         return eval(frame);
     }

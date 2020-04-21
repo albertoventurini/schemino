@@ -32,6 +32,10 @@ public class TypedObject {
         return value;
     }
 
+    public static TypedObject ofLong(final long value) {
+        return new TypedObject(ScheminoType.LONG, value);
+    }
+
     public long getLongOrThrow() {
         if (type != ScheminoType.LONG) {
             throw new TypeMismatch(ScheminoType.LONG, type);
@@ -51,6 +55,13 @@ public class TypedObject {
             throw new TypeMismatch(ScheminoType.FUNCTION, type);
         }
         return (ScheminoFunction) value;
+    }
+
+    public ScheminoList getListOrThrow() {
+        if (type != ScheminoType.LIST) {
+            throw new TypeMismatch(ScheminoType.LIST, type);
+        }
+        return (ScheminoList) value;
     }
 
     @Override

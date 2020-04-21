@@ -4,11 +4,6 @@ import com.albertoventurini.schemino.naive.exceptions.UnknownSymbol;
 import com.albertoventurini.schemino.naive.types.ScheminoFunction;
 import com.albertoventurini.schemino.naive.types.ScheminoList;
 import com.albertoventurini.schemino.naive.types.ScheminoType;
-import com.albertoventurini.schemino.naive.types.TypedObject;
-import com.albertoventurini.schemino.parser.ScheminoLexer;
-import com.albertoventurini.schemino.parser.ScheminoParser;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -16,7 +11,7 @@ import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ProgramTest {
+public class ProgramTest extends BaseTest {
 
     @Test
     public void oneNumber_returnsTheNumber() {
@@ -205,12 +200,12 @@ public class ProgramTest {
         assertEquals("1\n2\n", outContent.toString());
     }
 
-    private TypedObject evaluateProgram(final String source) {
-        final var lexer = new ScheminoLexer(CharStreams.fromString(source));
-        final var tokenStream = new CommonTokenStream(lexer);
-        final var parser = new ScheminoParser(tokenStream);
-
-        final var node = new NodeFactory().createProgramNode(parser);
-        return node.run();
-    }
+//    private TypedObject evaluateProgram(final String source) {
+//        final var lexer = new ScheminoLexer(CharStreams.fromString(source));
+//        final var tokenStream = new CommonTokenStream(lexer);
+//        final var parser = new ScheminoParser(tokenStream);
+//
+//        final var node = new NodeFactory().createProgramNode(parser);
+//        return node.run();
+//    }
 }

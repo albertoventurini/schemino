@@ -13,4 +13,8 @@ public class ScheminoList {
     public List<TypedObject> getItems() {
         return items;
     }
+
+    public TypedObject get(final int index) {
+        return items.get(index);
+    }
 }

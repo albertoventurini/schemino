@@ -106,7 +106,7 @@ public class NodeFactory {
     }
 
     private ExpressionNode visitList(final ScheminoParser.ListContext ctx) {
-        if (ctx.expressions().isEmpty()) {
+        if (ctx.expressions().expression().isEmpty()) {
             return new ListNode(Collections.emptyList());
         }
 
