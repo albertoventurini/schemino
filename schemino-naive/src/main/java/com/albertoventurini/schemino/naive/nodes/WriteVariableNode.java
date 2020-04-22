@@ -30,19 +30,11 @@ public class WriteVariableNode extends ExpressionNode {
 
     @Override
     public TypedObject eval(final Frame frame) {
-        if (expression instanceof LongNode) {
-            return new TypedObject(ScheminoType.LONG, evalLong(frame));
-        } else if (expression instanceof LambdaNode) {
-            return new TypedObject(ScheminoType.FUNCTION, evalFunction(frame));
-        } else if (expression instanceof ReadVariableNode) {
-            final String name = symbolNode.evalString(frame);
-            final TypedObject value = expression.eval(frame);
-            frame.putObject(name, value);
+        final String name = symbolNode.evalString(frame);
+        final TypedObject value = expression.eval(frame);
+        frame.putObject(name, value);
 
-            return value;
-        }
-
-        throw new RuntimeException("unsupported");
+        return value;
     }
 
     @Override
@@ -61,5 +53,13 @@ public class WriteVariableNode extends ExpressionNode {
         frame.putFunction(name, value);
 
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return "WriteVariableNode{" +
+                "symbolNode=" + symbolNode +
+                ", expression=" + expression +
+                '}';
     }
 }

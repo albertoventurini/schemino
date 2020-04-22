@@ -1,5 +1,6 @@
 package com.albertoventurini.schemino.naive;
 
+import com.albertoventurini.schemino.naive.nodes.BlockNode;
 import com.albertoventurini.schemino.naive.nodes.BooleanNode;
 import com.albertoventurini.schemino.naive.nodes.ExpressionNode;
 import com.albertoventurini.schemino.naive.nodes.LambdaNode;
@@ -48,6 +49,8 @@ public class NodeFactory {
             return visitList(ctx.list());
         } else if (ctx.atom() != null) {
             return visitAtom(ctx.atom());
+        } else if (ctx.block() != null) {
+            return visitBlock(ctx.block());
         }
 
         throw new RuntimeException("Unable to create an expression for context: " + ctx);
@@ -103,6 +106,19 @@ public class NodeFactory {
         }
 
         throw new RuntimeException("Invalid string: " + ctx);
+    }
+
+    private ExpressionNode visitBlock(final ScheminoParser.BlockContext ctx) {
+        if (ctx.expressions().expression().isEmpty()) {
+            return new BlockNode(Collections.emptyList());
+        }
+
+        final List<ExpressionNode> items = ctx.expressions().expression()
+                .stream()
+                .map(this::visitExpression)
+                .collect(Collectors.toUnmodifiableList());
+
+        return new BlockNode(items);
     }
 
     private ExpressionNode visitList(final ScheminoParser.ListContext ctx) {

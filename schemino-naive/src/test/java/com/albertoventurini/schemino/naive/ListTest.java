@@ -38,4 +38,11 @@ public class ListTest extends BaseTest {
         assertEquals(2L, result.getListOrThrow().get(1).getLongOrThrow());
         assertEquals(3L, result.getListOrThrow().get(2).getLongOrThrow());
     }
+
+//    @Test
+//    public void foldLeft_foldsLists() {
+//        final var result = evaluateProgram("(fold-left + 0 (1 2 3 4 5))");
+//
+//        assertEquals(15L, result.getValue());
+//    }
 }

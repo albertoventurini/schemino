@@ -6,6 +6,10 @@ import com.albertoventurini.schemino.parser.ScheminoParser;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 public abstract class BaseTest {
 
     protected TypedObject evaluateProgram(final String source) {
@@ -15,5 +19,14 @@ public abstract class BaseTest {
 
         final var node = new NodeFactory().createProgramNode(parser);
         return node.run();
+    }
+
+    protected TypedObject evaluateProgram(final Path path) {
+        try {
+            final String source = Files.readString(path);
+            return evaluateProgram(source);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

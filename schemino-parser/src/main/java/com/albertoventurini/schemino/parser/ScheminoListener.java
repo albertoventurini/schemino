@@ -58,6 +58,16 @@ public interface ScheminoListener extends ParseTreeListener {
 	 */
 	void exitList(ScheminoParser.ListContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ScheminoParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlock(ScheminoParser.BlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ScheminoParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlock(ScheminoParser.BlockContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ScheminoParser#atom}.
 	 * @param ctx the parse tree
 	 */

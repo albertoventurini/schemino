@@ -41,6 +41,12 @@ public interface ScheminoVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitList(ScheminoParser.ListContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ScheminoParser#block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBlock(ScheminoParser.BlockContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ScheminoParser#atom}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

@@ -8,6 +8,9 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.nio.file.Path;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -200,12 +203,10 @@ public class ProgramTest extends BaseTest {
         assertEquals("1\n2\n", outContent.toString());
     }
 
-//    private TypedObject evaluateProgram(final String source) {
-//        final var lexer = new ScheminoLexer(CharStreams.fromString(source));
-//        final var tokenStream = new CommonTokenStream(lexer);
-//        final var parser = new ScheminoParser(tokenStream);
-//
-//        final var node = new NodeFactory().createProgramNode(parser);
-//        return node.run();
-//    }
+    @Test
+    public void closures_shouldBeEvaluatedCorrectly() {
+        final var result = evaluateProgram(Path.of("src/test/resources/closure.sco"));
+
+        assertEquals(42L, result.getValue());
+    }
 }

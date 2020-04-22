@@ -95,13 +95,11 @@ public class ListNode extends ExpressionNode {
             throw new InvalidFunction();
         }
 
-        // Create a new frame that points to the current frame
-        final Frame functionFrame = Frame.fromParent(frame);
-
-        // Evaluate the arguments. Skip 1 because the first item is the function
+        // Collect the arguments. Skip 1 because the first item is the function expression.
         final List<ExpressionNode> arguments = items.stream().skip(1).collect(Collectors.toList());
 
-        return function.apply(functionFrame, arguments);
+        // Apply the function
+        return function.apply(frame, arguments);
     }
 
     @Override

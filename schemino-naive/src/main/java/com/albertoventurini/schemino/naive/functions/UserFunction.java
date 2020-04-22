@@ -1,6 +1,7 @@
 package com.albertoventurini.schemino.naive.functions;
 
 import com.albertoventurini.schemino.naive.Frame;
+import com.albertoventurini.schemino.naive.exceptions.InvalidArgumentNumber;
 import com.albertoventurini.schemino.naive.nodes.ExpressionNode;
 import com.albertoventurini.schemino.naive.types.ScheminoFunction;
 import com.albertoventurini.schemino.naive.types.TypedObject;
@@ -17,23 +18,36 @@ public class UserFunction implements ScheminoFunction {
     /**
      * The parameters to this function
      */
-    protected final List<String> parameters;
+    private final List<String> parameters;
 
     /**
      * The body of this function
      */
-    protected final ExpressionNode body;
+    private final ExpressionNode body;
+
+    /**
+     * The frame where the lambda function is declared.
+     * This ensures that the function is a proper closure.
+     */
+    private final Frame parentFrame;
 
     public UserFunction(
             final List<String> parameters,
-            final ExpressionNode body) {
+            final ExpressionNode body,
+            final Frame parentFrame) {
         this.parameters = parameters;
         this.body = body;
+        this.parentFrame = parentFrame;
     }
 
     @Override
     public TypedObject apply(final Frame frame, final List<ExpressionNode> arguments) {
-        assert(arguments.size() == parameters.size());
+        if (arguments.size() != parameters.size()) {
+            throw new InvalidArgumentNumber(parameters.size(), arguments.size());
+        }
+
+        // Create a new frame that points to the parent frame
+        final Frame functionFrame = Frame.fromParent(parentFrame);
 
         // A map to temporarily store the evaluated arguments. We first put those in
         // an intermediate map, because if we put them straight on the frame,
@@ -48,9 +62,9 @@ public class UserFunction implements ScheminoFunction {
         }
 
         // Once we have evaluated all arguments, we put them into the function frame.
-        evaluatedArguments.forEach(frame::putObject);
+        evaluatedArguments.forEach(functionFrame::putObject);
 
-        return body.eval(frame);
+        return body.eval(functionFrame);
     }
 
     @Override

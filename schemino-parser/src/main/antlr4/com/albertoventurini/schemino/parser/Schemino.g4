@@ -8,11 +8,14 @@ expression
     : atom
     | quote
     | list
+    | block
     ;
 
 quote: '\'' expression;
 
 list: '(' expressions ')';
+
+block: '{' expressions '}';
 
 atom
     : number
@@ -54,7 +57,11 @@ LONG: '-'? [0-9]+[lL]?;
 
 //SYMBOL : ~('#'|'"'|'\''|[()]|[ \t\r\n]) ~('"'|'\''|[()]|[ \t\r\n])* ;
 
-SYMBOL: [a-zA-Z+*/\-=><]+;
+SYMBOL: SYMBOL_HEAD SYMBOL_REST*;
+
+SYMBOL_HEAD: [a-zA-Z+*/\-=><];
+
+SYMBOL_REST: SYMBOL_HEAD | '0'..'9';
 
 STRING : '"' ( ~'"' | '\\' '"' )* '"';
 
