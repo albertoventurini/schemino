@@ -39,7 +39,7 @@ public class FrameSlot {
     @Override
     public String toString() {
         return "FrameSlot{" +
-                "name='" + value + '\'' +
+                "value='" + value + '\'' +
                 ", type=" + type +
                 '}';
     }

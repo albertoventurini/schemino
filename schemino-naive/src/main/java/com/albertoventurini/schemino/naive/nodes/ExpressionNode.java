@@ -10,36 +10,34 @@ import com.albertoventurini.schemino.naive.types.TypedObject;
 public abstract class ExpressionNode extends ScheminoNode {
 
     public TypedObject eval(final Frame frame) {
-        throw new EvaluationError("Not implemented");
+        throw new EvaluationError("Unable to evaluated as a TypedObject: " + toString());
     }
 
     public long evalLong(final Frame frame) {
-        throw new EvaluationError("Unable to evaluate as a long");
+        throw new EvaluationError("Unable to evaluate as a long: " + toString());
     }
 
     public double evalDouble(final Frame frame) {
-        throw new EvaluationError("Unable to evaluate as a double");
+        throw new EvaluationError("Unable to evaluate as a double: " + toString());
     }
 
     public boolean evalBoolean(final Frame frame) {
-        throw new EvaluationError("Unable to evaluate as a boolean");
+        throw new EvaluationError("Unable to evaluate as a boolean: " + toString());
     }
 
     public String evalString(final Frame frame) {
-        throw new EvaluationError("Unable to evaluate as a string");
+        throw new EvaluationError("Unable to evaluate as a string: " + toString());
     }
 
     public ScheminoFunction evalFunction(final Frame frame) {
-        throw new EvaluationError("Unable to evaluate as a function");
+        throw new EvaluationError("Unable to evaluate as a function: " + toString());
     }
 
     public ScheminoDictionary evalDictionary(final Frame frame) {
-        throw new EvaluationError("Unable to evaluate as a dictionary");
+        throw new EvaluationError("Unable to evaluate as a dictionary: " + toString());
     }
 
     public ScheminoList evalList(final Frame frame) {
-        throw new EvaluationError("Unable to evaluate as a list");
+        throw new EvaluationError("Unable to evaluate as a list: " + toString());
     }
-
-
 }

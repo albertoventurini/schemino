@@ -4,7 +4,9 @@ import com.albertoventurini.schemino.naive.Frame;
 import com.albertoventurini.schemino.naive.FrameSlot;
 import com.albertoventurini.schemino.naive.exceptions.InvalidFunction;
 import com.albertoventurini.schemino.naive.exceptions.UnknownSymbol;
+import com.albertoventurini.schemino.naive.types.ScheminoDictionary;
 import com.albertoventurini.schemino.naive.types.ScheminoFunction;
+import com.albertoventurini.schemino.naive.types.ScheminoList;
 import com.albertoventurini.schemino.naive.types.TypedObject;
 
 /**
@@ -35,6 +37,33 @@ public class ReadVariableNode extends ExpressionNode {
     public long evalLong(final Frame frame) {
         final String name = symbolNode.evalString(frame);
         return frame.getLong(name);
+    }
+
+    @Override
+    public double evalDouble(final Frame frame) {
+        throw new RuntimeException("Unimplemented");
+    }
+
+    @Override
+    public boolean evalBoolean(final Frame frame) {
+        final String name = symbolNode.evalString(frame);
+        return frame.getBoolean(name);
+    }
+
+    @Override
+    public String evalString(final Frame frame) {
+        throw new RuntimeException("Unimplemented");
+    }
+
+    @Override
+    public ScheminoDictionary evalDictionary(final Frame frame) {
+        throw new RuntimeException("Unimplemented");
+    }
+
+    @Override
+    public ScheminoList evalList(final Frame frame) {
+        final String name = symbolNode.evalString(frame);
+        return frame.getList(name);
     }
 
     @Override

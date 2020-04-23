@@ -42,4 +42,13 @@ public class ListTest extends BaseTest {
 
         assertEquals(15L, result.getValue());
     }
+
+    @Test
+    public void foldLeft_withLambdas_shouldWork() {
+        final var result = evaluateProgram("" +
+                "(define sum (lambda (l) (fold-left + 0 l)))\n" +
+                "(sum (1 2 3 4 5))");
+
+        assertEquals(15L, result.getValue());
+    }
 }

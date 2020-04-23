@@ -3,6 +3,7 @@ package com.albertoventurini.schemino.naive;
 import com.albertoventurini.schemino.naive.exceptions.FrameSlotNotFound;
 import com.albertoventurini.schemino.naive.exceptions.TypeMismatch;
 import com.albertoventurini.schemino.naive.types.ScheminoFunction;
+import com.albertoventurini.schemino.naive.types.ScheminoList;
 import com.albertoventurini.schemino.naive.types.ScheminoType;
 import com.albertoventurini.schemino.naive.types.TypedObject;
 
@@ -116,6 +117,42 @@ public class Frame {
         }
 
         return (ScheminoFunction) slot.getValue();
+    }
+
+    /**
+     * Find the slot identified by `slotName` and return its boolean value.
+     * If the slot type is not boolean, throw an exception.
+     *
+     * @param slotName the slot name
+     * @return the slot value, as a boolean
+     * @throws TypeMismatch if the slot type is not boolean
+     */
+    public boolean getBoolean(final String slotName) {
+        final FrameSlot slot = resolveSlotOrThrow(slotName);
+
+        if (slot.getType() != ScheminoType.BOOLEAN) {
+            throw new TypeMismatch(ScheminoType.BOOLEAN, slot.getType());
+        }
+
+        return (boolean) slot.getValue();
+    }
+
+    /**
+     * Find the slot identified by `slotName` and return its ScheminoList value.
+     * If the slot type is not ScheminoList, throw an exception.
+     *
+     * @param slotName the slot name
+     * @return the slot value, as a ScheminoList
+     * @throws TypeMismatch if the slot type is not ScheminoList
+     */
+    public ScheminoList getList(final String slotName) {
+        final FrameSlot slot = resolveSlotOrThrow(slotName);
+
+        if (slot.getType() != ScheminoType.LIST) {
+            throw new TypeMismatch(ScheminoType.LIST, slot.getType());
+        }
+
+        return (ScheminoList) slot.getValue();
     }
 
     public void putObject(final String slotName, final TypedObject typedObject) {

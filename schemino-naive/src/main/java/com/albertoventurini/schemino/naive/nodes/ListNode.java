@@ -10,6 +10,7 @@ import com.albertoventurini.schemino.naive.types.ScheminoType;
 import com.albertoventurini.schemino.naive.types.TypedObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +39,7 @@ public class ListNode extends ExpressionNode {
     @Override
     public TypedObject eval(final Frame frame) {
         if (items.isEmpty()) {
-            return new TypedObject(ScheminoType.LIST, items);
+            return new TypedObject(ScheminoType.LIST, new ScheminoList(Collections.emptyList()));
         }
 
         final TypedObject firstItemEval = items.get(0).eval(frame);
@@ -53,7 +54,7 @@ public class ListNode extends ExpressionNode {
             items.stream().skip(1).forEach(item -> evaluatedItems.add(item.eval(frame)));
         }
 
-        return new TypedObject(ScheminoType.LIST, evaluatedItems);
+        return new TypedObject(ScheminoType.LIST, new ScheminoList(evaluatedItems));
     }
 
     @Override

@@ -21,4 +21,9 @@ public class BlockNode extends ExpressionNode {
 
         return expressions.get(expressions.size() - 1).eval(frame);
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }
