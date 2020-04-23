@@ -1,44 +1,47 @@
-//package com.albertoventurini.schemino.naive.functions;
-//
-//import com.albertoventurini.schemino.naive.Frame;
-//import com.albertoventurini.schemino.naive.exceptions.InvalidArgumentNumber;
-//import com.albertoventurini.schemino.naive.nodes.ExpressionNode;
-//import com.albertoventurini.schemino.naive.nodes.ListNode;
-//import com.albertoventurini.schemino.naive.types.ScheminoFunction;
-//import com.albertoventurini.schemino.naive.types.ScheminoList;
-//import com.albertoventurini.schemino.naive.types.TypedObject;
-//
-//import java.util.List;
-//
-//public class FoldLeftFunction implements ScheminoFunction {
-//
-//    @Override
-//    public TypedObject apply(final Frame frame, final List<ExpressionNode> arguments) {
-//        if (arguments.size() != 3) {
-//            throw new InvalidArgumentNumber(3, arguments.size());
-//        }
-//
-//        if (!(arguments.get(2) instanceof ListNode)) {
-//            throw new RuntimeException("List expected, but was not given");
-//        }
-//
-//        final ScheminoFunction function = arguments.get(0).evalFunction(frame);
-//        final ExpressionNode zero = arguments.get(1);
-//        final ListNode argumentList = (ListNode) arguments.get(2);
-//
-//        ExpressionNode prev = zero;
-//
-//        for (final ExpressionNode argument : argumentList.getItems()) {
-//            // Create a new frame that points to the current frame
-//            final Frame functionFrame = Frame.fromParent(frame);
-//
-//            function.apply(functionFrame, List.of(prev, argument));
-//
-//            prev = argument;
-//        }
-//    }
-//
-//    private TypedObject applyFunc(final ScheminoFunction function, final List<ExpressionNode> arguments) {
-//
-//    }
-//}
+package com.albertoventurini.schemino.naive.functions;
+
+import com.albertoventurini.schemino.naive.Arguments;
+import com.albertoventurini.schemino.naive.ConcreteArguments;
+import com.albertoventurini.schemino.naive.exceptions.InvalidArgumentNumber;
+import com.albertoventurini.schemino.naive.exceptions.TypeMismatch;
+import com.albertoventurini.schemino.naive.types.ScheminoFunction;
+import com.albertoventurini.schemino.naive.types.ScheminoList;
+import com.albertoventurini.schemino.naive.types.ScheminoType;
+import com.albertoventurini.schemino.naive.types.TypedObject;
+
+import java.util.List;
+
+/**
+ * A built-in function that iterates through a list and applies a binary function,
+ * where the function arguments are the previous result and the current list element.
+ *
+ * Example:
+ *
+ * (fold-left + 0 (1 2 3)) -> 6
+ */
+public class FoldLeftFunction implements ScheminoFunction {
+
+    @Override
+    public TypedObject apply(final Arguments arguments) {
+        if (arguments.size() != 3) {
+            throw new InvalidArgumentNumber(3, arguments.size());
+        }
+
+        if (arguments.get(2).getType() != ScheminoType.LIST) {
+            throw new TypeMismatch(ScheminoType.LIST, arguments.get(2).getType());
+        }
+
+        final ScheminoFunction function = arguments.getFunction(0);
+        final TypedObject zero = arguments.get(1);
+        final ScheminoList argumentList = arguments.getList(2);
+
+        TypedObject acc = zero;
+
+        for (final TypedObject curr : argumentList.getItems()) {
+            final Arguments args = new ConcreteArguments(List.of(acc, curr));
+            acc = function.apply(args);
+        }
+
+        return acc;
+    }
+}

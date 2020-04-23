@@ -1,5 +1,6 @@
 package com.albertoventurini.schemino.naive.functions;
 
+import com.albertoventurini.schemino.naive.Arguments;
 import com.albertoventurini.schemino.naive.Frame;
 import com.albertoventurini.schemino.naive.exceptions.InvalidArgumentNumber;
 import com.albertoventurini.schemino.naive.nodes.ExpressionNode;
@@ -41,7 +42,7 @@ public class UserFunction implements ScheminoFunction {
     }
 
     @Override
-    public TypedObject apply(final Frame frame, final List<ExpressionNode> arguments) {
+    public TypedObject apply(final Arguments arguments) {
         if (arguments.size() != parameters.size()) {
             throw new InvalidArgumentNumber(parameters.size(), arguments.size());
         }
@@ -58,7 +59,8 @@ public class UserFunction implements ScheminoFunction {
         final Map<String, TypedObject> evaluatedArguments = new HashMap<>();
 
         for (int i = 0; i < arguments.size(); i++) {
-            evaluatedArguments.put(parameters.get(i), arguments.get(i).eval(frame));
+            //evaluatedArguments.put(parameters.get(i), arguments.get(i).eval(frame));
+            evaluatedArguments.put(parameters.get(i), arguments.get(i));
         }
 
         // Once we have evaluated all arguments, we put them into the function frame.

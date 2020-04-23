@@ -1,26 +1,28 @@
 package com.albertoventurini.schemino.naive.functions;
 
-import com.albertoventurini.schemino.naive.Frame;
-import com.albertoventurini.schemino.naive.nodes.ExpressionNode;
+import com.albertoventurini.schemino.naive.Arguments;
 import com.albertoventurini.schemino.naive.types.ScheminoFunction;
 import com.albertoventurini.schemino.naive.types.ScheminoType;
 import com.albertoventurini.schemino.naive.types.TypedObject;
 
-import java.util.List;
-
+/**
+ * A built-in function that checks if all arguments are equals.
+ * Example:
+ *
+ * (= 1 1 1) -> true
+ * (= 0 1) -> false
+ */
 public class EqualsFunction implements ScheminoFunction {
 
     @Override
-    public TypedObject apply(final Frame frame, final List<ExpressionNode> arguments) {
+    public TypedObject apply(final Arguments arguments) {
 
         // The 'zero' of equals is true
-        if (arguments.isEmpty()) {
+        if (arguments.size() == 0) {
             return new TypedObject(ScheminoType.BOOLEAN, true);
         }
-        
-        final boolean allEquals = arguments
-                .stream()
-                .map(a -> a.evalLong(frame))
+
+        final boolean allEquals = arguments.mapToObj(arguments::getLong)
                 .distinct()
                 .count() == 1;
 

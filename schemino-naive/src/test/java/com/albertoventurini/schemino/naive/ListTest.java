@@ -3,9 +3,6 @@ package com.albertoventurini.schemino.naive;
 import com.albertoventurini.schemino.naive.types.ScheminoType;
 import org.junit.jupiter.api.Test;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -39,10 +36,10 @@ public class ListTest extends BaseTest {
         assertEquals(3L, result.getListOrThrow().get(2).getLongOrThrow());
     }
 
-//    @Test
-//    public void foldLeft_foldsLists() {
-//        final var result = evaluateProgram("(fold-left + 0 (1 2 3 4 5))");
-//
-//        assertEquals(15L, result.getValue());
-//    }
+    @Test
+    public void foldLeft_foldsLists() {
+        final var result = evaluateProgram("(fold-left + 0 (1 2 3 4 5))");
+
+        assertEquals(15L, result.getValue());
+    }
 }

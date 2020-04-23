@@ -6,12 +6,11 @@ import java.util.Objects;
 
 public class FrameSlot {
 
-    private ScheminoType type;
-    private Object value;
+    private final ScheminoType type;
+    private final Object value;
 
     public FrameSlot(final ScheminoType type, final Object value) {
         this.type = type;
-
         this.value = value;
     }
 

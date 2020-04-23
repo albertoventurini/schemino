@@ -1,12 +1,10 @@
 package com.albertoventurini.schemino.naive.functions;
 
-import com.albertoventurini.schemino.naive.Frame;
-import com.albertoventurini.schemino.naive.nodes.ExpressionNode;
+import com.albertoventurini.schemino.naive.Arguments;
 import com.albertoventurini.schemino.naive.types.ScheminoFunction;
 import com.albertoventurini.schemino.naive.types.ScheminoType;
 import com.albertoventurini.schemino.naive.types.TypedObject;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -15,11 +13,14 @@ import java.util.stream.Collectors;
 public class PrintFunction implements ScheminoFunction {
 
     @Override
-    public TypedObject apply(final Frame frame, final List<ExpressionNode> arguments) {
-        System.out.println(arguments.stream().map(a -> {
-            return a.eval(frame).getValue().toString();
-
-        }).collect(Collectors.joining()));
+    public TypedObject apply(final Arguments arguments) {
+        System.out.println(
+                arguments.mapToObj(i -> arguments.get(i).getValue().toString()).collect(Collectors.joining())
+        );
+//        System.out.println(arguments.stream().map(a -> {
+//            return a.eval(frame).getValue().toString();
+//
+//        }).collect(Collectors.joining()));
 
         return new TypedObject(ScheminoType.UNIT, null);
     }

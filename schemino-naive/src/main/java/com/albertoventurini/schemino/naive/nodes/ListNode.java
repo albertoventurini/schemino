@@ -1,5 +1,7 @@
 package com.albertoventurini.schemino.naive.nodes;
 
+import com.albertoventurini.schemino.naive.Arguments;
+import com.albertoventurini.schemino.naive.ExpressionArguments;
 import com.albertoventurini.schemino.naive.Frame;
 import com.albertoventurini.schemino.naive.exceptions.InvalidFunction;
 import com.albertoventurini.schemino.naive.types.ScheminoFunction;
@@ -96,10 +98,10 @@ public class ListNode extends ExpressionNode {
         }
 
         // Collect the arguments. Skip 1 because the first item is the function expression.
-        final List<ExpressionNode> arguments = items.stream().skip(1).collect(Collectors.toList());
+        final Arguments arguments = new ExpressionArguments(frame, items.stream().skip(1).collect(Collectors.toList()));
 
         // Apply the function
-        return function.apply(frame, arguments);
+        return function.apply(arguments);
     }
 
     @Override

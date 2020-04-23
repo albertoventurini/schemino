@@ -7,6 +7,7 @@ import com.albertoventurini.schemino.naive.functions.CarFunction;
 import com.albertoventurini.schemino.naive.functions.CdrFunction;
 import com.albertoventurini.schemino.naive.functions.CondFunction;
 import com.albertoventurini.schemino.naive.functions.EqualsFunction;
+import com.albertoventurini.schemino.naive.functions.FoldLeftFunction;
 import com.albertoventurini.schemino.naive.functions.GreaterThanFunction;
 import com.albertoventurini.schemino.naive.functions.IfFunction;
 import com.albertoventurini.schemino.naive.functions.LessThanFunction;
@@ -51,6 +52,7 @@ public class ProgramNode extends ExpressionNode {
         frame.putFunction("car", new CarFunction());
         frame.putFunction("cdr", new CdrFunction());
         frame.putFunction("append", new AppendFunction());
+        frame.putFunction("fold-left", new FoldLeftFunction());
 
         return eval(frame);
     }
