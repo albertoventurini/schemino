@@ -2,6 +2,7 @@ package com.albertoventurini.schemino.naive.nodes;
 
 import com.albertoventurini.schemino.naive.Frame;
 import com.albertoventurini.schemino.naive.functions.AddFunction;
+import com.albertoventurini.schemino.naive.functions.AndFunction;
 import com.albertoventurini.schemino.naive.functions.AppendFunction;
 import com.albertoventurini.schemino.naive.functions.CarFunction;
 import com.albertoventurini.schemino.naive.functions.CdrFunction;
@@ -13,6 +14,7 @@ import com.albertoventurini.schemino.naive.functions.IfFunction;
 import com.albertoventurini.schemino.naive.functions.LessThanFunction;
 import com.albertoventurini.schemino.naive.functions.PrintFunction;
 import com.albertoventurini.schemino.naive.functions.QuoteFunction;
+import com.albertoventurini.schemino.naive.functions.SizeFunction;
 import com.albertoventurini.schemino.naive.functions.SubtractFunction;
 import com.albertoventurini.schemino.naive.types.TypedObject;
 
@@ -43,6 +45,7 @@ public class ProgramNode extends ExpressionNode {
         frame.putFunction("+", new AddFunction());
         frame.putFunction("-", new SubtractFunction());
         frame.putFunction("=", new EqualsFunction());
+        frame.putFunction("and", new AndFunction());
         frame.putFunction("quote", new QuoteFunction());
         frame.putFunction("if", new IfFunction());
         frame.putFunction("cond", new CondFunction());
@@ -52,6 +55,7 @@ public class ProgramNode extends ExpressionNode {
         frame.putFunction("car", new CarFunction());
         frame.putFunction("cdr", new CdrFunction());
         frame.putFunction("append", new AppendFunction());
+        frame.putFunction("size", new SizeFunction());
         frame.putFunction("fold-left", new FoldLeftFunction());
 
         return eval(frame);

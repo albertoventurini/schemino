@@ -2,6 +2,7 @@ package com.albertoventurini.schemino.naive.types;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * The list type for Schemino.
@@ -25,6 +26,10 @@ public class ScheminoList {
         return items.get(index);
     }
 
+    public int size() {
+        return items.size();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -40,8 +45,6 @@ public class ScheminoList {
 
     @Override
     public String toString() {
-        return "ScheminoList{" +
-                "items=" + items +
-                '}';
+        return "(" + items.stream().map(TypedObject::toString).collect(Collectors.joining(" ")) + ")";
     }
 }

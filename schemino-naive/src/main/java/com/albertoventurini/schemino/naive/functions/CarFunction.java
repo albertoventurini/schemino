@@ -19,4 +19,9 @@ public class CarFunction implements ScheminoFunction {
         final ScheminoList list = arguments.getList(0);
         return list.getItems().get(0);
     }
+
+    @Override
+    public String toString() {
+        return "CarFunction";
+    }
 }

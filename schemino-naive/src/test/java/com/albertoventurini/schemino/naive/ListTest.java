@@ -37,6 +37,13 @@ public class ListTest extends BaseTest {
     }
 
     @Test
+    public void size_returnsSizeOfList() {
+        final var result = evaluateProgram("(size (1 2 3 4))");
+
+        assertEquals(4L, result.getValue());
+    }
+
+    @Test
     public void foldLeft_foldsLists() {
         final var result = evaluateProgram("(fold-left + 0 (1 2 3 4 5))");
 
