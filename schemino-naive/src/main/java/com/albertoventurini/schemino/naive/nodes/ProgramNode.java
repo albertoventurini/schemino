@@ -44,7 +44,7 @@ public class ProgramNode extends ExpressionNode {
         // Set up built-in functions
         frame.putFunction("+", new AddFunction());
         frame.putFunction("-", new SubtractFunction());
-        frame.putFunction("=", new EqualsFunction());
+        frame.putFunction("==", new EqualsFunction());
         frame.putFunction("and", new AndFunction());
         frame.putFunction("quote", new QuoteFunction());
         frame.putFunction("if", new IfFunction());

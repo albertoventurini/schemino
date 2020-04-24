@@ -28,6 +28,30 @@ public class ScheminoBaseListener implements ScheminoListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterStatements(ScheminoParser.StatementsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStatements(ScheminoParser.StatementsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStatement(ScheminoParser.StatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStatement(ScheminoParser.StatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExpressions(ScheminoParser.ExpressionsContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -47,6 +71,30 @@ public class ScheminoBaseListener implements ScheminoListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExpression(ScheminoParser.ExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAssignment(ScheminoParser.AssignmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAssignment(ScheminoParser.AssignmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArrowFunction(ScheminoParser.ArrowFunctionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrowFunction(ScheminoParser.ArrowFunctionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -179,6 +227,18 @@ public class ScheminoBaseListener implements ScheminoListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSymbol(ScheminoParser.SymbolContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOperator(ScheminoParser.OperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOperator(ScheminoParser.OperatorContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

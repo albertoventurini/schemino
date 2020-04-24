@@ -6,6 +6,7 @@ import com.albertoventurini.schemino.naive.nodes.ExpressionNode;
 import com.albertoventurini.schemino.naive.nodes.LambdaNode;
 import com.albertoventurini.schemino.naive.nodes.ListNode;
 import com.albertoventurini.schemino.naive.nodes.LongNode;
+import com.albertoventurini.schemino.naive.nodes.OperatorNode;
 import com.albertoventurini.schemino.naive.nodes.ProgramNode;
 import com.albertoventurini.schemino.naive.nodes.ReadVariableNode;
 import com.albertoventurini.schemino.naive.nodes.StringNode;
@@ -36,12 +37,36 @@ public class NodeFactory {
     }
 
     private ProgramNode visitProgram(final ScheminoParser.ProgramContext ctx) {
-        final var exprs = visitExpressions(ctx.expressions());
-        return new ProgramNode(exprs);
+        final var nodes = visitStatements(ctx.statements());
+        return new ProgramNode(nodes);
     }
 
-    private List<ExpressionNode> visitExpressions(final ScheminoParser.ExpressionsContext ctx) {
-        return ctx.expression().stream().map(this::visitExpression).collect(Collectors.toUnmodifiableList());
+    private List<ExpressionNode> visitStatements(final ScheminoParser.StatementsContext ctx) {
+        return ctx.statement().stream().map(statementContext -> {
+            if (statementContext.expression() != null) {
+                return visitExpression(statementContext.expression());
+            } else if (statementContext.assignment() != null) {
+                return visitAssignment(statementContext.assignment());
+            } else {
+                throw new RuntimeException("Invalid state");
+            }
+        }).collect(Collectors.toList());
+    }
+
+    private ExpressionNode visitAssignment(final ScheminoParser.AssignmentContext ctx) {
+        final SymbolNode symbolNode = new SymbolNode(ctx.symbol().getText());
+        final ExpressionNode expressionNode = visitExpression(ctx.expression());
+        return new WriteVariableNode(symbolNode, expressionNode);
+    }
+
+    private ExpressionNode visitArrowFunction(final ScheminoParser.ArrowFunctionContext ctx) {
+        final List<String> parameters = ctx.list().expressions().expression()
+                .stream()
+                .map(ParseTree::getText)
+                .collect(Collectors.toUnmodifiableList());
+
+        final ExpressionNode body = visitExpression(ctx.expression());
+        return new LambdaNode(parameters, body);
     }
 
     private ExpressionNode visitExpression(final ScheminoParser.ExpressionContext ctx) {
@@ -51,6 +76,8 @@ public class NodeFactory {
             return visitAtom(ctx.atom());
         } else if (ctx.block() != null) {
             return visitBlock(ctx.block());
+        } else if (ctx.arrowFunction() != null) {
+            return visitArrowFunction(ctx.arrowFunction());
         }
 
         throw new RuntimeException("Unable to create an expression for context: " + ctx);
@@ -67,6 +94,8 @@ public class NodeFactory {
             return visitBoolean(ctx.bool());
         } else if (ctx.string() != null) {
             return visitString(ctx.string());
+        } else if (ctx.operator() != null) {
+            return visitOperator(ctx.operator());
         }
 
         throw new RuntimeException("Unable to create an atom for context: " + ctx.getText());
@@ -108,17 +137,13 @@ public class NodeFactory {
         throw new RuntimeException("Invalid string: " + ctx);
     }
 
+    private ExpressionNode visitOperator(final ScheminoParser.OperatorContext ctx) {
+        return new OperatorNode(ctx.getText());
+    }
+
     private ExpressionNode visitBlock(final ScheminoParser.BlockContext ctx) {
-        if (ctx.expressions().expression().isEmpty()) {
-            return new BlockNode(Collections.emptyList());
-        }
-
-        final List<ExpressionNode> items = ctx.expressions().expression()
-                .stream()
-                .map(this::visitExpression)
-                .collect(Collectors.toUnmodifiableList());
-
-        return new BlockNode(items);
+        final var nodes = visitStatements(ctx.statements());
+        return new BlockNode(nodes);
     }
 
     private ExpressionNode visitList(final ScheminoParser.ListContext ctx) {

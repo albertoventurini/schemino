@@ -5,7 +5,7 @@
 
 (define fib-rec
   (lambda (acc prev n)
-      (if (= 0 n)
+      (if (== 0 n)
         acc
         (fib-rec (+ acc prev) acc (- n 1)))))
 

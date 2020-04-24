@@ -120,7 +120,7 @@ public class ProgramTest extends BaseTest {
 
     @Test
     public void equals_withEqualsValues_returnTrue() {
-        final var result = evaluateProgram("(define x 0)\n(= x 0 0)");
+        final var result = evaluateProgram("(define x 0)\n(== x 0 0)");
 
         assertEquals(ScheminoType.BOOLEAN, result.getType());
         assertTrue((boolean) result.getValue());
@@ -128,7 +128,7 @@ public class ProgramTest extends BaseTest {
 
     @Test
     public void equals_withDifferentValues_returnFalse() {
-        final var result = evaluateProgram("(= 0 1)");
+        final var result = evaluateProgram("(== 0 1)");
 
         assertEquals(ScheminoType.BOOLEAN, result.getType());
         assertFalse((boolean) result.getValue());
@@ -136,7 +136,7 @@ public class ProgramTest extends BaseTest {
 
     @Test
     public void equals_withNoValues_returnTrue() {
-        final var result = evaluateProgram("(=)");
+        final var result = evaluateProgram("(==)");
 
         assertEquals(ScheminoType.BOOLEAN, result.getType());
         assertTrue((boolean) result.getValue());
@@ -144,7 +144,7 @@ public class ProgramTest extends BaseTest {
 
     @Test
     public void equals_withNestedFunctionCalls_works() {
-        final var result = evaluateProgram("(= (+ 1 1) (+ 0 2))");
+        final var result = evaluateProgram("(== (+ 1 1) (+ 0 2))");
 
         assertEquals(ScheminoType.BOOLEAN, result.getType());
         assertTrue((boolean) result.getValue());
@@ -206,5 +206,11 @@ public class ProgramTest extends BaseTest {
         final var result = evaluateProgram(Path.of("src/test/resources/closure.sco"));
 
         assertEquals(42L, result.getValue());
+    }
+
+    @Test
+    public void lambda_works() {
+        final var result = evaluateProgram("((x) => (+ x 1) 1)");
+        assertEquals(2L, result.getValue());
     }
 }

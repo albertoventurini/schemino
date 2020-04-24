@@ -4,9 +4,9 @@
   (lambda (x l1 l2)
     (if (and (> (size l2) 0) (< x (car l2)))
       (append l1 (x) l2)
-    (if (and (> (size l2) 0) (= 0 (size l1)))
+    (if (and (> (size l2) 0) (== 0 (size l1)))
       (merge x ((car l2)) (cdr l2))
-    (if (= 0 (size l2))
+    (if (== 0 (size l2))
       (append l1 (x))
     (merge x (append l1 ((car l2))) (cdr l2)))))))
 

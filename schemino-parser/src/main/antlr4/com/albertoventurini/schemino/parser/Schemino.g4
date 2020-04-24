@@ -1,6 +1,10 @@
 grammar Schemino;
 
-program: expressions EOF;
+program: statements EOF;
+
+statements: statement*;
+
+statement: assignment | expression;
 
 expressions: expression*;
 
@@ -9,13 +13,18 @@ expression
     | quote
     | list
     | block
+    | arrowFunction
     ;
+
+assignment: symbol ':' expression;
+
+arrowFunction: list '=>' expression;
 
 quote: '\'' expression;
 
 list: '(' expressions ')';
 
-block: '{' expressions '}';
+block: '{' statements '}';
 
 atom
     : number
@@ -23,13 +32,12 @@ atom
     | string
     | keyword
     | symbol
+    | operator
     ;
 
 bool: BOOLEAN;
 
 number: LONG;
-
-//keyword: ':' symbol;
 
 string : STRING;
 
@@ -41,6 +49,7 @@ lambda: LAMBDA;
 
 symbol: SYMBOL;
 
+operator: EQUALS;
 
 // Lexers
 //----------------------------------------------------------------
@@ -55,16 +64,15 @@ BOOLEAN : 'true' | 'false' ;
 
 LONG: '-'? [0-9]+[lL]?;
 
-//SYMBOL : ~('#'|'"'|'\''|[()]|[ \t\r\n]) ~('"'|'\''|[()]|[ \t\r\n])* ;
-
 SYMBOL: SYMBOL_HEAD SYMBOL_REST*;
 
-SYMBOL_HEAD: [a-zA-Z+*/\-=><];
+SYMBOL_HEAD: [a-zA-Z+*/\-><];
 
 SYMBOL_REST: SYMBOL_HEAD | '0'..'9';
 
 STRING : '"' ( ~'"' | '\\' '"' )* '"';
 
+EQUALS: '==';
 
 // Discard
 //--------------------------------------------------------------------

@@ -17,6 +17,18 @@ public interface ScheminoVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProgram(ScheminoParser.ProgramContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ScheminoParser#statements}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatements(ScheminoParser.StatementsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ScheminoParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatement(ScheminoParser.StatementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ScheminoParser#expressions}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -28,6 +40,18 @@ public interface ScheminoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExpression(ScheminoParser.ExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ScheminoParser#assignment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssignment(ScheminoParser.AssignmentContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ScheminoParser#arrowFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrowFunction(ScheminoParser.ArrowFunctionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ScheminoParser#quote}.
 	 * @param ctx the parse tree
@@ -94,4 +118,10 @@ public interface ScheminoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitSymbol(ScheminoParser.SymbolContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ScheminoParser#operator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOperator(ScheminoParser.OperatorContext ctx);
 }
