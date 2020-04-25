@@ -1,6 +1,6 @@
 package com.albertoventurini.schemino.truffle.nodes;
 
-import com.albertoventurini.schemino.truffle.ScheminoException;
+import com.albertoventurini.schemino.truffle.exceptions.ScheminoException;
 import com.albertoventurini.schemino.truffle.ScheminoLanguage;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.NodeInfo;
@@ -15,7 +15,7 @@ public class LongNode extends ExpressionNode {
     }
 
     @Override
-    public Object executeGeneric(final VirtualFrame frame) {
+    public Object execute(final VirtualFrame frame) {
         //return value;
         throw ScheminoException.typeError(this);
     }

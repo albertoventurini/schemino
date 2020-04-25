@@ -4,24 +4,24 @@ import com.oracle.truffle.api.frame.VirtualFrame;
 
 public class BlockNode extends ExpressionNode {
 
-    @Children private ExpressionNode[] children;
+    @Children private ExpressionNode[] expressions;
 
-    public BlockNode(final ExpressionNode[] children) {
-        this.children = children;
+    public BlockNode(final ExpressionNode[] expressions) {
+        this.expressions = expressions;
     }
 
     @Override
-    public Object executeGeneric(final VirtualFrame frame) {
+    public Object execute(final VirtualFrame frame) {
         System.out.println("BlockNode:executeGeneric");
 
-        if (children.length == 0) {
+        if (expressions.length == 0) {
             return null;
         }
 
-        for (int i = 0; i < children.length - 1; i++) {
-            children[i].executeGeneric(frame);
+        for (int i = 0; i < expressions.length - 1; i++) {
+            expressions[i].execute(frame);
         }
 
-        return children[children.length - 1].executeGeneric(frame);
+        return expressions[expressions.length - 1].execute(frame);
     }
 }
