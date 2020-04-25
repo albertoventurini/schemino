@@ -1,4 +1,4 @@
-package com.albertoventurini.schemino.truffle;
+package com.albertoventurini.schemino.truffle.exceptions;
 
 import com.oracle.truffle.api.CompilerDirectives;
 import com.oracle.truffle.api.TruffleException;
@@ -11,7 +11,6 @@ public class ScheminoException extends RuntimeException implements TruffleExcept
 
     @CompilerDirectives.TruffleBoundary
     public ScheminoException(final String message, final Node node) {
-
         this.message = message;
         this.node = node;
     }

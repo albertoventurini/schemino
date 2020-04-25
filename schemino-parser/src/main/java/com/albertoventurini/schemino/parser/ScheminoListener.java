@@ -1,4 +1,4 @@
-// Generated from com/albertoventurini/schemino/parser/Schemino.g4 by ANTLR 4.8
+// Generated from com/albertoventurini/schemino/parser/Schemino.g4 by ANTLR 4.7.1
 package com.albertoventurini.schemino.parser;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 

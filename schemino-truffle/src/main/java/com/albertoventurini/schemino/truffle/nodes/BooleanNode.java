@@ -1,6 +1,6 @@
 package com.albertoventurini.schemino.truffle.nodes;
 
-import com.albertoventurini.schemino.truffle.ScheminoException;
+import com.albertoventurini.schemino.truffle.exceptions.ScheminoException;
 import com.oracle.truffle.api.frame.VirtualFrame;
 
 public class BooleanNode extends ExpressionNode {
@@ -12,7 +12,7 @@ public class BooleanNode extends ExpressionNode {
     }
 
     @Override
-    public Object executeGeneric(final VirtualFrame frame) {
+    public Object execute(final VirtualFrame frame) {
         throw ScheminoException.typeError(this);
     }
 
