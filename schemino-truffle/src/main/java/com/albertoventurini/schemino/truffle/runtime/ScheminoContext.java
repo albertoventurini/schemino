@@ -1,14 +1,6 @@
 package com.albertoventurini.schemino.truffle.runtime;
 
 import com.albertoventurini.schemino.truffle.ScheminoLanguage;
-import com.albertoventurini.schemino.truffle.functions.AddFunction;
-import com.albertoventurini.schemino.truffle.nodes.AddNode;
-import com.albertoventurini.schemino.truffle.nodes.ScheminoNode;
-import com.oracle.truffle.api.RootCallTarget;
-import com.oracle.truffle.api.Truffle;
-import com.oracle.truffle.api.frame.FrameDescriptor;
-import com.oracle.truffle.api.frame.FrameSlot;
-import com.oracle.truffle.api.frame.FrameSlotKind;
 import com.oracle.truffle.api.frame.MaterializedFrame;
 
 public final class ScheminoContext {

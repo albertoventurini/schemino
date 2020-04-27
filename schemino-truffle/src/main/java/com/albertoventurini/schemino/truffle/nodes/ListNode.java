@@ -133,8 +133,8 @@ public class ListNode extends ExpressionNode {
     private Object callFunction(final VirtualFrame frame, final ScheminoFunction function) {
         // TODO: prepare arguments for function call
 
-        final Arguments arguments = new ExpressionArguments(frame, Arrays.stream(items).skip(1).collect(Collectors.toList()));
-        return function.apply(arguments);
+        //final Arguments arguments = new ExpressionArguments(frame, Arrays.stream(items).skip(1).collect(Collectors.toList()));
+        return function.apply(new Long[] {1L, 2L, 3L});
     }
 
     @Override

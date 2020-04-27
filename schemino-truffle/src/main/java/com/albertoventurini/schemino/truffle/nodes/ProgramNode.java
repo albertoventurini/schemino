@@ -2,6 +2,7 @@ package com.albertoventurini.schemino.truffle.nodes;
 
 import com.albertoventurini.schemino.truffle.ScheminoLanguage;
 import com.albertoventurini.schemino.truffle.functions.AddFunction;
+import com.albertoventurini.schemino.truffle.types.ScheminoFunction;
 import com.oracle.truffle.api.RootCallTarget;
 import com.oracle.truffle.api.Truffle;
 import com.oracle.truffle.api.frame.FrameDescriptor;
@@ -45,14 +46,20 @@ public class ProgramNode extends ExpressionNode {
     }
 
     private void installBuiltIns(VirtualFrame frame) {
-        ScheminoNode node = new ScheminoNode(language, new FrameDescriptor(), new AddNode(null));
-        RootCallTarget callTarget = Truffle.getRuntime().createCallTarget(node);
 
-        AddFunction addFunction = new AddFunction(callTarget);
-
+        AddFunction addFunction = new AddFunction();
         final FrameSlot slot = frame.getFrameDescriptor().addFrameSlot("+", FrameSlotKind.Object);
-//        FrameSlot slot = frameDescriptor.addFrameSlot("+", FrameSlotKind.Object);
         frame.setObject(slot, addFunction);
+
+//        ScheminoNode node = new ScheminoNode(language, new FrameDescriptor(), new AddNode(null));
+//        RootCallTarget callTarget = Truffle.getRuntime().createCallTarget(node);
+//
+//        //AddFunction addFunction = new AddFunction(callTarget);
+//        ScheminoFunction addFunction = new ScheminoFunction(language, "addFunction", new AddNode(null));
+//
+//        final FrameSlot slot = frame.getFrameDescriptor().addFrameSlot("+", FrameSlotKind.Object);
+////        FrameSlot slot = frameDescriptor.addFrameSlot("+", FrameSlotKind.Object);
+//        frame.setObject(slot, addFunction);
     }
 
 //    /**
