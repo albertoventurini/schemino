@@ -12,6 +12,10 @@ import com.oracle.truffle.api.frame.FrameDescriptor;
 import com.oracle.truffle.api.frame.FrameInstance;
 import com.oracle.truffle.api.frame.FrameSlot;
 import com.oracle.truffle.api.frame.VirtualFrame;
+import com.oracle.truffle.api.interop.ArityException;
+import com.oracle.truffle.api.interop.InteropLibrary;
+import com.oracle.truffle.api.interop.UnsupportedMessageException;
+import com.oracle.truffle.api.interop.UnsupportedTypeException;
 import com.oracle.truffle.api.nodes.UnexpectedResultException;
 
 import java.util.ArrayList;
@@ -37,9 +41,12 @@ import java.util.stream.Collectors;
 public class ListNode extends ExpressionNode {
 
     @Children private ExpressionNode[] items;
+    @Child private InteropLibrary library;
 
     public ListNode(final ExpressionNode[] items) {
         this.items = items;
+
+        this.library = InteropLibrary.getFactory().createDispatched(3);
     }
 
     @Override
@@ -134,7 +141,16 @@ public class ListNode extends ExpressionNode {
         // TODO: prepare arguments for function call
 
         //final Arguments arguments = new ExpressionArguments(frame, Arrays.stream(items).skip(1).collect(Collectors.toList()));
-        return function.apply(new Long[] {1L, 2L, 3L});
+        //return function.apply(new Long[] {1L, 2L, 3L});
+
+        Object[] arguments = { 1L, 2L, 3L };
+
+        try {
+            return library.execute(function, arguments);
+        } catch (ArityException | UnsupportedTypeException | UnsupportedMessageException e) {
+            /* Execute was not successful. */
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
