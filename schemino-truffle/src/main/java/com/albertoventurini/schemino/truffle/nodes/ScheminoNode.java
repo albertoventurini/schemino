@@ -4,6 +4,7 @@ import com.albertoventurini.schemino.truffle.ScheminoLanguage;
 import com.albertoventurini.schemino.truffle.types.ScheminoTypes;
 //import com.albertoventurini.schemino.truffle.types.ScheminoTypesGen;
 import com.albertoventurini.schemino.truffle.types.ScheminoList;
+import com.oracle.truffle.api.TruffleLanguage;
 import com.oracle.truffle.api.dsl.TypeSystemReference;
 import com.oracle.truffle.api.frame.FrameDescriptor;
 import com.oracle.truffle.api.frame.VirtualFrame;
@@ -13,17 +14,28 @@ import com.oracle.truffle.api.nodes.UnexpectedResultException;
 
 //@TypeSystemReference(ScheminoTypes.class)
 @NodeInfo(language = "schemino", description = "The root of all nodes")
-public abstract class ScheminoNode extends RootNode {
+public class ScheminoNode extends RootNode {
+    private ExpressionNode body;
 
     protected ScheminoNode(final ScheminoLanguage language) {
         super(language);
     }
 
-    protected ScheminoNode(final ScheminoLanguage language, final FrameDescriptor frameDescriptor) {
+    public ScheminoNode(TruffleLanguage<?> language, FrameDescriptor frameDescriptor) {
         super(language, frameDescriptor);
     }
 
-    public abstract Object execute(final VirtualFrame virtualFrame);
+    public ScheminoNode(
+            final TruffleLanguage<?> language,
+            final FrameDescriptor frameDescriptor,
+            final ExpressionNode body) {
+        super(language, frameDescriptor);
+        this.body = body;
+    }
+
+    public Object execute(final VirtualFrame frame) {
+        return body.execute(frame);
+    }
 //
 //    public long executeLong(final VirtualFrame virtualFrame) throws UnexpectedResultException {
 //        return ScheminoTypesGen.expectLong(execute(virtualFrame));

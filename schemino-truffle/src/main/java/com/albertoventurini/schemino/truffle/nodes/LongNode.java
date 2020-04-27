@@ -16,8 +16,8 @@ public class LongNode extends ExpressionNode {
 
     @Override
     public Object execute(final VirtualFrame frame) {
-        //return value;
-        throw ScheminoException.typeError(this);
+        return value;
+//        throw ScheminoException.typeError(this);
     }
 
     @Override

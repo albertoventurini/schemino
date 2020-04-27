@@ -10,7 +10,7 @@ import static com.albertoventurini.schemino.truffle.ScheminoLanguage.ID;
 
 public class Main {
     public static void main( String[] args ) throws Exception {
-        final Source source = Source.newBuilder(ScheminoLanguage.ID, "42", "main").build();
+        final Source source = Source.newBuilder(ScheminoLanguage.ID, "answer: 42\nanswer", "main").build();
 
         final Context context = Context.newBuilder(ScheminoLanguage.ID).build();
 

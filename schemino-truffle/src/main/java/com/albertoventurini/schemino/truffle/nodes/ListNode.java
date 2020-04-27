@@ -1,7 +1,22 @@
 package com.albertoventurini.schemino.truffle.nodes;
 
+import com.albertoventurini.schemino.truffle.types.Arguments;
+import com.albertoventurini.schemino.truffle.types.ExpressionArguments;
+import com.albertoventurini.schemino.truffle.types.ScheminoFunction;
+import com.albertoventurini.schemino.truffle.types.ScheminoList;
+import com.oracle.truffle.api.CallTarget;
+import com.oracle.truffle.api.RootCallTarget;
+import com.oracle.truffle.api.Truffle;
+import com.oracle.truffle.api.frame.Frame;
+import com.oracle.truffle.api.frame.FrameDescriptor;
+import com.oracle.truffle.api.frame.FrameInstance;
+import com.oracle.truffle.api.frame.FrameSlot;
 import com.oracle.truffle.api.frame.VirtualFrame;
+import com.oracle.truffle.api.nodes.UnexpectedResultException;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,52 +24,65 @@ import java.util.stream.Collectors;
  * A node that represents a list.
  *
  * The semantics of a list depends on the context in which it is used:
- * - a list can be a sequence of objects, or
- * - a list can be a function call
+ * 1. a list can be a sequence of objects, or
+ * 2. a list can be a function call.
  *
  * A list is considered a function call if:
- * - the requester explicitly asks a scalar evaluation of the list
- *   (e.g. `evalLong`, `evalBoolean`, etc.), or
- * - the first item evaluates to a ScheminoFunction
+ * 1. the requester node explicitly asked for a scalar evaluation of the list
+ *    (e.g. `executeLong`, `executeBoolean`, etc.), or
+ * 2. the first item evaluates to a ScheminoFunction.
  *
  * Otherwise, the list is considered a sequence of objects.
  */
 public class ListNode extends ExpressionNode {
 
-    private final List<ExpressionNode> items;
+    @Children private ExpressionNode[] items;
 
-    public ListNode(final List<ExpressionNode> items) {
+    public ListNode(final ExpressionNode[] items) {
         this.items = items;
     }
 
     @Override
-    public Object execute(VirtualFrame frame) {
-        return null;
+    public Object execute(final VirtualFrame frame) {
+        if (items.length == 0) {
+            return new ScheminoList(Collections.emptyList());
+        }
+
+        final Object firstItemEval = items[0].execute(frame);
+
+        if (firstItemEval instanceof ScheminoFunction) {
+            // call function
+            return callFunction(frame, (ScheminoFunction) firstItemEval);
+        }
+
+        final List<Object> evaluatedItems = new ArrayList<>(List.of(firstItemEval));
+
+        for (int i = 1; i < items.length; i++) {
+            evaluatedItems.add(items[i].execute(frame));
+        }
+
+        return new ScheminoList(evaluatedItems);
     }
 
-    //    @Override
-//    public TypedObject eval(final Frame frame) {
-//        if (items.isEmpty()) {
-//            return new TypedObject(ScheminoType.LIST, new ScheminoList(Collections.emptyList()));
-//        }
-//
-//        final TypedObject firstItemEval = items.get(0).eval(frame);
-//
-//        if (firstItemEval.getType().equals(ScheminoType.FUNCTION)) {
-//            return callFunction(frame, firstItemEval.getFunctionOrThrow());
-//        }
-//
-//        final List<TypedObject> evaluatedItems = new ArrayList<>(List.of(firstItemEval));
-//
-//        if (items.size() > 1) {
-//            items.stream().skip(1).forEach(item -> evaluatedItems.add(item.eval(frame)));
-//        }
-//
-//        return new TypedObject(ScheminoType.LIST, new ScheminoList(evaluatedItems));
+//    @Override
+//    public long executeLong(final VirtualFrame frame) throws UnexpectedResultException {
+//        final ScheminoFunction firstItemEval = items[0].ex(frame);
+//        return callFunction(frame, firstItemEval).getLongOrThrow();
+//        return super.executeLong(frame);
 //    }
 //
 //    @Override
-//    public long evalLong(final Frame frame) {
+//    public boolean executeBoolean(VirtualFrame frame) throws UnexpectedResultException {
+//        return super.executeBoolean(frame);
+//    }
+//
+//    @Override
+//    public String executeString(VirtualFrame frame) throws UnexpectedResultException {
+//        return super.executeString(frame);
+//    }
+//
+//    @Override
+//    public long executeLong(final Frame frame) {
 //        // When a list is evaluated as a long, we assume it's a function call
 //        final ScheminoFunction firstItemEval = items.get(0).evalFunction(frame);
 //        return callFunction(frame, firstItemEval).getLongOrThrow();
@@ -100,9 +128,17 @@ public class ListNode extends ExpressionNode {
 //        // Apply the function
 //        return function.apply(arguments);
 //    }
+//
+
+    private Object callFunction(final VirtualFrame frame, final ScheminoFunction function) {
+        // TODO: prepare arguments for function call
+
+        final Arguments arguments = new ExpressionArguments(frame, Arrays.stream(items).skip(1).collect(Collectors.toList()));
+        return function.apply(arguments);
+    }
 
     @Override
     public String toString() {
-        return "(" + items.stream().map(Object::toString).collect(Collectors.joining(" ")) + ")";
+        return "(" + Arrays.stream(items).map(Object::toString).collect(Collectors.joining(" ")) + ")";
     }
 }

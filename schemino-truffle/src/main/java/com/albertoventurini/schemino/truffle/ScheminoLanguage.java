@@ -9,6 +9,8 @@ import com.albertoventurini.schemino.truffle.runtime.ScheminoContext;
 import com.oracle.truffle.api.CallTarget;
 import com.oracle.truffle.api.Truffle;
 import com.oracle.truffle.api.TruffleLanguage;
+import com.oracle.truffle.api.frame.FrameDescriptor;
+import com.oracle.truffle.api.frame.MaterializedFrame;
 import com.oracle.truffle.api.nodes.ExecutableNode;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -23,9 +25,13 @@ public final class ScheminoLanguage extends TruffleLanguage<ScheminoContext> {
     public static final String ID = "schemino";
     public static final String MIME_TYPE = "application/x-schemino";
 
+    private FrameDescriptor frameDescriptor = new FrameDescriptor();
+    private MaterializedFrame globalFrame = Truffle.getRuntime().createMaterializedFrame(null);
+
     @Override
     protected ScheminoContext createContext(final Env env) {
-        return null;
+//        MaterializedFrame frame = Truffle.getRuntime().createMaterializedFrame(null);
+        return new ScheminoContext(this, globalFrame);
     }
 
     @Override
@@ -36,7 +42,7 @@ public final class ScheminoLanguage extends TruffleLanguage<ScheminoContext> {
     @Override
     protected CallTarget parse(final ParsingRequest request) throws Exception {
         final ProgramNode programNode = createProgramNode(request.getSource().getCharacters().toString());
-        return Truffle.getRuntime().createCallTarget(new EvalRootNode(this, programNode));
+        return Truffle.getRuntime().createCallTarget(new EvalRootNode(this, programNode, globalFrame.getFrameDescriptor()));
     }
 
     @Override
@@ -49,6 +55,6 @@ public final class ScheminoLanguage extends TruffleLanguage<ScheminoContext> {
         final var tokenStream = new CommonTokenStream(lexer);
         final var parser = new ScheminoParser(tokenStream);
 
-        return new NodeFactory().createProgramNode(parser);
+        return new NodeFactory(this).createProgramNode(parser);
     }
 }

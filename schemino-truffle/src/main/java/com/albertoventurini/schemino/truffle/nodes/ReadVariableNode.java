@@ -30,7 +30,11 @@ public class ReadVariableNode extends ExpressionNode {
             throw new ScheminoException("Unexpected result", symbolNode);
         }
 
+        System.out.println("ReadVariableNode: symbol is " + symbolName);
+
         final FrameSlot slot = frame.getFrameDescriptor().findFrameSlot(symbolName);
+
+        System.out.println("ReadVariableNode: slot is " + slot);
 
         if (slot == null) {
             throw ScheminoException.variableNotFoundError(this);

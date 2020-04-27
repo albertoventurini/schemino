@@ -1,6 +1,7 @@
 package com.albertoventurini.schemino.truffle.parser;
 
 import com.albertoventurini.schemino.parser.ScheminoParser;
+import com.albertoventurini.schemino.truffle.ScheminoLanguage;
 import com.albertoventurini.schemino.truffle.nodes.BlockNode;
 import com.albertoventurini.schemino.truffle.nodes.BooleanNode;
 import com.albertoventurini.schemino.truffle.nodes.ExpressionNode;
@@ -27,6 +28,13 @@ import java.util.stream.Collectors;
  */
 public class NodeFactory {
 
+    private ScheminoLanguage language;
+
+    public NodeFactory(final ScheminoLanguage language) {
+
+        this.language = language;
+    }
+
     /**
      * Create a program node, i.e. the root node of the program.
      * @param parser the ANTLR4 parser that contains the AST
@@ -38,7 +46,7 @@ public class NodeFactory {
 
     private ProgramNode visitProgram(final ScheminoParser.ProgramContext ctx) {
         final var nodes = visitStatements(ctx.statements());
-        return new ProgramNode(nodes.toArray(new ExpressionNode[0]));
+        return new ProgramNode(language, nodes.toArray(new ExpressionNode[0]));
     }
 
     private List<ExpressionNode> visitStatements(final ScheminoParser.StatementsContext ctx) {
@@ -148,7 +156,7 @@ public class NodeFactory {
 
     private ExpressionNode visitList(final ScheminoParser.ListContext ctx) {
         if (ctx.expressions().expression().isEmpty()) {
-            return new ListNode(Collections.emptyList());
+            return new ListNode(new ExpressionNode[0]);
         }
 
         if (ctx.expressions().expression(0).atom() != null
@@ -193,6 +201,6 @@ public class NodeFactory {
                 .map(this::visitExpression)
                 .collect(Collectors.toUnmodifiableList());
 
-        return new ListNode(items);
+        return new ListNode(items.toArray(new ExpressionNode[0]));
     }
 }

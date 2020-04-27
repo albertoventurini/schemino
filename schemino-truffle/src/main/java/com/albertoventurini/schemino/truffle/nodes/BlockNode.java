@@ -1,6 +1,7 @@
 package com.albertoventurini.schemino.truffle.nodes;
 
 import com.oracle.truffle.api.frame.VirtualFrame;
+import com.oracle.truffle.api.nodes.ExplodeLoop;
 
 public class BlockNode extends ExpressionNode {
 
@@ -11,6 +12,7 @@ public class BlockNode extends ExpressionNode {
     }
 
     @Override
+    @ExplodeLoop
     public Object execute(final VirtualFrame frame) {
         System.out.println("BlockNode:executeGeneric");
 
