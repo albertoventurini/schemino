@@ -20,6 +20,11 @@ public class EvalRootNode extends RootNode {
         this.expressionNode = expressionNode;
     }
 
+    public EvalRootNode(final ScheminoLanguage language, final ExpressionNode expressionNode) {
+        super(language);
+        this.expressionNode = expressionNode;
+    }
+
     @Override
     public Object execute(final VirtualFrame frame) {
         return expressionNode.execute(frame);

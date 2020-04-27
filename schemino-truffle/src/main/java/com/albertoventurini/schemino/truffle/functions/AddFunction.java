@@ -1,7 +1,7 @@
 //package com.albertoventurini.schemino.truffle.functions;
 //
 //import com.albertoventurini.schemino.truffle.ScheminoLanguage;
-//import com.albertoventurini.schemino.truffle.nodes.RootAddNode;
+//import com.albertoventurini.schemino.truffle.nodes.root.RootAddNode;
 //import com.albertoventurini.schemino.truffle.types.ScheminoFunction;
 //import com.oracle.truffle.api.RootCallTarget;
 //import com.oracle.truffle.api.Truffle;

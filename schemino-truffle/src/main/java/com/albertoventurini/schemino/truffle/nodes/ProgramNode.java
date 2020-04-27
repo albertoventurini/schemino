@@ -2,6 +2,7 @@ package com.albertoventurini.schemino.truffle.nodes;
 
 import com.albertoventurini.schemino.truffle.ScheminoLanguage;
 //import com.albertoventurini.schemino.truffle.functions.AddFunction;
+import com.albertoventurini.schemino.truffle.nodes.root.AddNode;
 import com.albertoventurini.schemino.truffle.types.ScheminoFunction;
 import com.oracle.truffle.api.RootCallTarget;
 import com.oracle.truffle.api.Truffle;
@@ -47,7 +48,7 @@ public class ProgramNode extends ExpressionNode {
 
     private void installBuiltIns(VirtualFrame frame) {
 
-        ScheminoFunction addFunction = new ScheminoFunction(language);
+        ScheminoFunction addFunction = new ScheminoFunction(new AddNode(language));
         final FrameSlot slot = frame.getFrameDescriptor().addFrameSlot("+", FrameSlotKind.Object);
         frame.setObject(slot, addFunction);
 

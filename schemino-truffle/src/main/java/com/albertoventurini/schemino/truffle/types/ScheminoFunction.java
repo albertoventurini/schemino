@@ -2,7 +2,7 @@ package com.albertoventurini.schemino.truffle.types;
 
 import com.albertoventurini.schemino.truffle.ScheminoLanguage;
 //import com.albertoventurini.schemino.truffle.functions.AddFunction;
-import com.albertoventurini.schemino.truffle.nodes.RootAddNode;
+import com.albertoventurini.schemino.truffle.nodes.root.AddNode;
 import com.oracle.truffle.api.Assumption;
 import com.oracle.truffle.api.CallTarget;
 import com.oracle.truffle.api.RootCallTarget;
@@ -15,6 +15,7 @@ import com.oracle.truffle.api.library.ExportLibrary;
 import com.oracle.truffle.api.library.ExportMessage;
 import com.oracle.truffle.api.nodes.DirectCallNode;
 import com.oracle.truffle.api.nodes.IndirectCallNode;
+import com.oracle.truffle.api.nodes.RootNode;
 
 /**
  * Generic interface for Schemino functions.
@@ -22,14 +23,14 @@ import com.oracle.truffle.api.nodes.IndirectCallNode;
 @ExportLibrary(InteropLibrary.class)
 public final class ScheminoFunction implements TruffleObject {
 
-    private RootCallTarget callTarget;
+    private final RootCallTarget callTarget;
 
     public RootCallTarget getCallTarget() {
         return callTarget;
     }
 
-    public ScheminoFunction(ScheminoLanguage language) {
-        this.callTarget = Truffle.getRuntime().createCallTarget(new RootAddNode(language));
+    public ScheminoFunction(final RootNode rootNode) {
+        this.callTarget = Truffle.getRuntime().createCallTarget(rootNode);
     }
 
     @ExportMessage

@@ -1,5 +1,6 @@
 package com.albertoventurini.schemino.truffle.nodes;
 
+import com.albertoventurini.schemino.truffle.ScheminoLanguage;
 import com.albertoventurini.schemino.truffle.types.Arguments;
 import com.albertoventurini.schemino.truffle.types.ExpressionArguments;
 import com.albertoventurini.schemino.truffle.types.ScheminoFunction;
@@ -143,7 +144,19 @@ public class ListNode extends ExpressionNode {
         //final Arguments arguments = new ExpressionArguments(frame, Arrays.stream(items).skip(1).collect(Collectors.toList()));
         //return function.apply(new Long[] {1L, 2L, 3L});
 
-        Object[] arguments = { 1L, 2L, 3L };
+//        Object[] arguments = { 1L, 2L, 3L };
+
+        Object[] arguments = new Object[items.length];
+
+        arguments[0] = frame.materialize();
+
+//        for (int i = 1; i < items.length; i++) {
+//            arguments[i-1] = items[i].execute(frame);
+//        }
+
+        for (int i = 1; i < items.length; i++) {
+            arguments[i] = items[i];
+        }
 
         try {
             return library.execute(function, arguments);
