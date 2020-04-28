@@ -44,7 +44,6 @@ public class ProgramNode extends ExpressionNode {
     }
 
     private void installBuiltIns(VirtualFrame frame) {
-
         ScheminoFunction addFunction = new ScheminoFunction(new EvalRootNode(language, new AddNode()));
         final FrameSlot slot = frame.getFrameDescriptor().addFrameSlot("+", FrameSlotKind.Object);
         frame.setObject(slot, addFunction);

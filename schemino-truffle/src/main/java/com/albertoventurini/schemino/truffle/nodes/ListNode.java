@@ -49,9 +49,7 @@ public class ListNode extends ExpressionNode {
 
     public ListNode(final ExpressionNode[] items) {
         this.items = items;
-
         this.library = InteropLibrary.getFactory().createDispatched(3);
-
     }
 
     @Override
@@ -78,7 +76,7 @@ public class ListNode extends ExpressionNode {
 
 //    @Override
 //    public long executeLong(final VirtualFrame frame) throws UnexpectedResultException {
-//        final ScheminoFunction firstItemEval = items[0].ex(frame);
+//        //final ScheminoFunction firstItemEval = items[0].exe(frame);
 //        return callFunction(frame, firstItemEval).getLongOrThrow();
 //        return super.executeLong(frame);
 //    }

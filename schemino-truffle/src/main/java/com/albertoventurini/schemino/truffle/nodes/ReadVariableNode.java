@@ -1,6 +1,7 @@
 package com.albertoventurini.schemino.truffle.nodes;
 
 import com.albertoventurini.schemino.truffle.exceptions.ScheminoException;
+import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.frame.FrameSlot;
 import com.oracle.truffle.api.frame.FrameSlotTypeException;
 import com.oracle.truffle.api.frame.VirtualFrame;
@@ -49,8 +50,11 @@ public class ReadVariableNode extends ExpressionNode {
         }
     }
 
+    @Specialization
     @Override
-    public long executeLong(VirtualFrame frame) throws UnexpectedResultException {
+    public long executeLong(final VirtualFrame frame) {
+        System.out.println("ReadVariableNode:executeLong");
+
         final String symbolName;
 
         try {
