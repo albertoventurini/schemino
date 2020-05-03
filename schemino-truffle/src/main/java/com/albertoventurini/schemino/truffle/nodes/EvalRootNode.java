@@ -1,9 +1,8 @@
 package com.albertoventurini.schemino.truffle.nodes;
 
 import com.albertoventurini.schemino.truffle.ScheminoLanguage;
-import com.oracle.truffle.api.frame.Frame;
+import com.oracle.truffle.api.dsl.GenerateNodeFactory;
 import com.oracle.truffle.api.frame.FrameDescriptor;
-import com.oracle.truffle.api.frame.MaterializedFrame;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.RootNode;
 
@@ -25,6 +24,6 @@ public class EvalRootNode extends RootNode {
 
     @Override
     public Object execute(final VirtualFrame frame) {
-        return expressionNode.execute(frame);
+        return expressionNode.executeGeneric(frame);
     }
 }

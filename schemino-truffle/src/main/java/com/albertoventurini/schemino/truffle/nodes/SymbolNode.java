@@ -11,7 +11,7 @@ public class SymbolNode extends ExpressionNode {
     }
 
     @Override
-    public Object execute(final VirtualFrame frame) {
+    public Object executeGeneric(final VirtualFrame frame) {
         return symbolName;
     }
 //

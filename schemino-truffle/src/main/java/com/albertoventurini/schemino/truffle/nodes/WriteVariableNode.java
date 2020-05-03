@@ -1,6 +1,7 @@
 package com.albertoventurini.schemino.truffle.nodes;
 
 import com.albertoventurini.schemino.truffle.exceptions.ScheminoException;
+import com.oracle.truffle.api.dsl.NodeChild;
 import com.oracle.truffle.api.frame.FrameSlot;
 import com.oracle.truffle.api.frame.FrameSlotKind;
 import com.oracle.truffle.api.frame.VirtualFrame;
@@ -26,7 +27,7 @@ public class WriteVariableNode extends ExpressionNode {
     }
 
     @Override
-    public Object execute(final VirtualFrame frame) {
+    public Object executeGeneric(final VirtualFrame frame) {
         System.out.println("WriteVariableNode:executeGeneric");
         System.out.println(frame);
 
@@ -38,7 +39,7 @@ public class WriteVariableNode extends ExpressionNode {
             throw new ScheminoException("Unexpected result", symbolNode);
         }
 
-        final Object value = expressionNode.execute(frame);
+        final Object value = expressionNode.executeGeneric(frame);
 
         final FrameSlot slot = frame.getFrameDescriptor().addFrameSlot(symbolName, FrameSlotKind.Object);
         frame.setObject(slot, value);

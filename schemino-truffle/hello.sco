@@ -1,3 +1,3 @@
-answer: (+ 1 2 3)
+answer: (lambda (x y) (+ x y))
 
-answer
+(answer 1 2)

@@ -22,6 +22,10 @@ public final class ScheminoContext {
 //        installBuiltIns();
     }
 
+    public ScheminoLanguage getLanguage() {
+        return language;
+    }
+
 //    private void installBuiltIns() {
 //        ScheminoNode node = new ScheminoNode(language, new FrameDescriptor(), new AddNode(null));
 //        RootCallTarget callTarget = Truffle.getRuntime().createCallTarget(node);

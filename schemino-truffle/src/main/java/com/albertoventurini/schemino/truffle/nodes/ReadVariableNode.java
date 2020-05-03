@@ -1,6 +1,9 @@
 package com.albertoventurini.schemino.truffle.nodes;
 
 import com.albertoventurini.schemino.truffle.exceptions.ScheminoException;
+import com.oracle.truffle.api.Truffle;
+import com.oracle.truffle.api.TruffleLanguage;
+import com.oracle.truffle.api.dsl.NodeChild;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.frame.FrameSlot;
 import com.oracle.truffle.api.frame.FrameSlotTypeException;
@@ -20,7 +23,7 @@ public class ReadVariableNode extends ExpressionNode {
     }
 
     @Override
-    public Object execute(final VirtualFrame frame) {
+    public Object executeGeneric(final VirtualFrame frame) {
         System.out.println("ReadVariableNode:executeGeneric");
 
         final String symbolName;

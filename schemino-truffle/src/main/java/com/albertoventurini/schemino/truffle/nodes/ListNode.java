@@ -1,26 +1,15 @@
 package com.albertoventurini.schemino.truffle.nodes;
 
-import com.albertoventurini.schemino.truffle.ScheminoLanguage;
 import com.albertoventurini.schemino.truffle.types.Arguments;
 import com.albertoventurini.schemino.truffle.types.ExpressionArguments;
 import com.albertoventurini.schemino.truffle.types.ScheminoFunction;
 import com.albertoventurini.schemino.truffle.types.ScheminoList;
-import com.oracle.truffle.api.CallTarget;
-import com.oracle.truffle.api.CompilerDirectives;
-import com.oracle.truffle.api.RootCallTarget;
-import com.oracle.truffle.api.Truffle;
-import com.oracle.truffle.api.dsl.CachedLanguage;
-import com.oracle.truffle.api.dsl.Specialization;
-import com.oracle.truffle.api.frame.Frame;
-import com.oracle.truffle.api.frame.FrameDescriptor;
-import com.oracle.truffle.api.frame.FrameInstance;
-import com.oracle.truffle.api.frame.FrameSlot;
+import com.oracle.truffle.api.dsl.NodeChild;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.interop.ArityException;
 import com.oracle.truffle.api.interop.InteropLibrary;
 import com.oracle.truffle.api.interop.UnsupportedMessageException;
 import com.oracle.truffle.api.interop.UnsupportedTypeException;
-import com.oracle.truffle.api.nodes.UnexpectedResultException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,12 +42,12 @@ public class ListNode extends ExpressionNode {
     }
 
     @Override
-    public Object execute(final VirtualFrame frame) {
+    public Object executeGeneric(final VirtualFrame frame) {
         if (items.length == 0) {
             return new ScheminoList(Collections.emptyList());
         }
 
-        final Object firstItemEval = items[0].execute(frame);
+        final Object firstItemEval = items[0].executeGeneric(frame);
 
         if (firstItemEval instanceof ScheminoFunction) {
             // call function
@@ -68,7 +57,7 @@ public class ListNode extends ExpressionNode {
         final List<Object> evaluatedItems = new ArrayList<>(List.of(firstItemEval));
 
         for (int i = 1; i < items.length; i++) {
-            evaluatedItems.add(items[i].execute(frame));
+            evaluatedItems.add(items[i].executeGeneric(frame));
         }
 
         return new ScheminoList(evaluatedItems);

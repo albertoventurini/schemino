@@ -12,7 +12,7 @@ public class StringNode extends ExpressionNode {
     }
 
     @Override
-    public Object execute(VirtualFrame frame) {
+    public Object executeGeneric(VirtualFrame frame) {
         return value;
     }
 

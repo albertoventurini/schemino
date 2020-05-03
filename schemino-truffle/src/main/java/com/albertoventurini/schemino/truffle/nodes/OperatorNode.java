@@ -12,7 +12,7 @@ public class OperatorNode extends ExpressionNode {
     }
 
     @Override
-    public Object execute(final VirtualFrame frame) {
+    public Object executeGeneric(final VirtualFrame frame) {
 //        return frame.getObject(operator);
         return null;
     }

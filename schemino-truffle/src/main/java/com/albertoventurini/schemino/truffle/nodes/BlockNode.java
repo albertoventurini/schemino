@@ -13,7 +13,7 @@ public class BlockNode extends ExpressionNode {
 
     @Override
     @ExplodeLoop
-    public Object execute(final VirtualFrame frame) {
+    public Object executeGeneric(final VirtualFrame frame) {
         System.out.println("BlockNode:executeGeneric");
 
         if (expressions.length == 0) {
@@ -21,9 +21,9 @@ public class BlockNode extends ExpressionNode {
         }
 
         for (int i = 0; i < expressions.length - 1; i++) {
-            expressions[i].execute(frame);
+            expressions[i].executeGeneric(frame);
         }
 
-        return expressions[expressions.length - 1].execute(frame);
+        return expressions[expressions.length - 1].executeGeneric(frame);
     }
 }

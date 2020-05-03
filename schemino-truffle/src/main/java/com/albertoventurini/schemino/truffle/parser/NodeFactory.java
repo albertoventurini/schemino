@@ -6,6 +6,7 @@ import com.albertoventurini.schemino.truffle.nodes.BlockNode;
 import com.albertoventurini.schemino.truffle.nodes.BooleanNode;
 import com.albertoventurini.schemino.truffle.nodes.ExpressionNode;
 import com.albertoventurini.schemino.truffle.nodes.LambdaNode;
+import com.albertoventurini.schemino.truffle.nodes.LambdaNodeFactory;
 import com.albertoventurini.schemino.truffle.nodes.ListNode;
 import com.albertoventurini.schemino.truffle.nodes.LongNode;
 import com.albertoventurini.schemino.truffle.nodes.OperatorNode;
@@ -74,7 +75,7 @@ public class NodeFactory {
                 .collect(Collectors.toUnmodifiableList());
 
         final ExpressionNode body = visitExpression(ctx.expression());
-        return new LambdaNode(parameters, body);
+        return LambdaNodeFactory.create(parameters, body); // new LambdaNode(parameters, body);
     }
 
     private ExpressionNode visitExpression(final ScheminoParser.ExpressionContext ctx) {
@@ -192,7 +193,7 @@ public class NodeFactory {
                 .collect(Collectors.toUnmodifiableList());
 
         final ExpressionNode body = visitExpression(ctx.expression(2));
-        return new LambdaNode(parameters, body);
+        return LambdaNodeFactory.create(parameters, body); // new LambdaNode(parameters, body);
     }
 
     private ExpressionNode handlePlainList(final ScheminoParser.ExpressionsContext ctx) {

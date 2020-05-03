@@ -14,7 +14,7 @@ import com.oracle.truffle.api.nodes.ExplodeLoop;
  */
 public class ProgramNode extends ExpressionNode {
 
-    private ScheminoLanguage language;
+    private final ScheminoLanguage language;
     /**
      * The expressions that make up the program
      */
@@ -27,7 +27,7 @@ public class ProgramNode extends ExpressionNode {
 
     @Override
     @ExplodeLoop
-    public Object execute(final VirtualFrame frame) {
+    public Object executeGeneric(final VirtualFrame frame) {
         System.out.println("BlockNode:executeGeneric");
 
         installBuiltIns(frame);
@@ -37,10 +37,10 @@ public class ProgramNode extends ExpressionNode {
         }
 
         for (int i = 0; i < expressions.length - 1; i++) {
-            expressions[i].execute(frame);
+            expressions[i].executeGeneric(frame);
         }
 
-        return expressions[expressions.length - 1].execute(frame);
+        return expressions[expressions.length - 1].executeGeneric(frame);
     }
 
     private void installBuiltIns(VirtualFrame frame) {

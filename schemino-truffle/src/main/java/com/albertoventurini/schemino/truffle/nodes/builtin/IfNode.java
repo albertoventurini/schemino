@@ -7,7 +7,7 @@ import com.oracle.truffle.api.nodes.UnexpectedResultException;
 public class IfNode extends BuiltinNode {
 
     @Override
-    public Object execute(final VirtualFrame frame) {
+    public Object executeGeneric(final VirtualFrame frame) {
         final Arguments arguments = getArguments(frame);
 
         try {

@@ -12,7 +12,7 @@ public class BooleanNode extends ExpressionNode {
     }
 
     @Override
-    public Object execute(final VirtualFrame frame) {
+    public Object executeGeneric(final VirtualFrame frame) {
         throw ScheminoException.typeError(this);
     }
 

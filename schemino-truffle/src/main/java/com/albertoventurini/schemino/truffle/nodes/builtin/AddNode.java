@@ -1,13 +1,16 @@
 package com.albertoventurini.schemino.truffle.nodes.builtin;
 
+import com.albertoventurini.schemino.truffle.nodes.ExpressionNode;
 import com.albertoventurini.schemino.truffle.types.Arguments;
+import com.oracle.truffle.api.dsl.NodeChild;
+import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.UnexpectedResultException;
 
 public class AddNode extends BuiltinNode {
 
     @Override
-    public Object execute(final VirtualFrame frame) {
+    public Object executeGeneric(final VirtualFrame frame) {
         final Arguments arguments = getArguments(frame);
 
         long sum = 0;

@@ -18,7 +18,7 @@ public class ExpressionArguments extends BaseArguments<ExpressionNode> implement
 
     @Override
     public Object get(int i) {
-        return items[i].execute(frame);
+        return items[i].executeGeneric(frame);
     }
 
     @Override
