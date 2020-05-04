@@ -1,6 +1,6 @@
 package com.albertoventurini.schemino.naive.functions;
 
-import com.albertoventurini.schemino.naive.Arguments;
+import com.albertoventurini.schemino.naive.arguments.Arguments;
 import com.albertoventurini.schemino.naive.types.ScheminoFunction;
 import com.albertoventurini.schemino.naive.types.ScheminoType;
 import com.albertoventurini.schemino.naive.types.TypedObject;

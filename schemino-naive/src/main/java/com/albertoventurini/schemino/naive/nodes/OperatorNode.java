@@ -22,4 +22,9 @@ public class OperatorNode extends ExpressionNode {
     public ScheminoFunction evalFunction(final Frame frame) {
         return frame.getFunction(operator);
     }
+
+    @Override
+    public String toString() {
+        return operator;
+    }
 }

@@ -5,4 +5,4 @@ recurse: @tailrec (x) =>
   )
 
 ; Without tail recursion, this throws a StackOverflowException
-(recurse 1000)
+(recurse 100000)

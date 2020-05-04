@@ -18,7 +18,9 @@ expression
 
 assignment: symbol ':' expression;
 
-arrowFunction: list '=>' expression;
+arrowFunction: tailrec? list '=>' expression;
+
+tailrec: TAILREC;
 
 quote: '\'' expression;
 
@@ -73,6 +75,8 @@ SYMBOL_REST: SYMBOL_HEAD | '0'..'9';
 STRING : '"' ( ~'"' | '\\' '"' )* '"';
 
 EQUALS: '==';
+
+TAILREC: '@tailrec';
 
 // Discard
 //--------------------------------------------------------------------

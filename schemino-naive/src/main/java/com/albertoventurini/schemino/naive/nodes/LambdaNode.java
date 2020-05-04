@@ -12,22 +12,27 @@ public class LambdaNode extends ExpressionNode {
 
     private final List<String> parameters;
     private final ExpressionNode body;
+    private final boolean tailRec;
 
     // A lambda node evaluates to a function
 
-    public LambdaNode(final List<String> parameters, final ExpressionNode body) {
+    public LambdaNode(
+            final boolean tailRec,
+            final List<String> parameters,
+            final ExpressionNode body) {
+        this.tailRec = tailRec;
         this.parameters = parameters;
         this.body = body;
     }
 
     @Override
     public TypedObject eval(final Frame frame) {
-        return new TypedObject(ScheminoType.FUNCTION, new UserFunction(parameters, body, frame));
+        return new TypedObject(ScheminoType.FUNCTION, new UserFunction(parameters, body, frame, tailRec));
     }
 
     @Override
     public ScheminoFunction evalFunction(final Frame frame) {
-        return new UserFunction(parameters, body, frame);
+        return new UserFunction(parameters, body, frame, tailRec);
     }
 
 }

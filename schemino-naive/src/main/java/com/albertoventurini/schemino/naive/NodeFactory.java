@@ -60,13 +60,15 @@ public class NodeFactory {
     }
 
     private ExpressionNode visitArrowFunction(final ScheminoParser.ArrowFunctionContext ctx) {
+        final boolean tailRec = ctx.tailrec() != null;
+
         final List<String> parameters = ctx.list().expressions().expression()
                 .stream()
                 .map(ParseTree::getText)
                 .collect(Collectors.toUnmodifiableList());
 
         final ExpressionNode body = visitExpression(ctx.expression());
-        return new LambdaNode(parameters, body);
+        return new LambdaNode(tailRec, parameters, body);
     }
 
     private ExpressionNode visitExpression(final ScheminoParser.ExpressionContext ctx) {
@@ -184,7 +186,7 @@ public class NodeFactory {
                 .collect(Collectors.toUnmodifiableList());
 
         final ExpressionNode body = visitExpression(ctx.expression(2));
-        return new LambdaNode(parameters, body);
+        return new LambdaNode(false, parameters, body);
     }
 
     private ExpressionNode handlePlainList(final ScheminoParser.ExpressionsContext ctx) {

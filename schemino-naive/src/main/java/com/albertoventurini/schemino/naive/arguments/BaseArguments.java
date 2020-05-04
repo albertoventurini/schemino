@@ -1,4 +1,4 @@
-package com.albertoventurini.schemino.naive;
+package com.albertoventurini.schemino.naive.arguments;
 
 import java.util.List;
 import java.util.function.IntFunction;

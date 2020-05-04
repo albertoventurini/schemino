@@ -4,19 +4,13 @@ import com.albertoventurini.schemino.naive.exceptions.TypeMismatch;
 
 import java.util.Objects;
 
-/**
- * This class represents an object with a specific type.
- */
+/** This class represents an object with a specific type */
 public class TypedObject {
 
-    /**
-     * The type of the object
-     */
+    /** The type of the object */
     private final ScheminoType type;
 
-    /**
-     * The value of the object
-     */
+    /** The value of the object */
     private final Object value;
 
     public TypedObject(final ScheminoType type, final Object value) {

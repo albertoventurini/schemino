@@ -2,7 +2,7 @@
 fib: (n) => (fib-rec 1 0 n)
 
 ; Recursive helper function
-fib-rec: (acc prev n) =>
+fib-rec: @tailrec (acc prev n) =>
   (if (== 0 n)
     acc
     (fib-rec (+ acc prev) acc (- n 1)))

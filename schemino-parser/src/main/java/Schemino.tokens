@@ -14,8 +14,9 @@ SYMBOL_HEAD=13
 SYMBOL_REST=14
 STRING=15
 EQUALS=16
-COMMENT=17
-WS=18
+TAILREC=17
+COMMENT=18
+WS=19
 ':'=1
 '=>'=2
 '\''=3
@@ -26,3 +27,4 @@ WS=18
 'define'=8
 'lambda'=9
 '=='=16
+'@tailrec'=17

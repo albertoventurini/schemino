@@ -1,10 +1,8 @@
 package com.albertoventurini.schemino.naive.types;
 
-import com.albertoventurini.schemino.naive.Arguments;
+import com.albertoventurini.schemino.naive.arguments.Arguments;
 
-/**
- * Generic interface for Schemino functions.
- */
+/** Generic interface for Schemino functions */
 public interface ScheminoFunction {
     /**
      * Apply the arguments to the function parameters, then
@@ -14,4 +12,8 @@ public interface ScheminoFunction {
      * @return the result of executing the function
      */
     TypedObject apply(Arguments arguments);
+
+    default boolean isTailRecursive() {
+        return false;
+    }
 }

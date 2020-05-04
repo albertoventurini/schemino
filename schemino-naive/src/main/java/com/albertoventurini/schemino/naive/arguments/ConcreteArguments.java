@@ -1,4 +1,4 @@
-package com.albertoventurini.schemino.naive;
+package com.albertoventurini.schemino.naive.arguments;
 
 import com.albertoventurini.schemino.naive.types.ScheminoFunction;
 import com.albertoventurini.schemino.naive.types.ScheminoList;

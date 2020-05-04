@@ -4,14 +4,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-/**
- * The list type for Schemino.
- */
+/** The list type for Schemino */
 public class ScheminoList {
 
-    /**
-     * The items contained in the list.
-     */
+    /** The items contained in the list */
     private final List<TypedObject> items;
 
     public ScheminoList(final List<TypedObject> items) {

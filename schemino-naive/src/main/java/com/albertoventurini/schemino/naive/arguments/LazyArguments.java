@@ -1,5 +1,6 @@
-package com.albertoventurini.schemino.naive;
+package com.albertoventurini.schemino.naive.arguments;
 
+import com.albertoventurini.schemino.naive.Frame;
 import com.albertoventurini.schemino.naive.nodes.ExpressionNode;
 import com.albertoventurini.schemino.naive.types.ScheminoFunction;
 import com.albertoventurini.schemino.naive.types.ScheminoList;
@@ -7,14 +8,12 @@ import com.albertoventurini.schemino.naive.types.TypedObject;
 
 import java.util.List;
 
-/**
- * Represents arguments that will be evaluated on a specific execution frame.
- */
-public class ExpressionArguments extends BaseArguments<ExpressionNode> implements Arguments {
+/** Represents arguments that will be evaluated lazily on a specific execution frame */
+public class LazyArguments extends BaseArguments<ExpressionNode> implements Arguments {
 
     private final Frame frame;
 
-    public ExpressionArguments(final Frame frame, final List<ExpressionNode> expressions) {
+    public LazyArguments(final Frame frame, final List<ExpressionNode> expressions) {
         super(expressions);
         this.frame = frame;
     }

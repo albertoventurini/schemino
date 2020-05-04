@@ -78,6 +78,16 @@ public interface ScheminoListener extends ParseTreeListener {
 	 */
 	void exitArrowFunction(ScheminoParser.ArrowFunctionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ScheminoParser#tailrec}.
+	 * @param ctx the parse tree
+	 */
+	void enterTailrec(ScheminoParser.TailrecContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ScheminoParser#tailrec}.
+	 * @param ctx the parse tree
+	 */
+	void exitTailrec(ScheminoParser.TailrecContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ScheminoParser#quote}.
 	 * @param ctx the parse tree
 	 */

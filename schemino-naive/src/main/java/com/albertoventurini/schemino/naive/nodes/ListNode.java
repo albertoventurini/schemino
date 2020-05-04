@@ -1,9 +1,13 @@
 package com.albertoventurini.schemino.naive.nodes;
 
-import com.albertoventurini.schemino.naive.Arguments;
-import com.albertoventurini.schemino.naive.ExpressionArguments;
+import com.albertoventurini.schemino.naive.arguments.Arguments;
+import com.albertoventurini.schemino.naive.arguments.EagerArguments;
+import com.albertoventurini.schemino.naive.ExecutionContext;
+import com.albertoventurini.schemino.naive.arguments.LazyArguments;
 import com.albertoventurini.schemino.naive.Frame;
 import com.albertoventurini.schemino.naive.exceptions.InvalidFunction;
+import com.albertoventurini.schemino.naive.exceptions.TailCall;
+import com.albertoventurini.schemino.naive.functions.UserFunction;
 import com.albertoventurini.schemino.naive.types.ScheminoFunction;
 import com.albertoventurini.schemino.naive.types.ScheminoList;
 import com.albertoventurini.schemino.naive.types.ScheminoType;
@@ -98,10 +102,21 @@ public class ListNode extends ExpressionNode {
             throw new InvalidFunction();
         }
 
-        // Collect the arguments. Skip 1 because the first item is the function expression.
-        final Arguments arguments = new ExpressionArguments(frame, items.stream().skip(1).collect(Collectors.toList()));
+        final Arguments arguments;
 
-        // Apply the function
+        if (function.isTailRecursive()) {
+            arguments = new EagerArguments(frame, items.stream().skip(1).collect(Collectors.toList()));
+        } else {
+            arguments = new LazyArguments(frame, items.stream().skip(1).collect(Collectors.toList()));
+        }
+
+        if (function.isTailRecursive() && !ExecutionContext.functionStack.empty()
+                && ExecutionContext.functionStack.stream().anyMatch(f -> f.equals(function))) {
+            throw new TailCall(arguments);
+        }
+
+        ExecutionContext.functionStack.push(function);
+
         return function.apply(arguments);
     }
 

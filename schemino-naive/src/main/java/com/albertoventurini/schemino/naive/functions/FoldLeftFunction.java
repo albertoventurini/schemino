@@ -1,7 +1,7 @@
 package com.albertoventurini.schemino.naive.functions;
 
-import com.albertoventurini.schemino.naive.Arguments;
-import com.albertoventurini.schemino.naive.ConcreteArguments;
+import com.albertoventurini.schemino.naive.arguments.Arguments;
+import com.albertoventurini.schemino.naive.arguments.ConcreteArguments;
 import com.albertoventurini.schemino.naive.exceptions.InvalidArgumentNumber;
 import com.albertoventurini.schemino.naive.exceptions.TypeMismatch;
 import com.albertoventurini.schemino.naive.types.ScheminoFunction;
