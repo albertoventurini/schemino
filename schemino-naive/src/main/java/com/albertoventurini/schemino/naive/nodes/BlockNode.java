@@ -15,11 +15,14 @@ public class BlockNode extends ExpressionNode {
 
     @Override
     public TypedObject eval(final Frame frame) {
+        // Create a new frame that points to the parent frame
+        final Frame blockFrame = Frame.fromParent(frame);
+
         for (int i = 0; i < expressions.size() - 1; i++) {
-            expressions.get(i).eval(frame);
+            expressions.get(i).eval(blockFrame);
         }
 
-        return expressions.get(expressions.size() - 1).eval(frame);
+        return expressions.get(expressions.size() - 1).eval(blockFrame);
     }
 
     @Override

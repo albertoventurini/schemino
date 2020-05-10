@@ -202,4 +202,11 @@ public class ProgramTest extends BaseTest {
 
         assertEquals(Boolean.TRUE, result.getValue());
     }
+
+    @Test
+    public void blocksHaveIsolatedScopes() {
+        final var result = evaluateProgram("{x:1\n{x: 10\nx}\nx}");
+
+        assertEquals(1L, result.getValue());
+    }
 }
