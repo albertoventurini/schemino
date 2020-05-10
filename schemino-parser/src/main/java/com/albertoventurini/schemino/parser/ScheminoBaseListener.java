@@ -112,18 +112,6 @@ public class ScheminoBaseListener implements ScheminoListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQuote(ScheminoParser.QuoteContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitQuote(ScheminoParser.QuoteContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterList(ScheminoParser.ListContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -131,6 +119,18 @@ public class ScheminoBaseListener implements ScheminoListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitList(ScheminoParser.ListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFunctionCall(ScheminoParser.FunctionCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFunctionCall(ScheminoParser.FunctionCallContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

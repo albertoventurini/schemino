@@ -8,12 +8,12 @@ import com.albertoventurini.schemino.naive.functions.CarFunction;
 import com.albertoventurini.schemino.naive.functions.CdrFunction;
 import com.albertoventurini.schemino.naive.functions.CondFunction;
 import com.albertoventurini.schemino.naive.functions.EqualsFunction;
+import com.albertoventurini.schemino.naive.functions.FilterFunction;
 import com.albertoventurini.schemino.naive.functions.FoldLeftFunction;
 import com.albertoventurini.schemino.naive.functions.GreaterThanFunction;
 import com.albertoventurini.schemino.naive.functions.IfFunction;
 import com.albertoventurini.schemino.naive.functions.LessThanFunction;
 import com.albertoventurini.schemino.naive.functions.PrintFunction;
-import com.albertoventurini.schemino.naive.functions.QuoteFunction;
 import com.albertoventurini.schemino.naive.functions.SizeFunction;
 import com.albertoventurini.schemino.naive.functions.SubtractFunction;
 import com.albertoventurini.schemino.naive.types.TypedObject;
@@ -46,7 +46,6 @@ public class ProgramNode extends ExpressionNode {
         frame.putFunction("-", new SubtractFunction());
         frame.putFunction("==", new EqualsFunction());
         frame.putFunction("and", new AndFunction());
-        frame.putFunction("quote", new QuoteFunction());
         frame.putFunction("if", new IfFunction());
         frame.putFunction("cond", new CondFunction());
         frame.putFunction(">", new GreaterThanFunction());
@@ -57,6 +56,7 @@ public class ProgramNode extends ExpressionNode {
         frame.putFunction("append", new AppendFunction());
         frame.putFunction("size", new SizeFunction());
         frame.putFunction("fold-left", new FoldLeftFunction());
+        frame.putFunction("filter", new FilterFunction());
 
         return eval(frame);
     }

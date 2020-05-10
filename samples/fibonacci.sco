@@ -1,6 +1,6 @@
 ; Recursive function to calculate the n-th Fibonacci number
 fib:
-  (lambda (n)
+  (lambda [n]
     (if (< n 2)
         1
         (+ (fib (- n 1))

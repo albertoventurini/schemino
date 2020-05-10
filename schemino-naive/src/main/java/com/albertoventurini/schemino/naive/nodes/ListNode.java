@@ -1,37 +1,14 @@
 package com.albertoventurini.schemino.naive.nodes;
 
-import com.albertoventurini.schemino.naive.arguments.Arguments;
-import com.albertoventurini.schemino.naive.arguments.EagerArguments;
-import com.albertoventurini.schemino.naive.ExecutionContext;
-import com.albertoventurini.schemino.naive.arguments.LazyArguments;
 import com.albertoventurini.schemino.naive.Frame;
-import com.albertoventurini.schemino.naive.exceptions.InvalidFunction;
-import com.albertoventurini.schemino.naive.exceptions.TailCall;
-import com.albertoventurini.schemino.naive.functions.UserFunction;
-import com.albertoventurini.schemino.naive.types.ScheminoFunction;
 import com.albertoventurini.schemino.naive.types.ScheminoList;
 import com.albertoventurini.schemino.naive.types.ScheminoType;
 import com.albertoventurini.schemino.naive.types.TypedObject;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * A node that represents a list.
- *
- * The semantics of a list depends on the context in which it is used:
- * - a list can be a sequence of objects, or
- * - a list can be a function call
- *
- * A list is considered a function call if:
- * - the requester explicitly asks a scalar evaluation of the list
- *   (e.g. `evalLong`, `evalBoolean`, etc.), or
- * - the first item evaluates to a ScheminoFunction
- *
- * Otherwise, the list is considered a sequence of objects.
- */
+/** A node that represents a list */
 public class ListNode extends ExpressionNode {
 
     private final List<ExpressionNode> items;
@@ -42,37 +19,12 @@ public class ListNode extends ExpressionNode {
 
     @Override
     public TypedObject eval(final Frame frame) {
-        if (items.isEmpty()) {
-            return new TypedObject(ScheminoType.LIST, new ScheminoList(Collections.emptyList()));
-        }
-
-        final TypedObject firstItemEval = items.get(0).eval(frame);
-
-        if (firstItemEval.getType().equals(ScheminoType.FUNCTION)) {
-            return callFunction(frame, firstItemEval.getFunctionOrThrow());
-        }
-
-        final List<TypedObject> evaluatedItems = new ArrayList<>(List.of(firstItemEval));
-
-        if (items.size() > 1) {
-            items.stream().skip(1).forEach(item -> evaluatedItems.add(item.eval(frame)));
-        }
+        final List<TypedObject> evaluatedItems = items
+                .stream()
+                .map(i -> i.eval(frame))
+                .collect(Collectors.toUnmodifiableList());
 
         return new TypedObject(ScheminoType.LIST, new ScheminoList(evaluatedItems));
-    }
-
-    @Override
-    public long evalLong(final Frame frame) {
-        // When a list is evaluated as a long, we assume it's a function call
-        final ScheminoFunction firstItemEval = items.get(0).evalFunction(frame);
-        return callFunction(frame, firstItemEval).getLongOrThrow();
-    }
-
-    @Override
-    public boolean evalBoolean(final Frame frame) {
-        // When a list is evaluated as a boolean, we assume it's a function call
-        final ScheminoFunction firstItemEval = items.get(0).evalFunction(frame);
-        return callFunction(frame, firstItemEval).getBooleanOrThrow();
     }
 
     /**
@@ -88,36 +40,6 @@ public class ListNode extends ExpressionNode {
                 .collect(Collectors.toUnmodifiableList());
 
         return new ScheminoList(evaluatedItems);
-    }
-
-    /**
-     * Consider this list as a function call. The first items contains the function to call,
-     * the other items are the arguments.
-     * @param frame the evaluation frame
-     * @param function the function to call, which has been already evaluated
-     * @return the result of the function call
-     */
-    private TypedObject callFunction(final Frame frame, final ScheminoFunction function) {
-        if (function == null) {
-            throw new InvalidFunction();
-        }
-
-        final Arguments arguments;
-
-        if (function.isTailRecursive()) {
-            arguments = new EagerArguments(frame, items.stream().skip(1).collect(Collectors.toList()));
-        } else {
-            arguments = new LazyArguments(frame, items.stream().skip(1).collect(Collectors.toList()));
-        }
-
-        if (function.isTailRecursive() && !ExecutionContext.functionStack.empty()
-                && ExecutionContext.functionStack.stream().anyMatch(f -> f.equals(function))) {
-            throw new TailCall(arguments);
-        }
-
-        ExecutionContext.functionStack.push(function);
-
-        return function.apply(arguments);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.albertoventurini.schemino.naive;
 import com.albertoventurini.schemino.naive.nodes.BlockNode;
 import com.albertoventurini.schemino.naive.nodes.BooleanNode;
 import com.albertoventurini.schemino.naive.nodes.ExpressionNode;
+import com.albertoventurini.schemino.naive.nodes.FunctionCallNode;
 import com.albertoventurini.schemino.naive.nodes.LambdaNode;
 import com.albertoventurini.schemino.naive.nodes.ListNode;
 import com.albertoventurini.schemino.naive.nodes.LongNode;
@@ -72,7 +73,9 @@ public class NodeFactory {
     }
 
     private ExpressionNode visitExpression(final ScheminoParser.ExpressionContext ctx) {
-        if (ctx.list() != null) {
+        if (ctx.functionCall() != null) {
+            return visitFunctionCall(ctx.functionCall());
+        } else if (ctx.list() != null) {
             return visitList(ctx.list());
         } else if (ctx.atom() != null) {
             return visitAtom(ctx.atom());
@@ -148,38 +151,45 @@ public class NodeFactory {
         return new BlockNode(nodes);
     }
 
-    private ExpressionNode visitList(final ScheminoParser.ListContext ctx) {
-        if (ctx.expressions().expression().isEmpty()) {
-            return new ListNode(Collections.emptyList());
+    private ExpressionNode visitFunctionCall(final ScheminoParser.FunctionCallContext ctx) {
+        if (ctx.expression(0).atom() != null
+                && ctx.expression(0).atom().keyword() != null
+                && ctx.expression(0).atom().keyword().define() != null) {
+
+            // Handle special form 'define'
+            return handleDefine(ctx);
         }
 
-        if (ctx.expressions().expression(0).atom() != null
-            && ctx.expressions().expression(0).atom().keyword() != null
-            && ctx.expressions().expression(0).atom().keyword().define() != null) {
+        if (ctx.expression(0).atom() != null
+                && ctx.expression(0).atom().keyword() != null
+                && ctx.expression(0).atom().keyword().lambda() != null) {
 
-            // Handle list starting with the 'define' keyword
-            return handleDefineList(ctx.expressions());
+            // Handle special form 'lambda'
+            return handleLambda(ctx);
         }
 
-        if (ctx.expressions().expression(0).atom() != null
-                && ctx.expressions().expression(0).atom().keyword() != null
-                && ctx.expressions().expression(0).atom().keyword().lambda() != null) {
+        final ExpressionNode functionExpr = visitExpression(ctx.expression().get(0));
 
-            // Handle list starting with the 'lambda' keyword
-            return handleLambdaList(ctx.expressions());
-        }
+        final List<ExpressionNode> argumentExprs = ctx.expression()
+                .stream()
+                .skip(1)
+                .map(this::visitExpression)
+                .collect(Collectors.toUnmodifiableList());
 
-        // Handle plain list
-        return handlePlainList(ctx.expressions());
+        return new FunctionCallNode(functionExpr, argumentExprs);
     }
 
-    private ExpressionNode handleDefineList(final ScheminoParser.ExpressionsContext ctx) {
+    private ExpressionNode handleDefine(final ScheminoParser.FunctionCallContext ctx) {
         final SymbolNode symbolNode = new SymbolNode(ctx.expression(1).getText());
         final ExpressionNode expressionNode = visitExpression(ctx.expression(2));
         return new WriteVariableNode(symbolNode, expressionNode);
     }
 
-    private ExpressionNode handleLambdaList(final ScheminoParser.ExpressionsContext ctx) {
+    private ExpressionNode handleLambda(final ScheminoParser.FunctionCallContext ctx) {
+        if (ctx.expression(1).list() == null) {
+            throw new RuntimeException("Invalid lambda parameters: " + ctx.expression(1).getText());
+        }
+
         final List<String> parameters = ctx.expression(1).list().expressions().expression()
                 .stream()
                 .map(ParseTree::getText)
@@ -189,8 +199,12 @@ public class NodeFactory {
         return new LambdaNode(false, parameters, body);
     }
 
-    private ExpressionNode handlePlainList(final ScheminoParser.ExpressionsContext ctx) {
-        final List<ExpressionNode> items = ctx.expression()
+    private ExpressionNode visitList(final ScheminoParser.ListContext ctx) {
+        if (ctx.expressions().expression().isEmpty()) {
+            return new ListNode(Collections.emptyList());
+        }
+
+        final List<ExpressionNode> items = ctx.expressions().expression()
                 .stream()
                 .map(this::visitExpression)
                 .collect(Collectors.toUnmodifiableList());

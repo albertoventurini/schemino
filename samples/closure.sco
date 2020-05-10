@@ -1,4 +1,4 @@
-make-adder: (a) => (b) => (+ a b)
+make-adder: [a] => [b] => (+ a b)
 
 add1: (make-adder 1)
 

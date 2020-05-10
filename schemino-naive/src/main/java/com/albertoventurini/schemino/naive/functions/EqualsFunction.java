@@ -9,8 +9,8 @@ import com.albertoventurini.schemino.naive.types.TypedObject;
  * A built-in function that checks if all arguments are equals.
  * Example:
  *
- * (= 1 1 1) -> true
- * (= 0 1) -> false
+ * (== 1 1 1) -> true
+ * (== 0 1) -> false
  */
 public class EqualsFunction implements ScheminoFunction {
 

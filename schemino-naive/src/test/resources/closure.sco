@@ -1,6 +1,6 @@
 (define make-adder
-    (lambda (a)
-        (lambda (b)
+    (lambda [a]
+        (lambda [b]
             (+ a b))))
 
 (define add1 (make-adder 1))

@@ -88,16 +88,6 @@ public interface ScheminoListener extends ParseTreeListener {
 	 */
 	void exitTailrec(ScheminoParser.TailrecContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ScheminoParser#quote}.
-	 * @param ctx the parse tree
-	 */
-	void enterQuote(ScheminoParser.QuoteContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ScheminoParser#quote}.
-	 * @param ctx the parse tree
-	 */
-	void exitQuote(ScheminoParser.QuoteContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link ScheminoParser#list}.
 	 * @param ctx the parse tree
 	 */
@@ -107,6 +97,16 @@ public interface ScheminoListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitList(ScheminoParser.ListContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ScheminoParser#functionCall}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionCall(ScheminoParser.FunctionCallContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ScheminoParser#functionCall}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionCall(ScheminoParser.FunctionCallContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ScheminoParser#block}.
 	 * @param ctx the parse tree

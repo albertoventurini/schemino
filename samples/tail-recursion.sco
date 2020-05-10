@@ -1,4 +1,4 @@
-recurse: @tailrec (x) =>
+recurse: @tailrec [x] =>
   (if (== 0 x)
     x
     { (print x) (recurse (- x 1)) }

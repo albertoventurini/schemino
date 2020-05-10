@@ -10,8 +10,8 @@ expressions: expression*;
 
 expression
     : atom
-    | quote
     | list
+    | functionCall
     | block
     | arrowFunction
     ;
@@ -22,9 +22,9 @@ arrowFunction: tailrec? list '=>' expression;
 
 tailrec: TAILREC;
 
-quote: '\'' expression;
+list: '[' expressions ']';
 
-list: '(' expressions ')';
+functionCall: '(' expression+ ')';
 
 block: '{' statements '}';
 

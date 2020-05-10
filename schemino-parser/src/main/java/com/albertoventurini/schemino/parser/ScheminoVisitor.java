@@ -59,17 +59,17 @@ public interface ScheminoVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTailrec(ScheminoParser.TailrecContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ScheminoParser#quote}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitQuote(ScheminoParser.QuoteContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link ScheminoParser#list}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitList(ScheminoParser.ListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ScheminoParser#functionCall}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionCall(ScheminoParser.FunctionCallContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ScheminoParser#block}.
 	 * @param ctx the parse tree

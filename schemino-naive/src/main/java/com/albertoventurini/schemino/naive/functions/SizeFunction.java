@@ -6,6 +6,7 @@ import com.albertoventurini.schemino.naive.types.ScheminoFunction;
 import com.albertoventurini.schemino.naive.types.ScheminoType;
 import com.albertoventurini.schemino.naive.types.TypedObject;
 
+/** Return the size of the argument, which is expected to be a list */
 public class SizeFunction implements ScheminoFunction {
 
     @Override

@@ -17,7 +17,7 @@ import java.util.List;
  *
  * Example:
  *
- * (fold-left + 0 (1 2 3)) -> 6
+ * (fold-left + 0 [1 2 3]) -> 6
  */
 public class FoldLeftFunction implements ScheminoFunction {
 

@@ -1,8 +1,5 @@
 package com.albertoventurini.schemino.naive;
 
-import com.albertoventurini.schemino.naive.exceptions.UnknownSymbol;
-import com.albertoventurini.schemino.naive.types.ScheminoFunction;
-import com.albertoventurini.schemino.naive.types.ScheminoList;
 import com.albertoventurini.schemino.naive.types.ScheminoType;
 import org.junit.jupiter.api.Test;
 
@@ -37,26 +34,26 @@ public class ProgramTest extends BaseTest {
 
     @Test
     public void lambdaDefinition() {
-        final var value = evaluateProgram("(lambda (x y) (+ x y))");
+        final var value = evaluateProgram("(lambda [x y] (+ x y))");
     }
 
     @Test
     public void lambdaApplication() {
-        final var result = evaluateProgram("((lambda (x y) (+ x y)) 1 2)");
+        final var result = evaluateProgram("((lambda [x y] (+ x y)) 1 2)");
 
         assertEquals(3L, result.getValue());
     }
 
     @Test
     public void defineFunctionThatReturnsConstant() {
-        final var result = evaluateProgram("(define constant (lambda () 42))\n(constant)");
+        final var result = evaluateProgram("(define constant (lambda [] 42))\n(constant)");
 
         assertEquals(42L, result.getValue());
     }
 
     @Test
     public void definingFunction() {
-        final var result = evaluateProgram("(define add (lambda (x y) (+ x y)))\n(add 1 2)");
+        final var result = evaluateProgram("(define add (lambda [x y] (+ x y)))\n(add 1 2)");
 
         assertEquals(3L, result.getValue());
     }
@@ -66,11 +63,6 @@ public class ProgramTest extends BaseTest {
         final var result = evaluateProgram("(define add +)\n(add 1 2)");
 
         assertEquals(3L, result.getValue());
-    }
-
-    @Test
-    public void unknownFunction() {
-        assertThrows(UnknownSymbol.class, () -> evaluateProgram("(unknown 0 1)"));
     }
 
     @Test
@@ -89,7 +81,7 @@ public class ProgramTest extends BaseTest {
 
     @Test
     public void lexicalScoping() {
-        final var result = evaluateProgram("(define func (lambda (x) (+ x 1)))\n" +
+        final var result = evaluateProgram("(define func (lambda [x] (+ x 1)))\n" +
                 "(define x 1)\n" +
                 "(func 2)\n" +
                 "x");
@@ -161,16 +153,6 @@ public class ProgramTest extends BaseTest {
 //    }
 
     @Test
-    public void quote_shouldReturnQuotedList() {
-        final var result = evaluateProgram("(quote (+ 1 2 3))");
-        assertEquals(ScheminoType.LIST, result.getType());
-        assertTrue(result.getValue() instanceof ScheminoList);
-        final ScheminoList list = (ScheminoList) result.getValue();
-        assertEquals(4, list.getItems().size());
-        assertTrue(list.getItems().get(0).getValue() instanceof ScheminoFunction);
-    }
-
-    @Test
     public void emptyString_shouldReturnString() {
         final var result = evaluateProgram("\"\"");
         assertEquals(ScheminoType.STRING, result.getType());
@@ -196,7 +178,7 @@ public class ProgramTest extends BaseTest {
         var outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
 
-        evaluateProgram("((print 1) (print 2))");
+        evaluateProgram("[(print 1) (print 2)]");
 
         assertEquals("1\n2\n", outContent.toString());
     }
@@ -210,7 +192,14 @@ public class ProgramTest extends BaseTest {
 
     @Test
     public void lambda_works() {
-        final var result = evaluateProgram("((x) => (+ x 1) 1)");
+        final var result = evaluateProgram("([x] => (+ x 1) 1)");
         assertEquals(2L, result.getValue());
+    }
+
+    @Test
+    public void lessThan_withCar_works() {
+        final var result = evaluateProgram("l: [10 11 12]\n(and (== 0 0) (< 1 (car l)))");
+
+        assertEquals(Boolean.TRUE, result.getValue());
     }
 }
